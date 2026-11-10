@@ -130,6 +130,7 @@ import SnSlot from "./SensoSlot.vue";
 import { SORTS, countOn, groupsOf } from "../tario/shop/tario-filters";
 import { aisleRoute, aisles, productImage } from "../kalio/kalio-catalog";
 import { allProducts, bestOf, dealsOf, finalOf, money, savingOf } from "./senso-home";
+import { baseCurrency } from "../region-switcher/region";
 import { familiesOf, familyOf } from "./senso-families";
 import { clock, dealEnd, leftText, releaseClock, soonestEnd, useClock } from "./senso-clock";
 
@@ -225,7 +226,7 @@ export default {
       return leftText(this.dealsEnd, clock.now);
     },
     currency() {
-      return this.$shop?.currency || "USD";
+      return baseCurrency();
     },
     /** A category: its kinds (a spec key with a few values, else its brands). */
     kindGroup() {

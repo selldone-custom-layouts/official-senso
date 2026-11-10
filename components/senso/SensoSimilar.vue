@@ -54,6 +54,7 @@ import SensoIcon from "./SensoIcon.vue";
 import { productImage } from "../kalio/kalio-catalog";
 import { compareListParam, specValue } from "../kalio/compare/kalio-compare";
 import { allProducts, finalOf, money, savingOf } from "./senso-home";
+import { currentCurrency } from "../region-switcher/region";
 
 export default {
   name: "SensoSimilar",
@@ -63,7 +64,7 @@ export default {
   data: () => ({ all: [] }),
   computed: {
     currency() {
-      return this.GetUserSelectedCurrency()?.code || this.$store.getters.getShop?.currency || "USD";
+      return currentCurrency();
     },
     /** The product as the full list has it (spec and variants), else as given. */
     self() {
@@ -102,7 +103,8 @@ export default {
     value: specValue,
     image: (p) => productImage(p),
     fmt(n, short = false) {
-      return money(n, this.currency, short && Math.abs(n - Math.round(n)) < 0.005);
+      // finalOf/savingOf are raw list amounts in the shop's base currency: converted, never relabelled.
+      return money(n, null, short && Math.abs(n - Math.round(n)) < 0.005);
     },
     route(p) {
       return { name: window.$storefront.routes.PRODUCT_PAGE, params: { product_id: p.id } };

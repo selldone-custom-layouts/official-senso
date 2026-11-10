@@ -106,7 +106,7 @@ export default {
         span,
         photo: span > 2 ? photoOf("wide", c) || photo : photo,
         title: c.title || c.name,
-        line: categoryLine(c, this.all, (v) => money(v, this.$shop?.currency || "USD", true)),
+        line: categoryLine(c, this.all, (v) => money(v, null, true)),
         to: aisleRoute(c),
       };
     },

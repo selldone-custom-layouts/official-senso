@@ -74,6 +74,7 @@ Selldone's own cart, checkout, payments and orders keep working underneath. Noth
   - **Compare with similar**: three products of the category side by side;
   - Reviews, Frequently bought together, and **You may also like**.
 - **Support centre:** FAQ with a search box, quick tiles and the questions as accordions. Contact, About, Terms, Privacy, the blog, the 404 (a big headline and the category tiles), the compare page, the cart drawer and page, checkout, the order page and the account (design "desk") are all in the same dress.
+- **Language and currency:** a small pill in the header (a globe and "USD", or "EN · USD" with a second language) opens chips for the shop's own currencies and languages; on a phone, a row in the menu opens a bottom sheet. Picking a currency changes every amount on every page at once (cards, the price filter, deal lines, free-shipping thresholds, menus, cart and checkout), converted with the shop's exchange rates.
 - **Theme (showcase only):** on Senso's own showcase shop, the Theme row in the footer offers five tested palettes, a free **Custom colour** and Light / Dark. Dark mode is complete.
 
 ## Photos

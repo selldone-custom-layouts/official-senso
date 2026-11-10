@@ -19,8 +19,8 @@
       </button>
     </div>
     <span class="k-mini__price">
-      <u-price :amount="price.now" :currency="currency" />
-      <s v-if="price.was"><u-price :amount="price.was" :currency="currency" /></s>
+      <span class="u--price">{{ money(price.now, price.currency || currency) }}</span>
+      <s v-if="price.was"><span class="u--price">{{ money(price.was, price.currency || currency) }}</span></s>
     </span>
     <router-link :to="productRoute" class="k-mini__name">{{ product.title }}</router-link>
   </div>
@@ -28,6 +28,7 @@
 
 <script>
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
+import { currentCurrency, money } from "../../region-switcher/region";
 import KalioCardStep from "../KalioCardStep.vue";
 import { basketLine, hasSizes, pendingLine, quickAdd, shownCount } from "../kalio-basket";
 import { priceOf, productImage, productSrcset, dropSrcset } from "../kalio-catalog";
@@ -44,7 +45,7 @@ export default {
 
   computed: {
     currency() {
-      return this.GetUserSelectedCurrency().code;
+      return currentCurrency();
     },
     price() {
       return priceOf(this.$store.getters.getShop, this.product, this.currency);
@@ -64,6 +65,7 @@ export default {
   },
 
   methods: {
+    money,
     srcset(product) {
       return productSrcset(product);
     },

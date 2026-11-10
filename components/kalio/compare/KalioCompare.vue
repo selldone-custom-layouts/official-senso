@@ -113,8 +113,8 @@
                 <small v-if="it.variantLabel" class="k-cmp__var">{{ it.variantLabel }}</small>
                 <div :class="{ '-sale': it.price.was }" class="k-cmp__pr">
                   <span v-if="it.price.was" class="k-cmp__now-lbl">Now</span>
-                  <u-price :amount="it.price.now" :currency="currency" class="k-cmp__now" />
-                  <s v-if="it.price.was"><u-price :amount="it.price.was" :currency="currency" /></s>
+                  <span class="u--price k-cmp__now">{{ formatMoney(it.price.now, currency) }}</span>
+                  <s v-if="it.price.was"><span class="u--price">{{ formatMoney(it.price.was, currency) }}</span></s>
                 </div>
                 <div v-if="it.per" class="k-cmp__per">
                   {{ money(it.per.amount) }} {{ it.per.unit === "each" ? "each" : `/ ${it.per.unit}` }}
@@ -222,6 +222,7 @@
 
 <script>
 import { PriceHelper } from "@selldone/core-js";
+import { currentCurrency, formatMoney } from "../../region-switcher/region";
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 import KalioCardStep from "../KalioCardStep.vue";
 import KalioQuickBuy from "../KalioQuickBuy.vue";
@@ -269,7 +270,7 @@ export default {
       return this.$store.getters.getShop;
     },
     currency() {
-      return this.GetUserSelectedCurrency().code;
+      return currentCurrency();
     },
     home() {
       return { name: window.$storefront.routes.SHOP_PAGE };
@@ -411,6 +412,7 @@ export default {
   },
 
   methods: {
+    formatMoney,
     dropSrcset,
 
     /** The list from the address; with none, what the shopper has added to
@@ -547,11 +549,7 @@ export default {
     /** A small amount in full ("$0.10"): u-price shrinks the cents, which
      *  left "$0" big in front of a tiny ".10". */
     money(amount) {
-      try {
-        return new Intl.NumberFormat("en-US", { style: "currency", currency: this.currency || "USD" }).format(amount);
-      } catch {
-        return `${Number(amount).toFixed(2)} ${this.currency || ""}`.trim();
-      }
+      return formatMoney(amount, this.currency);
     },
     productRoute(it) {
       return { name: window.$storefront.routes.PRODUCT_PAGE, params: { product_id: it.product.id } };

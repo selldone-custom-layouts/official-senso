@@ -25,7 +25,7 @@
         </div>
         <router-link :to="productRoute(product)" class="k-again__name">{{ product.title }}</router-link>
         <div class="k-again__price">
-          <u-price :amount="priceOf(product).now" :currency="currency" />
+          <span class="u--price">{{ priceText(product) }}</span>
           <small v-if="sellerOf(product)">{{ sellerOf(product) }}</small>
         </div>
       </div>
@@ -35,6 +35,7 @@
 
 <script>
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
+import { currentCurrency, money } from "../../region-switcher/region";
 import { basketLine, pendingLine, quickAdd, shownCount } from "../kalio-basket";
 import { productsById, priceOf, productImage } from "../kalio-catalog";
 import { account } from "./kalio-account";
@@ -57,7 +58,7 @@ export default {
 
   computed: {
     currency() {
-      return this.GetUserSelectedCurrency()?.code;
+      return currentCurrency();
     },
     products() {
       if (!this.catalogue.size) return [];
@@ -75,6 +76,10 @@ export default {
   },
 
   methods: {
+    priceText(product) {
+      const p = this.priceOf(product);
+      return money(p.now, p.currency || this.currency);
+    },
     image(product) {
       return productImage(product, true);
     },

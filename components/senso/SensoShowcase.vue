@@ -73,7 +73,6 @@ export default {
       return aisleRoute(lead);
     },
     tiles() {
-      const cur = this.$shop?.currency || "USD";
       return this.categories.map((c) => {
         const product = bestOf(this.products, c);
         return {
@@ -81,7 +80,7 @@ export default {
           product,
           image: product ? productImage(product) : null,
           srcset: product ? productSrcset(product) : null,
-          line: categoryLine(c, this.products, (v) => money(v, cur, true)),
+          line: categoryLine(c, this.products, (v) => money(v, null, true)),
           to: aisleRoute(c),
         };
       });

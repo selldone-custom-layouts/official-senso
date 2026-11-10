@@ -20,6 +20,15 @@ remain intact. Do not change the official repository's Git remote model or run
 release commands merely because this shim exists. Apply publication rules in
 the owner's controlled clone, fork, or release branch.
 
+## Language and currency (money and words)
+
+The visitor's currency and language come from Selldone; the switcher is `components/region-switcher/` (a shared package: do not edit the copy; its guide is `new-shop-kits/region-switcher/PORTING.md`).
+
+- **Every amount** goes through `money(amount, currency)` (`components/senso/senso-home.ts`): `amount` is in `currency` (a product's `currency`, a delivery way's `currency`, the basket's `currency`; omit it for the shop's base currency) and is shown in the visitor's currency, converted with the shop's rates. Never format with `$shop.currency` (it does not exist) or a fixed "USD".
+- **Product prices** use `priceOf(shop, product, currentCurrency())` and format with the result's `currency`.
+- **Words** live in `components/senso/i18n/en.ts` and are read with `t("key")` from `region-switcher/region`. To add a language the owner enabled in the shop, add `<code>.ts` with the same keys and register it in `components/senso/i18n/index.ts`.
+- **Check:** `components/region-switcher/tools/currency-check.cjs` must print `TOTAL 0` (Senso: `MENU=".sn-header__ic.-menu" MEGA=".sn-header__fam" CART=".sn-header__ic.-cart" FILTER_SIGN=".sn-price-range__boxes label span"`).
+
 ## Theme (palette, brand colour, light or dark, the visitor switcher)
 
 When a merchant asks for a theme ("use the yellow theme", "my brand colour is #F5C400", "make it dark"), edit **one file only**: `components/senso/senso-theme.settings.ts`. Nothing else needs to change, and the colours are made readable automatically (buttons, links, header, dark mode).

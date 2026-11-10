@@ -72,7 +72,7 @@ export default {
     finalOf,
     savingOf,
     fmt(n, short = false) {
-      return money(n, this.$shop?.currency || "USD", short && Math.abs(n - Math.round(n)) < 0.005);
+      return money(n, null, short ? "auto" : false);
     },
     image: (p) => productImage(p, true),
     route: (p) => ({ name: window.$storefront.routes.PRODUCT_PAGE, params: { product_id: p.id } }),

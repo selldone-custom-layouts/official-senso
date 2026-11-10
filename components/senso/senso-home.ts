@@ -18,6 +18,7 @@
  *    gets a tab of its own.
  */
 import { reactive } from "vue";
+import { baseCurrency, money as regionMoney } from "../region-switcher/region";
 
 
 declare const window: any;
@@ -271,7 +272,7 @@ export function waysOf(shop: any): Way[] {
       line: kind ? kind.line : "Brought to your address",
       free,
       freeOver,
-      currency: t.currency || shop?.currency || null,
+      currency: t.currency || baseCurrency() || null,
     });
   }
   const rank = (way: Way) => {
@@ -288,23 +289,17 @@ export function freeShippingFrom(shop: any): { amount: number; currency: string 
   );
   if (!paid.length) return null;
   const best = paid.reduce((a: any, b: any) => (Number(b.free_shipping_limit) < Number(a.free_shipping_limit) ? b : a));
-  return { amount: Number(best.free_shipping_limit), currency: best.currency || shop?.currency };
+  return { amount: Number(best.free_shipping_limit), currency: best.currency || baseCurrency() };
 }
 
 /* ━━━━━━━━━━━━ Money ━━━━━━━━━━━━ */
 
-/** "$1,059.90" or, short, "$589" — in the shop's currency. */
-export function money(amount: number, currency = "USD", short = false): string {
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      minimumFractionDigits: short ? 0 : 2,
-      maximumFractionDigits: short ? 0 : 2,
-    }).format(amount || 0);
-  } catch {
-    return (short ? Math.round(amount) : (amount || 0).toFixed(2)) + " " + currency;
-  }
+/** An amount in `currency` (the shop's base currency when not given),
+ *  shown in the visitor's currency: "$1,059.90", "DKK 6,359.40" or, short,
+ *  "$589". Converted with the shop's rates by the region switcher, so it
+ *  redraws the moment the visitor picks another currency. */
+export function money(amount: number, currency?: string | null, short: boolean | "auto" = false): string {
+  return regionMoney(amount, currency || baseCurrency(), { short });
 }
 
 /* ━━━━━━━━━━━━ Senso: a category's showcase product ━━━━━━━━━━━━ */

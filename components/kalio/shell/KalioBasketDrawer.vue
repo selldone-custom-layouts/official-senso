@@ -20,10 +20,10 @@
       <p v-if="groups.length > 1" class="sn-cdrawer__type">{{ typeName(group.type) }}</p>
 
       <div :class="{ '-settling': group.settling }" class="sn-receipt">
-        <p class="sn-receipt__row"><span>Subtotal ({{ group.units }} {{ group.units === 1 ? "item" : "items" }})</span><u-price :amount="group.total + group.saved" :currency="group.currency" /></p>
-        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>You save</span><span>−<u-price :amount="group.saved" :currency="group.currency" /></span></p>
+        <p class="sn-receipt__row"><span>Subtotal ({{ group.units }} {{ group.units === 1 ? "item" : "items" }})</span><span class="u--price">{{ money(group.total + group.saved, group.currency) }}</span></p>
+        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>You save</span><span>−<span class="u--price">{{ money(group.saved, group.currency) }}</span></span></p>
         <p class="sn-receipt__row -muted"><span>Delivery</span><span>Calculated at checkout</span></p>
-        <p class="sn-receipt__row -tot"><span>Total</span><u-price :amount="group.total" :currency="group.currency" /></p>
+        <p class="sn-receipt__row -tot"><span>Total</span><span class="u--price">{{ money(group.total, group.currency) }}</span></p>
         <div class="sn-receipt__btns">
           <router-link :to="checkoutRoute(group.type)" class="sn-btn" @click="$emit('close')">
             <v-icon size="18">lock_outline</v-icon>Checkout
@@ -44,8 +44,8 @@
               {{ size(item) }}
             </span>
             <span class="sn-crow__price">
-              <u-price :amount="item.price * shown(item)" :class="{ '-sale': item.dis > 0 }" :currency="item.currency" />
-              <s v-if="item.dis > 0"><u-price :amount="(item.price + item.dis) * shown(item)" :currency="item.currency" /></s>
+              <span :class="{ '-sale': item.dis > 0 }" class="u--price">{{ money(item.price * shown(item), item.currency || group.currency) }}</span>
+              <s v-if="item.dis > 0"><span class="u--price">{{ money((item.price + item.dis) * shown(item), item.currency || group.currency) }}</span></s>
             </span>
           </div>
           <div class="sn-crow__side">
@@ -74,6 +74,7 @@ import { ProductType } from "@selldone/core-js/enums/product/ProductType";
 import { settling, shownCount, stepTo } from "../kalio-basket";
 import { productImage } from "../kalio-catalog";
 import KalioOftenAdded from "../KalioOftenAdded.vue";
+import { money } from "../../region-switcher/region";
 
 /* The variant in words: its capacity, weight, pack, type or style. A
    colour is drawn as a swatch beside it. */
@@ -112,6 +113,10 @@ export default {
   },
 
   methods: {
+    /* The cart's amounts come in the basket's currency (the server converts it
+       after a currency change); money() shows them in the visitor's, so they
+       are right even before the cart comes back. */
+    money,
     settling,
     image(item) {
       const own = item.variant?.image;

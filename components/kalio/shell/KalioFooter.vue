@@ -64,10 +64,6 @@
         <router-link :to="termsRoute">Terms</router-link>
         <router-link :to="privacyRoute">Privacy</router-link>
         <s-footer-section-gdpr></s-footer-section-gdpr>
-        <div v-if="hasPickers" class="sn-footer__pickers">
-          <s-language-selector v-if="hasLanguages" hide-details variant="outlined"></s-language-selector>
-          <u-currency-selector v-if="$shop.currencies && $shop.currencies.length > 1" :shop="$shop" hide-details @change="onChangeUserSelectedCurrency" />
-        </div>
         <span class="sn-footer__grow"></span>
         <s-footer-section-selldone class="sn-footer__made"></s-footer-section-selldone>
       </div>
@@ -76,8 +72,6 @@
 </template>
 
 <script>
-import SLanguageSelector from "@selldone/components-vue/storefront/language/selector/SLanguageSelector.vue";
-import UCurrencySelector from "@selldone/components-vue/ui/currency/selector/UCurrencySelector.vue";
 import SFooterSectionGdpr from "@selldone/components-vue/storefront/footer/section/gdpr/SFooterSectionGdpr.vue";
 import SFooterSectionSelldone from "@selldone/components-vue/storefront/footer/section/selldone/SFooterSectionSelldone.vue";
 import { CreateSocialConnectLink, SocialNetwork } from "@selldone/core-js/enums/social/SocialNetwork";
@@ -94,7 +88,7 @@ const SOCIAL_ICONS = { instagram: "instagram", youtube: "youtube", twitter: "x",
 
 export default {
   name: "KalioFooter",
-  components: { SLanguageSelector, UCurrencySelector, SFooterSectionGdpr, SFooterSectionSelldone, SensoIcon, SensoWordmark, ThemeSwitcherRow },
+  components: { SFooterSectionGdpr, SFooterSectionSelldone, SensoIcon, SensoWordmark, ThemeSwitcherRow },
   inject: ["$shop"],
 
   data() {
@@ -107,12 +101,6 @@ export default {
     },
     user() {
       return this.$store.getters.getUser;
-    },
-    hasLanguages() {
-      return (this.$shop?.languages || []).length > 1;
-    },
-    hasPickers() {
-      return this.hasLanguages || (this.$shop?.currencies || []).length > 1;
     },
     families() {
       return familiesOf(this.aisleList);

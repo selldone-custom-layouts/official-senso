@@ -3938,3 +3938,43 @@ body {
     padding: 10px 10px 14px !important;
   }
 }
+
+/* ━━━━━━━━━━━━ Language and currency (components/region-switcher) ━━━━━━━━━━━━
+   The owner's choice B (10 November 2026): a small pill before Support in the
+   header (desktop) and a row in the phone menu's support list with a bottom
+   sheet. Senso's tokens feed the package's; the pill takes the header's own
+   words: ink on the solid bar, white over the hero. */
+:root {
+  --rs-ink: var(--sn-ink);
+  --rs-muted: var(--sn-muted);
+  --rs-line: var(--sn-line-2);
+  --rs-surface: var(--sn-card);
+  --rs-accent: var(--sn-link);
+  --rs-accent-soft: color-mix(in oklab, var(--sn-link) 12%, var(--sn-card));
+  --rs-btn: var(--sn-brand);
+  --rs-on-btn: var(--sn-on-brand);
+  --rs-font: var(--sn-font);
+}
+
+.sn-header {
+  --rs-pill-ink: var(--sn-ink);
+  --rs-pill-bg: color-mix(in oklab, var(--sn-ink) 7%, transparent);
+  --rs-pill-bg-hover: color-mix(in oklab, var(--sn-ink) 12%, transparent);
+
+  &.-over {
+    --rs-pill-ink: #ffffff;
+    --rs-pill-bg: rgba(255, 255, 255, 0.12);
+    --rs-pill-bg-hover: rgba(255, 255, 255, 0.2);
+  }
+
+  .rs-pick {
+    margin-inline-end: 6px;
+  }
+}
+
+.k-drawer .sn-menu__region {
+  .rs-row__ic svg {
+    width: 20px;
+    height: 20px;
+  }
+}

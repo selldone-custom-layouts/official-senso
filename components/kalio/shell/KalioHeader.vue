@@ -48,24 +48,13 @@
       <span class="sn-header__grow"></span>
 
       <nav aria-label="Your account" class="sn-header__acts">
-        <router-link v-if="!compact" :to="helpRoute" class="sn-header__txt">Support</router-link>
+        <!-- Language and currency (the owner's choice B, 10 November 2026):
+             a small pill before Support; the phone gets a row in the menu. -->
+        <region-switcher-button v-if="!compact" button-class="sn-header__region" />
+        <router-link v-if="!compact" :to="helpRoute" class="sn-header__txt">{{ t("header.support") }}</router-link>
         <button :aria-expanded="searchOpen" aria-label="Search" class="sn-header__ic -search" type="button" @click.stop="toggleSearch">
           <senso-icon :name="searchOpen ? 'close' : 'search'" size="22" />
         </button>
-        <s-language-selector v-if="!compact && hasLanguages" :icon-color="over ? '#ffffff' : '#0d1b1e'" class="sn-header__pick" icon-only></s-language-selector>
-        <u-currency-selector
-          v-if="!compact && $shop.currencies && $shop.currencies.length > 1"
-          :icon-color="over ? '#ffffff' : '#0d1b1e'"
-          :shop="$shop"
-          class="sn-header__pick"
-          dense
-          hide-details
-          icon
-          icon-only
-          single-line
-          small
-          @change="onChangeUserSelectedCurrency"
-        />
 
         <router-link v-if="user" :aria-label="`Your account, ${firstName}`" :to="profileRoute" class="sn-header__ic -account">
           <img v-if="user.id && !avatar_failed" :src="getUserAvatar(user.id)" alt="" class="sn-header__avatar" height="26" width="26" @error="avatar_failed = true" />
@@ -212,7 +201,7 @@
                   @click="moreOpen = moreOpen === keyOf(f) ? null : keyOf(f)"
                 >
                   <span aria-hidden="true" class="sn-acc__morechip"><senso-icon :name="moreOpen === keyOf(f) ? 'expand_less' : 'expand_more'" size="20" /></span>
-                  <b>{{ moreOpen === keyOf(f) ? "Show fewer" : `Show ${restCats(f).length} more` }}</b>
+                  <b>{{ moreOpen === keyOf(f) ? t("menu.showFewer") : t("menu.showMore", { n: restCats(f).length }) }}</b>
                 </button>
               </template>
             </div>
@@ -227,6 +216,7 @@
           <router-link :to="contactRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="mail" size="20" />Contact us</router-link>
           <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="local_shipping" size="20" />Track an order</router-link>
           <router-link :to="blogRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="receipt_long" size="20" />Journal</router-link>
+          <region-sheet row-class="k-drawer__link sn-menu__region" />
           <template v-if="user">
             <router-link :to="profileRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="person" size="20" />My account</router-link>
             <router-link :to="savedRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="favorite" size="20" />Saved</router-link>
@@ -234,10 +224,6 @@
           <button v-else class="sn-btn -block" type="button" @click="menu = false; signIn()">Sign in</button>
         </div>
 
-        <div class="k-drawer__pickers">
-          <s-language-selector hide-details variant="outlined"></s-language-selector>
-          <u-currency-selector v-if="$shop.currencies && $shop.currencies.length > 1" :shop="$shop" hide-details @change="onChangeUserSelectedCurrency" />
-        </div>
       </v-navigation-drawer>
     </teleport>
   </header>
@@ -246,8 +232,9 @@
 <script>
 import { BRAND } from "../kalio-brand";
 import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
-import SLanguageSelector from "@selldone/components-vue/storefront/language/selector/SLanguageSelector.vue";
-import UCurrencySelector from "@selldone/components-vue/ui/currency/selector/UCurrencySelector.vue";
+import RegionSwitcherButton from "../../region-switcher/RegionSwitcherButton.vue";
+import RegionSheet from "../../region-switcher/RegionSheet.vue";
+import { t } from "../../region-switcher/region";
 import KalioBasketDrawer from "./KalioBasketDrawer.vue";
 import SensoWordmark from "../../senso/SensoWordmark.vue";
 import SensoIcon from "../../senso/SensoIcon.vue";
@@ -261,7 +248,7 @@ import { basketView } from "../kalio-basket";
 
 export default {
   name: "KalioHeader",
-  components: { SStorefrontSearchBox, SLanguageSelector, UCurrencySelector, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoCategoryIcon, SensoMegaMenu },
+  components: { SStorefrontSearchBox, RegionSwitcherButton, RegionSheet, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoCategoryIcon, SensoMegaMenu },
   inject: ["$shop"],
 
   props: {
@@ -307,9 +294,6 @@ export default {
     },
     compact() {
       return this.$vuetify.display.smAndDown;
-    },
-    hasLanguages() {
-      return (this.$shop?.languages || []).length > 1;
     },
     families() {
       return familiesOf(this.aisleList);
@@ -427,8 +411,9 @@ export default {
   methods: {
     aisleRoute,
     catLine(aisle) {
-      return categoryLine(aisle, this.all, (n) => money(n, this.$shop?.currency || "USD", true));
+      return categoryLine(aisle, this.all, (n) => money(n, null, true));
     },
+    t,
     keyOf(f) {
       return f.key + ":" + f.title;
     },

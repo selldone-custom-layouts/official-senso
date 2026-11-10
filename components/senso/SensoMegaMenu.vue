@@ -82,7 +82,7 @@ export default {
     route: aisleRoute,
     pimage: (p) => productImage(p, false),
     m(n, short = true) {
-      return money(n, this.$shop?.currency || "USD", short);
+      return money(n, null, short);
     },
     line(c) {
       return categoryLine(c, this.all, (n) => this.m(n));

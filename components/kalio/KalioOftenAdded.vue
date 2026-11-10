@@ -31,7 +31,7 @@
         <router-link :to="productRoute(product.id)" class="k-often__name" @click="$emit('navigate')">
           {{ product.title }}
         </router-link>
-        <u-price :amount="priceOf(product).now" :currency="currency" class="k-often__price" />
+        <span class="u--price k-often__price">{{ priceText(product) }}</span>
       </div>
     </div>
   </div>
@@ -39,6 +39,7 @@
 
 <script>
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
+import { currentCurrency, money } from "../region-switcher/region";
 import { addColour, colourLine, pendingLine, quickAdd } from "./kalio-basket";
 import { priceOf, productImage, productSrcset, dropSrcset } from "./kalio-catalog";
 import { allProducts, savingOf } from "../senso/senso-home";
@@ -70,7 +71,7 @@ export default {
 
   computed: {
     currency() {
-      return this.GetUserSelectedCurrency()?.code;
+      return currentCurrency();
     },
 
     basketItems() {
@@ -99,6 +100,10 @@ export default {
   },
 
   methods: {
+    priceText(product) {
+      const p = this.priceOf(product);
+      return money(p.now, p.currency || this.currency);
+    },
     srcset(product) {
       return productSrcset(product);
     },

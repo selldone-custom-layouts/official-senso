@@ -46,12 +46,12 @@
         <v-icon aria-hidden="true" size="26">local_shipping</v-icon>
         <div class="t-meter__t">
           <template v-if="free_left > 0">
-            Add <b><u-price :amount="free_left" :currency="basket.currency" /></b> more for <b class="-red">free shipping</b>
+            Add <b>{{ money(free_left, free_from.currency) }}</b> more for <b class="-red">free shipping</b>
           </template>
           <template v-else><b>Free shipping</b> on this order</template>
           <div class="t-meter__bar"><i :style="{ width: free_pct + '%' }"></i></div>
         </div>
-        <span class="t-meter__rule">Free over <u-price :amount="free_from.amount" :currency="free_from.currency" /></span>
+        <span class="t-meter__rule">Free over {{ money(free_from.amount, free_from.currency, { short: "auto" }) }}</span>
       </div>
 
       <nav v-if="filtered_types.length > 1" aria-label="Baskets" class="k-cart__types">
@@ -136,7 +136,7 @@
                   <b>{{ w.word }}</b>
                   <small>{{ w.line }}</small>
                   <em v-if="w.free">Free</em>
-                  <em v-else-if="w.freeOver">Free on orders over <u-price :amount="w.freeOver" :currency="w.currency" /></em>
+                  <em v-else-if="w.freeOver">Free on orders over {{ money(w.freeOver, w.currency, { short: "auto" }) }}</em>
                   <em v-else class="-later">Price with your address</em>
                 </span>
               </button>
@@ -488,6 +488,7 @@ import KalioCartLines from "../../../components/kalio/checkout/KalioCartLines.vu
 import KalioOftenAdded from "../../../components/kalio/KalioOftenAdded.vue";
 import KalioAddressSheet from "../../../components/kalio/checkout/KalioAddressSheet.vue";
 import { freeShippingFrom, waysOf } from "../../../components/senso/senso-home";
+import { convert, currentCurrency, money } from "../../../components/region-switcher/region";
 import SensoRail from "../../../components/senso/SensoRail.vue";
 import SensoIcon from "../../../components/senso/SensoIcon.vue";
 import { dealsRoute } from "../../../components/kalio/kalio-catalog";
@@ -1008,8 +1009,14 @@ export default {
       return waysOf(this.$shop).slice(0, 3);
     },
     /* Tario: the shop's free-shipping threshold and how far this cart is. */
+    /* In the cart's currency: the threshold is set in the delivery way's
+       own currency, and the cart is in the visitor's. */
     free_from() {
-      return freeShippingFrom(this.$shop);
+      const f = freeShippingFrom(this.$shop);
+      if (!f) return null;
+      const to = this.bill?.currency || this.basket?.currency || currentCurrency();
+      const amount = convert(f.amount, f.currency || to, to);
+      return amount == null ? f : { amount, currency: to };
     },
     /* From the bill when it is in; until then from the lines (a cart read
        on page load comes without a bill, and the meter must not wait). */
@@ -1160,6 +1167,7 @@ export default {
    * ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
    */
   methods: {
+    money,
     ShadeColor,
 
     // ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅ Kalio ▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅▅

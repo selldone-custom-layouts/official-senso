@@ -70,6 +70,20 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.9 (10 November 2026): language and currency in the header; every amount in the shopper's currency.**
+  - **The owner's choice B.** The shared region package (`components/region-switcher/`, copied unchanged from `new-shop-kits/region-switcher/`) runs on Selldone's own state: `window.$storefront.currency`, `onChangeUserSelectedCurrency()`, the shop's exchange rates, and `setCurrentLanguage`.
+    - On desktop, a small pill before Support (a globe and "USD", or "EN · USD" with a second language) opens a panel of chips. It takes the header's colours: ink on the solid bar, white over the hero.
+    - On a phone, a "Language & currency" row in the menu's support list opens a bottom sheet.
+    - Selldone's old pickers are gone from the header, the phone menu and the footer.
+    - Senso's words for the menu and the region switcher sit in `components/senso/i18n/en.ts`, read with `t()`.
+  - **Every amount converts (the audit's Senso list).** `senso-home.ts` `money()` is now the region wrapper: an amount in its own currency, shown in the visitor's. `$shop.currency` does not exist, so the old code always showed USD.
+    - **Not converted before:** the price filter, the menus' "From / Up to" lines, the rails, the showcase tiles, the category banner's price and Save, "Add all", and the cart page's "Free over".
+    - **Wrong number before:** Similar showed the raw USD amount labelled in the chosen code, and so did the product page's "Free over".
+    - **Mixed before:** the cart meter subtracted across two currencies.
+    - **The price filter** converts each per-currency row and sends it back per row.
+    - **`priceOf`** falls back to the product's own price when the shop has no rate for the pair.
+    - **The cart drawer** formats its amounts with `money()`.
+
 - **1.0.8 (10 November 2026, deploy 509, release `01M72S7SDKVY7DQS96AQXBGT2R`, pinned on domain 1242): focus rings inside the drawers are inset.** The ring sweep on 1.0.7's open phone menu found the browser's 3px outline on "Show fewer", cut by the drawer's edge. Vuetify's navigation drawers sit outside `.v-application`, so the inset-ring rule never reached the phone menu or the cart drawer: not the family heads, not the category rows, not the drawer links. The rule now names `.v-navigation-drawer` too. Upload: 370 files in 20.3 s.
   - **Checked on live 1.0.8.** The saved block names `senso-electronics` 1.0.8. The menu test passed 40 of 40 at 390 and 360, light and dark: collapsed shows 6 plus "Show 4 more"; a tap shows all 10 with "Show fewer" at the end; Enter and Space toggle it; hidden rows are inert; icons, chip and words share one edge; no sideways scroll; each reopening starts collapsed; and the live families (8 or fewer) show no button. The kit's fixed contrast audit, with the menu open collapsed and expanded, printed TOTAL 0 in dark for teal, violet and custom `#ffff00`, and in teal light. Each `OPEN` there draws a failing "OPEN FAILED" line if the button is missing, so a menu that did not open cannot pass silently. The ring sweep on the open menu printed TOTAL 0 (390 and 360, light and dark, the button focused by keyboard).
 - **1.0.7 (10 November 2026, deploy 501, release `01M72QQX5GXQTGF385TFDCA3KM`, pinned on domain 1242): the phone menu shows 6 categories per family, then "Show N more".**

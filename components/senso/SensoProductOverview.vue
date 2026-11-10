@@ -152,7 +152,7 @@
             <senso-icon :name="w.key === 'Pickup' ? 'storefront' : 'local_shipping'" size="20" />
             <span
               ><b>{{ w.key === "Pickup" ? "Pickup" : w.word }}</b
-              ><small>{{ w.free ? "Free" : w.freeOver ? "Free over " + fmt(w.freeOver, true) : "Cost and day shown at checkout" }}</small></span
+              ><small>{{ w.free ? "Free" : w.freeOver ? "Free over " + freeOver(w) : "Cost and day shown at checkout" }}</small></span
             >
           </li>
           <li>
@@ -185,6 +185,7 @@ import SensoIcon from "./SensoIcon.vue";
 import { aisleIndex, aisleRoute, catalogueRoute, priceOf } from "../kalio/kalio-catalog";
 import { specGroups, specValue } from "../kalio/compare/kalio-compare";
 import { money, waysOf } from "./senso-home";
+import { currentCurrency } from "../region-switcher/region";
 import { clock, dealEnd, leftText, releaseClock, useClock } from "./senso-clock";
 import "../kalio/kalio-offer-price";
 
@@ -208,13 +209,13 @@ export default {
       return this.$product.mpn || this.$product.sku || specValue(this.$product, "Model") || null;
     },
     currency() {
-      return this.GetUserSelectedCurrency()?.code || this.shop?.currency || "USD";
+      return currentCurrency();
     },
     /** The price of the colour or capacity chosen, by Selldone's own rule. */
     price() {
       const v = this.current_variant && this.current_variant.pricing ? this.current_variant : null;
       const p = priceOf(this.shop, v ? { ...this.$product, ...v, price: v.price, discount: v.discount, dis_start: v.dis_start, dis_end: v.dis_end, currency: v.currency || this.$product.currency } : this.$product, this.currency);
-      return { now: p.now, was: p.was, save: p.was ? Math.round((p.was - p.now) * 100) / 100 : 0 };
+      return { now: p.now, was: p.was, save: p.was ? Math.round((p.was - p.now) * 100) / 100 : 0, currency: p.currency };
     },
     /** The deal's end, the chosen variant's when it has its own price. */
     endsAt() {
@@ -273,7 +274,11 @@ export default {
 
   methods: {
     fmt(n, short = false) {
-      return money(n, this.currency, short && Math.abs(n - Math.round(n)) < 0.005);
+      return money(n, this.price.currency || this.currency, short && Math.abs(n - Math.round(n)) < 0.005);
+    },
+    /** A delivery way's free-shipping threshold, in its own currency, shown in the visitor's. */
+    freeOver(w) {
+      return money(w.freeOver, w.currency, "auto");
     },
     toReviews() {
       document.getElementById("k-reviews")?.scrollIntoView({ behavior: "smooth", block: "start" });

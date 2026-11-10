@@ -93,6 +93,7 @@
 
 <script>
 import SensoIcon from "./SensoIcon.vue";
+import { currentCurrency, rateOf, signOf } from "../region-switcher/region";
 import { clone, countOn, groupsOf, picked, valueLabel, withGroup } from "../tario/shop/tario-filters";
 
 const LABELS = { volumes: "Capacity", colors: "Colour", types: "Type", styles: "Style" };
@@ -115,20 +116,27 @@ export default {
     groups() {
       return groupsOf(this.filters).map((g) => ({ ...g, label: LABELS[g.key] || g.label }));
     },
-    currency() {
-      return this.$shop?.currency || "USD";
+    /* Selldone keeps a category's price range per product currency
+       (filters.prices: [{ currency, min, max }], one row per currency) and
+       filters by it (prices: { USD: [lo, hi], DKK: [...] }). As Selldone's
+       SCategoryFilter and Digito's panel: the range shows in the shopper's
+       currency (every row converted with the shop's rates) and goes back
+       keyed by each row's own currency. */
+    shown() {
+      return currentCurrency();
+    },
+    rows() {
+      return (this.filters?.prices || []).filter((row) => rateOf(row.currency, this.shown) != null);
     },
     symbol() {
-      try {
-        return (0).toLocaleString("en-US", { style: "currency", currency: this.currency, maximumFractionDigits: 0 }).replace(/[\d\s.,]/g, "") || "$";
-      } catch {
-        return "$";
-      }
+      return signOf(this.shown);
     },
     range() {
-      const p = (this.filters?.prices || []).find((x) => x.currency === this.currency) || (this.filters?.prices || [])[0];
-      if (!p || !(p.max > p.min)) return null;
-      return { min: Math.floor(p.min), max: Math.ceil(p.max) };
+      const rows = this.rows;
+      if (!rows.length) return null;
+      const min = Math.floor(Math.min(...rows.map((r) => r.min * rateOf(r.currency, this.shown))));
+      const max = Math.ceil(Math.max(...rows.map((r) => r.max * rateOf(r.currency, this.shown))));
+      return max > min ? { min, max } : null;
     },
     step() {
       if (!this.range) return 1;
@@ -146,7 +154,7 @@ export default {
   },
 
   watch: {
-    range: { handler: "readPrice", immediate: true },
+    range: { handler: "readPrice", immediate: true, deep: true },
     modelValue: { handler: "readPrice", deep: true },
   },
 
@@ -188,9 +196,11 @@ export default {
     },
     readPrice() {
       if (!this.range) return;
-      const p = this.modelValue?.prices?.[this.currency];
-      this.lo = p ? Math.max(this.range.min, Math.round(p[0])) : this.range.min;
-      this.hi = p ? Math.min(this.range.max, Math.round(p[1])) : this.range.max;
+      const row = this.rows.find((r) => this.modelValue?.prices?.[r.currency]);
+      const p = row ? this.modelValue.prices[row.currency] : null;
+      const rate = row ? rateOf(row.currency, this.shown) : 1;
+      this.lo = p ? Math.max(this.range.min, Math.floor(p[0] * rate)) : this.range.min;
+      this.hi = p ? Math.min(this.range.max, Math.ceil(p[1] * rate)) : this.range.max;
     },
     setLo(v, commit = false) {
       if (!Number.isFinite(v)) return;
@@ -205,7 +215,13 @@ export default {
     commitPrice() {
       const next = clone(this.modelValue);
       const whole = this.lo <= this.range.min && this.hi >= this.range.max;
-      next.prices = whole ? null : { [this.currency]: [this.lo, this.hi] };
+      // Back to each row's own currency, widened to whole cents so the ends stay in.
+      const prices = {};
+      for (const row of this.rows) {
+        const r = rateOf(this.shown, row.currency) || 1 / rateOf(row.currency, this.shown);
+        prices[row.currency] = [Math.floor(this.lo * r * 100) / 100, Math.ceil(this.hi * r * 100) / 100];
+      }
+      next.prices = whole ? null : prices;
       this.$emit("update:modelValue", next);
     },
   },

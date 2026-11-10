@@ -117,6 +117,7 @@ import {
 } from "../kalio/kalio-basket";
 import { openQuickBuy, savedIds } from "./senso-quick";
 import { money, productIndex } from "./senso-home";
+import { currentCurrency } from "../region-switcher/region";
 import { clock, dealEnd, leftText, releaseClock, useClock } from "./senso-clock";
 
 let categories = null;
@@ -149,7 +150,7 @@ export default {
       return this.$store.getters.getShop;
     },
     currency() {
-      return this.GetUserSelectedCurrency()?.code || this.shop?.currency || "USD";
+      return currentCurrency();
     },
     price() {
       return priceOf(this.shop, this.product, this.currency);
@@ -247,7 +248,8 @@ export default {
     dropSrcset,
     /** "$378.90"; a whole saving reads "$60". */
     fmt(n, short = false) {
-      return money(n, this.currency, short && Math.abs(n - Math.round(n)) < 0.005);
+      // priceOf answers in the visitor's currency, or in the product's own when the shop has no rate.
+      return money(n, this.price.currency || this.currency, short && Math.abs(n - Math.round(n)) < 0.005);
     },
     swatchBg(c) {
       const parts = String(c)
