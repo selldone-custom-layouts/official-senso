@@ -27,8 +27,8 @@ A premium electronics brand site: calm, spacious and cinematic.
 | --- | --- |
 | The name and mark (one place: `BRAND.name`) | `components/kalio/kalio-brand.ts`, `SensoWordmark.vue`, `assets/brand/senso-mark.svg` |
 | Product families from the live categories (TV & Display, Audio, Computing, Cameras, Storage & Power, More) | `components/senso/senso-families.ts` |
-| Header: clear over the hero, then solid white; families with mega panels (click, second click, Esc, click outside); Support, search panel, Account, Theme, cart; phone: full-screen menu with accordions | `components/kalio/shell/KalioHeader.vue`, `SensoMegaMenu.vue` |
-| Footer on mint: wordmark and the shop's socials, 4 link columns, legal row | `components/kalio/shell/KalioFooter.vue` |
+| Header: clear over the hero, then solid white; families with mega panels (click, second click, Esc, click outside); Support, search panel, Account, cart; phone: full-screen menu with accordions | `components/kalio/shell/KalioHeader.vue`, `SensoMegaMenu.vue` |
+| Footer on mint: wordmark and the shop's socials, 4 link columns, the Theme row (showcase shops only), legal row | `components/kalio/shell/KalioFooter.vue` |
 | Home: hero carousel, FEATURED, COLLECTIONS, LIFESTYLE, DEALS, CATEGORY, NEW, STORIES, newsletter | `SensoHome.vue`, `SensoHero.vue`, `SensoShowcase.vue`, `SensoCollections.vue`, `SensoRail.vue`, `SensoShelf.vue`, `SensoBlog.vue`, `SensoNewsletter.vue` |
 | The card (well, swatches or capacities, price, Save, deal clock, Add to cart / Choose options, Learn more in listings, Compare) | `SensoCard.vue`, `senso-card.ts` |
 | Listing: dark banner, kinds chips, N results, Sort pill, filter card, three a row; loading states | `SensoShopTop.vue`, `SensoFilterPanel.vue`, `pages/products/StorefrontPageProducts.vue`, `senso-listing-loading.ts` |
@@ -63,12 +63,25 @@ The domain's loading screen (the mark and "senso" on teal-ink with a thin moving
 
 Checks, all at 0:
 
-- `components/theme-switcher/tools/header-check.cjs` (`STORAGE_KEY=senso-theme`, `BRAND=.sn-header__brand`, `CART=.sn-header__ic.-cart`, `ACCOUNT=.sn-header__ic.-account`);
+- the footer's Theme row: palettes, Custom colour and Light / Dark repaint the site and survive a reload; no row and no stored theme on another shop (`header-check.cjs` tested the old header button and no longer applies);
 - `contrast-audit.cjs` and `cart-audit.cjs`;
 - `new-shop-kits/single-vendor-shop/ring-sweep.cjs`;
-- `scripts/senso-layout-checks.cjs`: every picture inside its own box, and every icon list on one edge.
+- `scripts/senso-layout-checks.cjs`: every picture inside its own box, every icon list on one edge, and every product card's content 8px or more inside its edges (`PAGES`, `WIDTHS`, `STORAGE`, `OPEN`, `FILLCART` as in its header).
 
 ## Releases
+
+- **1.0.6 (10 November 2026, deploy 488, release `01M72J7BVKMY9G9R312YVZQ2RM`, pinned on domain 1242): the theme row in the footer, the Codex photos.**
+  - **The theme switcher moves to the footer** (the owner, after talking with the Selldone team: the header button takes room and is not good for every shop). The Theme button leaves the header, whose actions are evenly spaced again (4px gaps at 1440 and 390). The shared package's `ThemeSwitcherRow.vue` and `theme-switcher.scss` (copied unchanged, now with the Custom colour swatch) sit in a strip of their own above the legal row, on the footer's edge, with the footer's colours (`--ts-ink`, `--ts-muted`, `--ts-line`, `--ts-ring`). Showcase shops only, as before. The docs (AGENTS.md, README, wiki) say "footer".
+  - **The 19 Codex photos** in `assets/senso/photos/` fill every slot. The build has 370 files (19 more; the folder's README.md is not bundled), and the upload answered in 36.5 s. On live, the slots probe found 0 placeholders. The home hero has five slides (Audio has its own now), plus the FEATURED and LIFESTYLE cards, the category banners, the product Highlights, About, and Support/Contact.
+  - **Selldone's busy answers are asked again.** The walk-through on 1.0.5 (390, dark) lost its families: one 429 on the first categories read left the phone menu without families for the whole visit, and 15 of 45 steps followed it down. The deals' "load more" passed (6, then 61). Now the categories and the home's product list are asked up to 4 times (1.2 s, 2.4 s and 4.8 s apart). A home whose hero has nothing to show gets the solid header instead of white words on white.
+  - **On photos, white stays white in dark mode.** The outlined white buttons and the hero's progress bars had turned dark: the build step rewrote their white. They now use the `--sn-on-photo` tokens, which it leaves alone. The category band's breadcrumb slashes stay pale.
+  - **Dark empty states (the owner's Walio report: light words on pastel chips).** Senso's empty cart drawer, its phone menu and its sign-in sheet put no words on a fixed light tint. The contrast audit in dark, with the drawer, the sheet or the menu open, printed TOTAL 0 for teal, violet and custom `#ffff00`, at 1440 and 390 (the menu at 390). That was 0 before any change, so nothing needed fixing.
+  - **Checked on live 1.0.6:** the saved block names `senso-electronics` 1.0.6. The contrast audit printed TOTAL 0 on home, two categories, a product, About, FAQ and Contact (teal light and dark), and on home, a category and a product (custom `#ffff00` dark). The ring sweep printed TOTAL 0 (light and dark). With a stub shop, no theme row showed and no stored theme was applied. The footer row passed at 1440 and 390, light and dark: palettes, Custom colour and Light / Dark each repaint, and Custom and Dark survive a reload. Arrow keys move along the swatches.
+
+- **1.0.5 (10 November 2026, deploy 485, release `01M72EK5EQ3049FTVSWVJQZRS5`, pinned on domain 1242): "Load more" is never skipped.**
+  - **The walk-through on live 1.0.4 (390, dark)** kept the offers at 6 of 61. Selldone asks for the next page when its "load more" pill crosses the screen (`v-intersect`). A phone's jump to the end of the page (the End key, a fast fling, or the walker's `scrollTo`) can pass the pill without it ever being seen. A real wheel scroll loaded 6, then 30.
+  - **The fix:** the listing page also watches the scroll (once per frame, passive). When the pill is within 240px of the screen's bottom or has been scrolled past, and Selldone is not already asking and has more, it asks for the next page. On dev, the same jumps loaded 6, then 61.
+  - **The live checks on 1.0.4 and 1.0.5 (10 November, after the card fix):** the layout checks (pictures in boxes, icon lists, card padding; home, a category, a product, the quick-buy sheet, FAQ, Contact, 404, the cart drawer and the cart page, 1440 and 390) printed TOTAL 0 in light and dark. The header check printed PROBLEMS 0 (teal light and dark). The contrast audit printed TOTAL 0 (teal light and dark: home, a category, offers, two products, compare, blog, FAQ, 404). The cart audit printed TOTAL 0 (light and dark). The ring sweep printed TOTAL 0 (light and dark).
 
 - **1.0.4 (10 November 2026, deploy 484, release `01M72DH8QC4N2MMY960W4XS00X`, pinned on domain 1242): content never touches its card's edge.**
   - **The owner's report on 1.0.3:** on every listing (category, search, offers, filtered or not), the card's content sat flush on its left and right edges, and the image well lost its inset.
