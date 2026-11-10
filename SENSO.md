@@ -70,7 +70,7 @@ Checks, all at 0:
 
 ## Releases
 
-- **1.0.9 (10 November 2026): language and currency in the header; every amount in the shopper's currency.**
+- **1.0.9 (10 November 2026, deploy 519, release `01M73KGVWAKNMVXJDV6ABE6MKK`, pinned on domain 1242; uploaded through `new-shop-kits/upload-guard.sh`, 370 files in 52.1 s): language and currency in the header; every amount in the shopper's currency.**
   - **The owner's choice B.** The shared region package (`components/region-switcher/`, copied unchanged from `new-shop-kits/region-switcher/`) runs on Selldone's own state: `window.$storefront.currency`, `onChangeUserSelectedCurrency()`, the shop's exchange rates, and `setCurrentLanguage`.
     - On desktop, a small pill before Support (a globe and "USD", or "EN · USD" with a second language) opens a panel of chips. It takes the header's colours: ink on the solid bar, white over the hero.
     - On a phone, a "Language & currency" row in the menu's support list opens a bottom sheet.
@@ -83,6 +83,14 @@ Checks, all at 0:
     - **The price filter** converts each per-currency row and sends it back per row.
     - **`priceOf`** falls back to the product's own price when the shop has no rate for the pair.
     - **The cart drawer** formats its amounts with `money()`.
+  - **Checks.**
+    - **`currency-check.cjs`** (the kit's), one run per currency, printed TOTAL 0 for every currency it completed:
+      - 1440 on dev: DKK, EUR, AUD and AED; SAR passed every page up to the cart drawer, and the mega menu was not reached.
+      - Live: DKK and USD at 1440; DKK, EUR, AUD and SAR at 390.
+      - AED at 390 passed home, the price filter, category, product and deals; the cart drawer and menu were not reached, because Selldone answered 429 or closed the connection. USD at 390 did not complete for the same reason.
+    - **The price filter's sign** reads kr, €, A$, ﷼ and د.إ.
+    - **On live** (`region-extra.cjs`): pill and panel at 1440 and sheet at 390, light and dark. Rings sit inside their boxes (the kit's ring probe, with a chip focused); arrow keys move along the chips; Esc closes, and focus returns to the pill. A reload keeps DKK, and the stub shop renders with the pill and without the theme row.
+    - **The contrast audit** (the kit's fixed one) with the panel (1440) or the sheet (390) open printed TOTAL 0 in light and dark, for teal, violet and custom `#ffff00`. Each `OPEN` draws a failing line if the panel or sheet is missing. Two runs that waited only for the header measured the clear header's white words before the home had mounted; with the hero awaited, both printed TOTAL 0. The source now keeps the header solid until the hero is on screen; this ships with the next release.
 
 - **1.0.8 (10 November 2026, deploy 509, release `01M72S7SDKVY7DQS96AQXBGT2R`, pinned on domain 1242): focus rings inside the drawers are inset.** The ring sweep on 1.0.7's open phone menu found the browser's 3px outline on "Show fewer", cut by the drawer's edge. Vuetify's navigation drawers sit outside `.v-application`, so the inset-ring rule never reached the phone menu or the cart drawer: not the family heads, not the category rows, not the drawer links. The rule now names `.v-navigation-drawer` too. Upload: 370 files in 20.3 s.
   - **Checked on live 1.0.8.** The saved block names `senso-electronics` 1.0.8. The menu test passed 40 of 40 at 390 and 360, light and dark: collapsed shows 6 plus "Show 4 more"; a tap shows all 10 with "Show fewer" at the end; Enter and Space toggle it; hidden rows are inert; icons, chip and words share one edge; no sideways scroll; each reopening starts collapsed; and the live families (8 or fewer) show no button. The kit's fixed contrast audit, with the menu open collapsed and expanded, printed TOTAL 0 in dark for teal, violet and custom `#ffff00`, and in teal light. Each `OPEN` there draws a failing "OPEN FAILED" line if the button is missing, so a menu that did not open cannot pass silently. The ring sweep on the open menu printed TOTAL 0 (390 and 360, light and dark, the button focused by keyboard).
