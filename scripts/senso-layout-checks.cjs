@@ -15,7 +15,8 @@
  * usage:
  *   PAGES="home=/,category=/laptop-category,product=/product/709977" \
  *   [STORAGE='{"senso-theme":"{\"palette\":\"teal\",\"mode\":\"dark\"}"}'] [WIDTHS=390,1440] \
- *   [OPEN="product:.sn-header__ic.-cart"]  (a click before checking, per page) \
+ *   [OPEN="drawer:.sn-header__ic.-cart"]  (a click before checking, per page) \
+ *   [FILLCART=<xapi shop name>]  (three products in the local cart store only; /buy/ is blocked) \
  *   node scripts/senso-layout-checks.cjs <base url> "<selector the home always shows>"
  * Pages after the first are opened in-app (router push), so a live
  * /product/ link is not answered with Selldone's SEO page. Prints each
@@ -47,7 +48,8 @@ function check(debug) {
     if (!vis(img)) continue;
     if (img.closest(".sn-slot, .sn-story__img, .k-prose, .v-avatar, .sn-header__avatar, .ts-panel, .s--footer-section-selldone")) continue;
     const r = img.getBoundingClientRect();
-    if (r.width < 12 || r.height < 12) continue;
+    // product and photo images; a small mark or icon drawn as an <img> is not one
+    if ((r.width < 60 && r.height < 60) || /^data:image\/svg|\.svg(\?|$)/.test(img.src)) continue;
     let clip = null;
     let el = img.parentElement;
     for (let d = 0; el && d < 4; d++, el = el.parentElement) {
@@ -93,10 +95,27 @@ function check(debug) {
         items.push(null);
         continue;
       }
-      // the first text after the icon
+      // a plain row: no box (a border, a fill or an edge) between the row and its icon — a button or a tile is not a list row
+      let boxed = false;
+      for (let e = icon.parentElement; e && e !== list; e = e.parentElement) {
+        const st = getComputedStyle(e);
+        const fill = st.backgroundColor !== "rgba(0, 0, 0, 0)" && st.backgroundColor !== "transparent";
+        const box = fill || parseFloat(st.borderTopWidth) > 0 || parseFloat(st.borderLeftWidth) > 0 || st.boxShadow !== "none";
+        // a box that holds words too (a button, a tile); a circle around the icon alone is fine
+        if (box && (e.textContent || "").trim().length > 0 && !(e.textContent.trim() === (icon.textContent || "").trim())) {
+          boxed = true;
+          break;
+        }
+      }
+      if (boxed) {
+        items.push(null);
+        continue;
+      }
+      // the first text after the icon; a row whose words start before its icon is not an icon row
       const walker = document.createTreeWalker(row, NodeFilter.SHOW_TEXT);
       let textLeft = null;
       const ir = icon.getBoundingClientRect();
+      let leadingText = false;
       while (walker.nextNode()) {
         const n = walker.currentNode;
         if (!n.textContent.trim() || icon.contains(n) || !vis(n.parentElement)) continue;
@@ -104,13 +123,17 @@ function check(debug) {
         range.selectNodeContents(n);
         const rr = [...range.getClientRects()].filter((x) => x.width > 0);
         if (!rr.length) continue;
+        if (icon.compareDocumentPosition(n) & Node.DOCUMENT_POSITION_PRECEDING) {
+          leadingText = true;
+          break;
+        }
         const mid = rr[0].top + rr[0].height / 2;
         if (rr[0].left >= ir.right - 1 && Math.abs(mid - (ir.top + ir.height / 2)) <= Math.max(ir.height, rr[0].height)) {
           textLeft = Math.min(...rr.map((x) => x.left));
           break;
         }
       }
-      if (textLeft == null) {
+      if (textLeft == null || leadingText) {
         items.push(null);
         continue;
       }
@@ -150,9 +173,30 @@ function check(debug) {
         for (const [k, v] of Object.entries(st)) try { localStorage.setItem(k, v); } catch (e) {}
       }, st);
     }
+    await ctx.route((u) => u.href.includes("/buy/"), (r) => r.abort());
     const pg = await ctx.newPage();
     await pg.goto(base.replace(/\/$/, "") + PAGES[0][1], { waitUntil: "domcontentloaded", timeout: 90000 });
     await pg.waitForSelector(homeSel, { timeout: 60000 }).catch(() => {});
+    if (process.env.FILLCART) {
+      await pg.waitForTimeout(3000);
+      await pg.evaluate(async (shop) => {
+        const list = await fetch(`https://xapi.selldone.com/shops/@${shop}/products/list?limit=250`).then((r) => r.json());
+        const ps = list.products || [];
+        const now = Date.now();
+        const live = (p) => p.discount > 0 && (!p.dis_end || Date.parse(p.dis_end) > now);
+        const pick = [ps.find((p) => live(p)), ps.find((p) => (p.product_variants || []).some((v) => v.volume)), ps.find((p) => !live(p))].filter(Boolean);
+        const items = pick.map((p, i) => {
+          const v = (p.product_variants || [])[0] || null;
+          const dis = live(p) ? p.discount : 0;
+          const price = (v && v.pricing ? v.price : p.price) - dis;
+          return { id: 900 + i, product_id: p.id, variant_id: v ? v.id : null, variant: v, count: i === 1 ? 2 : 1, price, dis, currency: p.currency || "USD", product: { id: p.id, title: p.title, icon: p.icon, type: "PHYSICAL", quantity: p.quantity, category_id: p.category_id } };
+        });
+        const total = items.reduce((t, it) => t + it.price * it.count, 0);
+        const el = [...document.querySelectorAll("*")].find((e) => e.__vue_app__);
+        el.__vue_app__.config.globalProperties.$store.commit("setBasketPhysical", { id: 1, type: "PHYSICAL", items, price: total, currency: items[0]?.currency || "USD", status: "Open", receiver_info: null, bill: null });
+      }, process.env.FILLCART);
+      await pg.waitForTimeout(1500);
+    }
     for (const [label, path] of PAGES) {
       if (path !== PAGES[0][1]) {
         await pg.evaluate((to) => {

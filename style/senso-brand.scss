@@ -3810,3 +3810,31 @@ body {
   border-radius: 0 !important;
   height: 40px;
 }
+
+/* Every product picture sits inside its own fixed-ratio box (the owner's
+   rule, 10 November 2026): the box clips, the picture fills it with
+   object-fit: contain inside a padding, and the words start under it. */
+.k-often__pic,
+.k-lines__pic,
+.sn-crow__pic,
+.sn-fbt__img,
+.k-cmp__pic,
+.k-quick__pic {
+  overflow: hidden;
+}
+
+.k-often__pic > a {
+  padding: 12%;
+}
+
+.k-often__pic img {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+}
+
+/* The cart page's delivery hint lines up with the tiles' icons above it. */
+.t-how__hint {
+  padding-inline-start: 15px;
+}
