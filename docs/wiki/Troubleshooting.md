@@ -88,7 +88,7 @@ The other bands need extra gallery images, and an article with bold headings (or
 
 That is on purpose. Selldone's newsletter subscription belongs to a customer account. The form keeps what the shopper typed, and Submit subscribes them once they are signed in.
 
-### There is no Theme button on my shop
+### There is no Theme row in my shop's footer
 
 That is on purpose: with `themeSwitcher: "showcase"` it shows only on Senso's showcase shop. Set `themeSwitcher: "on"` to offer it. See [Theme and colours](Theme-and-colours).
 

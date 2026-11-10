@@ -74,7 +74,7 @@ Run both on the live address once the version is attached. Each must print `TOTA
    ```
    It needs Playwright (a browser that scripts can drive). Set `PLAYWRIGHT` to your Playwright folder (for example `node_modules/playwright`): the default path in the script is the author's own.
 
-Both check the theme set in `senso-theme.settings.ts`. Where the Theme button shows, you can test a visitor's pick with `STORAGE='{"senso-theme":"{\"palette\":\"teal\",\"mode\":\"dark\"}"}'` in front of the command. On a shop without the button, a stored pick is ignored (see [Theme and colours](Theme-and-colours)).
+Both check the theme set in `senso-theme.settings.ts`. Where the footer's Theme row shows, you can test a visitor's pick with `STORAGE='{"senso-theme":"{\"palette\":\"teal\",\"mode\":\"dark\"}"}'` in front of the command. On a shop without the row, a stored pick is ignored (see [Theme and colours](Theme-and-colours)).
 
 ## Preview a release before it is live
 

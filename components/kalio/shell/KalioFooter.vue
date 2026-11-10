@@ -3,8 +3,12 @@
   social links on one line; four link columns with bold headings — the
   product families (from the live categories), Support, Company (the
   merchant's own footer menu as set in Selldone, or the standard pages) and
-  Policies; then a legal row (copyright, Terms, Privacy, the cookie
-  settings, the language and currency) and a small "made with selldone".
+  Policies; then the theme strip (the palettes, a custom colour and
+  Light / Dark: the owner, 10 November 2026, after talking with the Selldone
+  team, moved the theme switcher from the header to the footer; on Senso's
+  showcase shops only), then a legal row (copyright, Terms, Privacy, the
+  cookie settings, the language and currency) and a small "made with
+  selldone".
 
   Everything is read live. A social link shows only when the shop has set
   it. A shop with custom footer code keeps Selldone's footer (the layout
@@ -51,6 +55,10 @@
         </nav>
       </div>
 
+      <div v-if="themeOn" class="sn-footer__theme">
+        <theme-switcher-row />
+      </div>
+
       <div class="sn-footer__legal">
         <span class="sn-footer__copy">© {{ year }} {{ shopTitle }}</span>
         <router-link :to="termsRoute">Terms</router-link>
@@ -78,17 +86,19 @@ import SensoIcon from "../../senso/SensoIcon.vue";
 import SensoWordmark from "../../senso/SensoWordmark.vue";
 import { aisleRoute, aisles, catalogueRoute, dealsRoute } from "../kalio-catalog";
 import { familiesOf } from "../../senso/senso-families";
+import ThemeSwitcherRow from "../../theme-switcher/ThemeSwitcherRow.vue";
+import { themeState } from "../../theme-switcher/theme-switcher";
 
 /* Senso's own line icons for the common networks; others keep Selldone's. */
 const SOCIAL_ICONS = { instagram: "instagram", youtube: "youtube", twitter: "x", x: "x", facebook: "facebook", linkedin: "linkedin", tiktok: "tiktok" };
 
 export default {
   name: "KalioFooter",
-  components: { SLanguageSelector, UCurrencySelector, SFooterSectionGdpr, SFooterSectionSelldone, SensoIcon, SensoWordmark },
+  components: { SLanguageSelector, UCurrencySelector, SFooterSectionGdpr, SFooterSectionSelldone, SensoIcon, SensoWordmark, ThemeSwitcherRow },
   inject: ["$shop"],
 
   data() {
-    return { aisleList: [], year: new Date().getFullYear() };
+    return { aisleList: [], year: new Date().getFullYear(), theme: themeState };
   },
 
   computed: {
@@ -147,6 +157,10 @@ export default {
     },
     faqRoute() {
       return { name: "ShopFAQ" };
+    },
+    /** The theme strip shows only where the switcher is on (Senso's showcase shops). */
+    themeOn() {
+      return this.theme.enabled;
     },
     compareRoute() {
       return { name: this.r.COMPARISON_PAGE };

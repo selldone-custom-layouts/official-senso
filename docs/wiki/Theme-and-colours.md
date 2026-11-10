@@ -33,7 +33,7 @@ The last column is the contrast ratio (how readable white words are on the colou
 | `palette` | `"teal"`, `"ocean"`, `"violet"`, `"forest"`, `"ember"` | Picks one of the five tested palettes. |
 | `brandColor` | any `"#RRGGBB"` | Your own colour. When set, it replaces `palette`. |
 | `mode` | `"light"` or `"dark"` | Light or dark pages. |
-| `themeSwitcher` | `"showcase"`, `"on"`, `"off"` | Whether visitors get a Theme button (see below). |
+| `themeSwitcher` | `"showcase"`, `"on"`, `"off"` | Whether visitors get the Theme row in the footer (see below). |
 | `textOnBrand` | `"auto"` or `"white"` | Only with `brandColor`: the colour of the words on your buttons. |
 
 - **`brandColor`**: Senso makes a whole palette from it: buttons, hover, tints, links, the decoration colour, the pale tile, and the dark mode. It keeps the colour's hue and changes only its lightness until every word reads at 4.5:1 or more (white words on the light buttons at 5.5:1, for a margin on the mint tiles).
@@ -55,12 +55,12 @@ Change only these lines; leave the rest of the file as it is.
 | "Remove the switcher" | `themeSwitcher: "off"`. On your own shop it is already hidden with `"showcase"`. |
 | "Go back to Senso's teal" | Remove `brandColor` and set `palette: "teal", mode: "light"`. |
 
-## The Theme button: showcase, on or off
+## The Theme row in the footer: showcase, on or off
 
-The header's **Theme** button lets a **visitor** pick one of the five palettes, a free **Custom colour**, and Light or Dark. Their pick is kept in their browser.
+The footer's **Theme** row lets a **visitor** pick one of the five palettes, a free **Custom colour** (the colour wheel opens the browser's colour picker), and Light or Dark. Their pick is kept in their browser. It sits in a strip of its own just above the footer's legal row. (Until 10 November 2026 it was a Theme button at the top right of the header; the owner moved it to the footer after talking with the Selldone team, so the header keeps its room on every shop.)
 
-- **`"showcase"`** (the default): the button shows only on the showcase shops listed in `showcaseShops` in `senso-theme.ts`. Senso's own is Digini (Selldone shop 15549). When you import Senso into **your** shop, your shoppers see your settings and no Theme button. The Layout looks exactly as it does without the switcher, and any stored pick is ignored.
-- **`"on"`**: your visitors get the button. Your settings are its starting point.
+- **`"showcase"`** (the default): the row shows only on the showcase shops listed in `showcaseShops` in `senso-theme.ts`. Senso's own is Digini (Selldone shop 15549). When you import Senso into **your** shop, your shoppers see your settings and no Theme row. The Layout looks exactly as it does without the switcher, and any stored pick is ignored.
+- **`"on"`**: your visitors get the row. Your settings are its starting point.
 - **`"off"`**: never shown, on any shop.
 
 The settings are applied before the page first paints, so there is no flash of another colour.
@@ -74,7 +74,7 @@ The settings are applied before the page first paints, so there is no flash of a
      node components/theme-switcher/tools/contrast-audit.cjs https://<your shop> "main"
    ```
    For a theme chosen in the settings, no `STORAGE` is needed: the settings are the default.
-3. With the switcher on, also run `components/theme-switcher/tools/header-check.cjs` (its first lines list the selectors to pass).
+3. With the switcher on, open the footer and try a palette, the custom colour and Light / Dark; the contrast audit above already covers the row.
 
 ## A new palette
 

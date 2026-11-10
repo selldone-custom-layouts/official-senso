@@ -1,7 +1,8 @@
 /*
- * Senso — the theme switcher's config (the header's "Theme" button: the
- * owner's rule of 9 November 2026, palettes + Custom colour + Light / Dark,
- * shown only on the showcase shops).
+ * Senso — the theme switcher's config (the footer's "Theme" row since
+ * 10 November 2026, when the owner moved it from the header after talking
+ * with the Selldone team: palettes + Custom colour + Light / Dark, shown only
+ * on the showcase shops).
  *
  * The switcher itself is Layout-agnostic (components/theme-switcher/); this
  * file is everything Senso-specific: the palettes, which Senso and Kalio

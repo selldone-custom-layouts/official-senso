@@ -56,7 +56,7 @@ Open the address **without a query** (a query shows the catalogue instead of the
 - the page source's `window.sdShopLayout` → `"saved"` block names your package and the new version;
 - the home starts with the full-screen photo carousel under a clear header;
 - no blank page and no flash of an old design;
-- no Theme button in the header, unless you turned it on (see [Theme and colours](Theme-and-colours));
+- no Theme row in the footer, unless you turned it on (see [Theme and colours](Theme-and-colours));
 - check on a phone-sized screen too;
 - run the two checks in [Build and Upload](Build-and-Upload#checks-after-a-release).
 

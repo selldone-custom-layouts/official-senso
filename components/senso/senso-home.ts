@@ -17,6 +17,8 @@
  *    COLLECTIONS tab, the new-arrival tag fills NEW, and every other tag
  *    gets a tab of its own.
  */
+import { reactive } from "vue";
+
 
 declare const window: any;
 
@@ -60,13 +62,33 @@ export function listProducts(dir: string | null, limit: number, options: Record<
  *  Selldone's full product list (products/list) carries brand, spec and
  *  variants that the sorted list (products/all) leaves out; about 40 KB
  *  compressed for Digini, read once per visit. */
+/** Ask again when Selldone is busy: a 429 or a dropped answer on the first
+ *  load must not leave the header without its families (or the home without
+ *  its rails) for the whole visit. `ask` resolves to the answer, or null when
+ *  it was an error; up to 4 tries, 1.2s, 2.4s and 4.8s apart. */
+export function askWithRetry<T>(ask: () => Promise<T | null>, tries = 4): Promise<T | null> {
+  const run = (n: number): Promise<T | null> =>
+    ask()
+      .catch(() => null)
+      .then((v) => (v !== null || n >= tries - 1 ? v : new Promise<void>((r) => setTimeout(r, 1200 * 2 ** n)).then(() => run(n + 1))));
+  return run(0);
+}
+
+/** Whether the home's hero is on screen (loading or with slides). The header
+ *  sits clear over it, with white words, only while it is; a home whose
+ *  hero has nothing to show (every read failed) gets the solid header,
+ *  never white on white. True by default, so the first paint has no flash. */
+export const heroState = reactive({ shown: true });
+
 let allRead: Promise<any[]> | null = null;
 export function allProducts(): Promise<any[]> {
   if (!allRead) {
-    allRead = window.axios
-      .get(window.XAPI.GET_PRODUCTS_LIST(window.$storefront.name), { params: { limit: 250, offset: 0 } })
-      .then(({ data }: any) => (data?.error ? [] : data?.products || []))
-      .catch(() => [])
+    allRead = askWithRetry<any[]>(() =>
+      window.axios
+        .get(window.XAPI.GET_PRODUCTS_LIST(window.$storefront.name), { params: { limit: 250, offset: 0 } })
+        .then(({ data }: any) => (data?.error || !Array.isArray(data?.products) ? null : data.products)),
+    )
+      .then((list) => list || [])
       .then((list: any[]) => {
         if (!list.length) allRead = null;
         return list;

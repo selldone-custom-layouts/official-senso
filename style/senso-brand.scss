@@ -139,13 +139,14 @@ body {
 /* ━━━━━━━━━━━━ Buttons, chips, arrows ━━━━━━━━━━━━ */
 .v-application .sn-btn.-glass,
 .sn-btn.-glass {
+  /* On a photo in both modes: tokens, so the dark build step leaves the white alone. */
   background: transparent !important;
-  color: #ffffff !important;
-  box-shadow: inset 0 0 0 1.5px #ffffff !important;
+  color: var(--sn-on-photo) !important;
+  box-shadow: inset 0 0 0 1.5px var(--sn-on-photo) !important;
 
   &:hover {
-    background: #ffffff !important;
-    color: #0d1b1e !important;
+    background: var(--sn-on-photo) !important;
+    color: var(--sn-on-photo-ink) !important;
   }
 }
 
@@ -374,35 +375,10 @@ body {
   }
 }
 
-/* The Theme action: a pill with the palette icon and its word. */
-.v-application .sn-header__act.-theme {
-  height: 40px;
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 0 15px 0 12px;
-  margin: 0 4px;
-  border: 0;
-  border-radius: 999px;
-  background: transparent;
-  color: inherit !important;
-  box-shadow: inset 0 0 0 1.5px currentColor;
-  font: 600 13.5px var(--sn-font);
-  cursor: pointer;
-  transition: background-color 0.15s, color 0.15s;
-
-  &:hover,
-  &[aria-expanded="true"] {
-    background: var(--sn-brand-l);
-    color: var(--sn-link) !important;
-  }
-}
-
 .sn-header.-over {
   .sn-header__fam,
   .sn-header__txt,
-  .sn-header__ic,
-  .sn-header__act.-theme {
+  .sn-header__ic {
     color: #ffffff !important;
 
     &:hover {
@@ -944,7 +920,7 @@ body {
         position: absolute;
         inset: 0;
         width: 0;
-        background: #ffffff;
+        background: var(--sn-on-photo);
       }
     }
 
@@ -1856,6 +1832,28 @@ body {
     }
   }
 
+  /* The theme strip: the palettes, a custom colour and Light / Dark, on the
+     footer's own edge, between the columns and the legal row. Its words and
+     rings take the footer's colours (mint in light, near-black in dark). */
+  &__theme {
+    margin-top: 40px;
+    padding: 16px 0;
+    box-shadow: inset 0 1px 0 var(--sn-line-2);
+    --ts-ink: var(--sn-ink);
+    --ts-muted: var(--sn-muted);
+    --ts-line: var(--sn-muted);
+    --ts-ring: var(--sn-link);
+    --ts-font: var(--sn-font);
+
+    .ts-row__label {
+      font-weight: 700;
+    }
+
+    + .sn-footer__legal {
+      margin-top: 0;
+    }
+  }
+
   &__legal {
     display: flex;
     align-items: center;
@@ -2312,6 +2310,11 @@ body {
 
 .sn-crumbs > span[aria-hidden] {
   color: var(--sn-line-2);
+}
+
+/* On the dark category band (dark in both modes) the slashes stay pale. */
+.sn-band .sn-crumbs > span[aria-hidden] {
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .sn-pdp__grid {
@@ -3236,19 +3239,6 @@ body {
     height: 40px;
   }
 
-  .v-application .sn-header__act.-theme {
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
-    box-shadow: none;
-
-    .sn-header__actword {
-      display: none;
-    }
-  }
-
   .sn-logo b {
     font-size: 23px;
   }
@@ -3783,7 +3773,7 @@ body {
    browser's outline, which a row or drawer edge can cut. */
 .v-application,
 .v-overlay-container {
-  :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-header__act, .sn-acc__head, .sn-acc__link,
+  :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-acc__head, .sn-acc__link,
     .sn-tabs__tab, .sn-kind, .sn-shelf__tile, .sn-show__tile, .sn-show__card, .sn-story, .sn-card__img, .sn-card__t, .sn-heart, .sn-sw,
     .sn-mega__cat, .sn-mega__feature, .sn-support__tile, .sn-hero__nav, .sn-hero__seg, .sn-pdp-tabs a, .k-drawer__link, .sn-more):focus-visible {
     outline: none !important;

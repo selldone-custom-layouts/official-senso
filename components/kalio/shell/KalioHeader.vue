@@ -4,15 +4,15 @@
   from the live categories, senso-families.ts), each opening a clean mega
   panel on a click (a second click, Esc, a click outside or a page change
   closes it; no scrim); on the right Support, the search icon (a full-width
-  search panel with Selldone's suggestions and the categories), Account,
-  Theme (the palettes, a custom colour and Light / Dark in a small panel;
-  the owner's rule: after Account, just before the cart) and the cart.
+  search panel with Selldone's suggestions and the categories), Account and
+  the cart. The theme switcher lives in the footer (the owner, 10 November
+  2026, after talking with the Selldone team).
 
   On the home page it sits over the dark hero, clear with white words, and
   turns solid white with ink words and a hairline once the page scrolls (or
   a panel opens); on every other page it is solid. It stays at the top.
 
-  On a phone: the wordmark, then search, account, theme, cart and the menu
+  On a phone: the wordmark, then search, account, cart and the menu
   button, which opens a full-screen panel with the families as accordions.
   Never a bottom tab bar.
 
@@ -74,16 +74,6 @@
         <button v-else :disabled="busyUser" aria-label="Sign in" class="sn-header__ic -account" type="button" @click="signIn">
           <senso-icon name="person" size="22" />
         </button>
-
-        <!-- Theme: the palettes, a custom colour and Light / Dark in a small
-             panel (the owner, 9 November 2026: at the top right of the
-             header, after Account and before the cart). -->
-        <theme-switcher-button button-class="sn-header__act -theme">
-          <template #default>
-            <senso-icon name="palette" size="20" />
-            <span class="sn-header__actword">Theme</span>
-          </template>
-        </theme-switcher-button>
 
         <!-- The badge counts units, as the drawer's "3 items" does. -->
         <button :aria-label="`Cart, ${basketUnits} ${basketUnits === 1 ? 'item' : 'items'}`" class="sn-header__ic -cart" type="button" @click="basket = true">
@@ -238,17 +228,16 @@ import KalioBasketDrawer from "./KalioBasketDrawer.vue";
 import SensoWordmark from "../../senso/SensoWordmark.vue";
 import SensoIcon from "../../senso/SensoIcon.vue";
 import SensoCategoryIcon from "../../senso/SensoCategoryIcon.vue";
-import ThemeSwitcherButton from "../../theme-switcher/ThemeSwitcherButton.vue";
 import SensoMegaMenu from "../../senso/SensoMegaMenu.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { aisleRoute, aisles, catalogueRoute, dealsRoute } from "../kalio-catalog";
-import { allProducts, categoryLine, money } from "../../senso/senso-home";
+import { allProducts, categoryLine, heroState, money } from "../../senso/senso-home";
 import { familiesOf } from "../../senso/senso-families";
 import { basketView } from "../kalio-basket";
 
 export default {
   name: "KalioHeader",
-  components: { SStorefrontSearchBox, SLanguageSelector, UCurrencySelector, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoCategoryIcon, SensoMegaMenu, ThemeSwitcherButton },
+  components: { SStorefrontSearchBox, SLanguageSelector, UCurrencySelector, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoCategoryIcon, SensoMegaMenu },
   inject: ["$shop"],
 
   props: {
@@ -261,6 +250,7 @@ export default {
   data() {
     return {
       BRAND,
+      hero: heroState,
       aisleList: [],
       all: [],
       /* The open family, by key (a computed family is a new object each time). */
@@ -304,6 +294,7 @@ export default {
     /** The bare shop page: the home, whose hero the header sits over. */
     onHome() {
       return (
+        this.hero.shown &&
         String(this.$route.name || "").startsWith(window.$storefront.routes.SHOP_PAGE) &&
         !this.$route.params?.vendor_id &&
         !this.$route.params?.category_name &&

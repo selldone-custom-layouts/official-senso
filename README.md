@@ -74,7 +74,7 @@ Selldone's own cart, checkout, payments and orders keep working underneath. Noth
   - **Compare with similar**: three products of the category side by side;
   - Reviews, Frequently bought together, and **You may also like**.
 - **Support centre:** FAQ with a search box, quick tiles and the questions as accordions. Contact, About, Terms, Privacy, the blog, the 404 (a big headline and the category tiles), the compare page, the cart drawer and page, checkout, the order page and the account (design "desk") are all in the same dress.
-- **Theme (showcase only):** on Senso's own showcase shop, the header's Theme button offers five tested palettes, a free **Custom colour** and Light / Dark. Dark mode is complete.
+- **Theme (showcase only):** on Senso's own showcase shop, the Theme row in the footer offers five tested palettes, a free **Custom colour** and Light / Dark. Dark mode is complete.
 
 ## Photos
 
@@ -107,7 +107,7 @@ Choose Senso's colours in one file, `components/senso/senso-theme.settings.ts`:
 
 You can also tell your AI agent "use the yellow theme" or "make it dark": `AGENTS.md` (section "Theme") tells it what to change. Then build and upload. See the wiki page [Theme and colours](https://github.com/selldone-custom-layouts/official-senso/wiki/Theme-and-colours).
 
-The header's Theme button is a showcase feature. It shows only on Senso's own showcase shop (Selldone shop 15549), so when you import Senso into your shop, your shoppers see Senso in its designed teal, with no Theme button. The Layout looks exactly as it does without the switcher, and any stored choice is ignored.
+The footer's Theme row is a showcase feature. It shows only on Senso's own showcase shop (Selldone shop 15549), so when you import Senso into your shop, your shoppers see Senso in its designed teal, with no Theme row. The Layout looks exactly as it does without the switcher, and any stored choice is ignored.
 
 To offer the switcher to your shoppers, set `themeSwitcher: "on"`, then build and upload. `themeSwitcher: "off"` hides it everywhere.
 

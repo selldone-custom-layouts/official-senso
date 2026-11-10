@@ -78,7 +78,7 @@
 import SensoIcon from "./SensoIcon.vue";
 import SnSlot from "./SensoSlot.vue";
 import { aisleRoute, aisles, productImage } from "../kalio/kalio-catalog";
-import { allProducts, bestOf, photoOf, savingOf } from "./senso-home";
+import { allProducts, bestOf, heroState, photoOf, savingOf } from "./senso-home";
 import { familiesOf } from "./senso-families";
 import { slotPhoto } from "./senso-photos";
 
@@ -96,9 +96,18 @@ export default {
     next() {
       return this.slides.length ? (this.at + 1) % this.slides.length : 0;
     },
+    shown() {
+      return this.busy || this.slides.length > 0;
+    },
   },
 
   watch: {
+    shown: {
+      immediate: true,
+      handler(now) {
+        heroState.shown = now;
+      },
+    },
     running(now) {
       clearTimeout(this.timer);
       if (now) this.schedule();
@@ -121,6 +130,7 @@ export default {
   },
 
   beforeUnmount() {
+    heroState.shown = true;
     clearTimeout(this.timer);
     this.io?.disconnect();
     document.removeEventListener("visibilitychange", this.onVis);

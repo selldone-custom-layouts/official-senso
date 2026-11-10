@@ -13,7 +13,7 @@
  */
 
 import { PriceHelper } from "@selldone/core-js";
-import { productIndex } from "../senso/senso-home";
+import { askWithRetry, productIndex } from "../senso/senso-home";
 
 declare const window: any;
 
@@ -58,17 +58,23 @@ let aislesRead: Promise<any[]> | null = null;
 /** The shop's root categories, in the merchant's order. */
 export function aisles(): Promise<any[]> {
   if (!aislesRead) {
-    aislesRead = window.$storefront.products
-      .list(null, 0, 1, { categories_only: true, categories_count: 48 })
-      .then(({ folders }: any) =>
-        (folders || [])
-          .filter((folder: any) => folder && folder.id)
-          .sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0)),
-      )
-      .catch(() => {
+    /* Asked again while Selldone answers 429 (askWithRetry): one busy
+       moment on the first load must not leave the header without families. */
+    aislesRead = askWithRetry<any[]>(() =>
+      window.$storefront.products
+        .list(null, 0, 1, { categories_only: true, categories_count: 48 })
+        .then((res: any) =>
+          Array.isArray(res?.folders)
+            ? res.folders.filter((folder: any) => folder && folder.id).sort((a: any, b: any) => (a.order ?? 0) - (b.order ?? 0))
+            : null,
+        ),
+    ).then((list) => {
+      if (!list) {
         aislesRead = null;
         return [];
-      });
+      }
+      return list;
+    });
   }
   return aislesRead!;
 }

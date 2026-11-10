@@ -94,7 +94,7 @@ Do not change my shop's settings (payments, shipping, login modes). Do not place
 - Scroll down: the header turns white. Click a family in the header: its panel opens with your categories.
 - Tap "Add to cart" on a card: it becomes "− 1 in cart +".
 - Open the cart from the header and add an address on the map.
-- There is no Theme button on your shop. That is on purpose: see [Theme and colours](Theme-and-colours).
+- There is no Theme row in your shop's footer. That is on purpose: see [Theme and colours](Theme-and-colours).
 - If something is off, see [Troubleshooting](Troubleshooting).
 
 ## Tips for working with the agent
