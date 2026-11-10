@@ -186,11 +186,35 @@
             <button :aria-expanded="openAcc === keyOf(f)" class="sn-acc__head" type="button" @click="openAcc = openAcc === keyOf(f) ? null : keyOf(f)">
               <span>{{ f.title }}</span><senso-icon :name="openAcc === keyOf(f) ? 'remove' : 'add'" size="20" />
             </button>
+            <!-- The owner's option A (10 November 2026): a family of more than
+                 8 categories shows its first 6 (the shop's order), then
+                 "Show N more"; the rest open inline above the button, which
+                 then reads "Show fewer". 8 or fewer: all, no button. -->
             <div v-if="openAcc === keyOf(f)" class="sn-acc__body">
-              <router-link v-for="c in f.categories" :key="c.id" :to="aisleRoute(c)" class="sn-acc__link" @click="menu = false">
+              <router-link v-for="c in firstCats(f)" :key="c.id" :to="aisleRoute(c)" class="sn-acc__link" @click="menu = false">
                 <senso-category-icon :category="c" size="28" />
                 <span><b>{{ c.title || c.name }}</b><small v-if="catLine(c)">{{ catLine(c) }}</small></span>
               </router-link>
+              <template v-if="restCats(f).length">
+                <div :id="moreId(f)" :class="{ '-open': moreOpen === keyOf(f) }" :inert="moreOpen !== keyOf(f) || null" class="sn-acc__extra">
+                  <div class="sn-acc__extra-in">
+                    <router-link v-for="(c, i) in restCats(f)" :key="c.id" :style="{ '--i': i }" :to="aisleRoute(c)" class="sn-acc__link" @click="menu = false">
+                      <senso-category-icon :category="c" size="28" />
+                      <span><b>{{ c.title || c.name }}</b><small v-if="catLine(c)">{{ catLine(c) }}</small></span>
+                    </router-link>
+                  </div>
+                </div>
+                <button
+                  :aria-controls="moreId(f)"
+                  :aria-expanded="moreOpen === keyOf(f) ? 'true' : 'false'"
+                  class="sn-acc__more"
+                  type="button"
+                  @click="moreOpen = moreOpen === keyOf(f) ? null : keyOf(f)"
+                >
+                  <span aria-hidden="true" class="sn-acc__morechip"><senso-icon :name="moreOpen === keyOf(f) ? 'expand_less' : 'expand_more'" size="20" /></span>
+                  <b>{{ moreOpen === keyOf(f) ? "Show fewer" : `Show ${restCats(f).length} more` }}</b>
+                </button>
+              </template>
             </div>
           </div>
           <router-link :to="dealsRoute" class="sn-acc__head -link" @click="menu = false"><span>Offers</span><senso-icon name="arrow_forward" size="20" /></router-link>
@@ -256,6 +280,8 @@ export default {
       /* The open family, by key (a computed family is a new object each time). */
       famKey: null,
       openAcc: null,
+      /* The family whose extra categories are shown (phone menu); reset on every open. */
+      moreOpen: null,
       searchOpen: false,
       basket: false,
       menu: false,
@@ -350,6 +376,9 @@ export default {
     drawerOpen(open) {
       this.$store.commit("setForceHideNavigation", open);
     },
+    menu(open) {
+      if (open) this.moreOpen = null;
+    },
     basket(open) {
       basketView.drawerOpen = open;
     },
@@ -402,6 +431,16 @@ export default {
     },
     keyOf(f) {
       return f.key + ":" + f.title;
+    },
+    /** A family of more than 8 categories shows 6, then "Show N more". */
+    firstCats(f) {
+      return f.categories.length > 8 ? f.categories.slice(0, 6) : f.categories;
+    },
+    restCats(f) {
+      return f.categories.length > 8 ? f.categories.slice(6) : [];
+    },
+    moreId(f) {
+      return "sn-acc-more-" + String(this.keyOf(f)).replace(/[^a-z0-9]+/gi, "-");
     },
     toggleFamily(f) {
       this.searchOpen = false;

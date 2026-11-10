@@ -683,6 +683,79 @@ body {
       color: var(--sn-muted);
     }
   }
+
+  /* "Show N more" (the owner's option A): the hidden categories open inline
+     (height and fade, rows 20ms apart); the button is a row of the same grid
+     (10px padding, a 28px icon column, 14px gap), so its chip and words sit
+     on the rows' edges. */
+  &__extra {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition: grid-template-rows 0.26s ease, opacity 0.2s ease, visibility 0s linear 0.26s;
+
+    &.-open {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      visibility: visible;
+      transition: grid-template-rows 0.26s ease, opacity 0.2s ease, visibility 0s;
+
+      .sn-acc__link {
+        animation: sn-rise 0.22s ease both;
+        animation-delay: calc(var(--i, 0) * 20ms);
+      }
+    }
+  }
+
+  &__extra-in {
+    min-height: 0;
+    overflow: hidden;
+    display: grid;
+    gap: 2px;
+  }
+
+  &__more {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-height: 48px;
+    padding: 10px 10px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--sn-link) !important;
+    font: 700 15px var(--sn-font);
+    text-align: start;
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in oklab, var(--sn-link) 8%, transparent);
+    }
+  }
+
+  &__morechip {
+    flex: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: color-mix(in oklab, var(--sn-link) 14%, transparent);
+    color: var(--sn-link);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sn-acc__extra,
+  .sn-acc__extra.-open {
+    transition: none;
+
+    .sn-acc__link {
+      animation: none !important;
+    }
+  }
 }
 
 /* ━━━━━━━━━━━━ Photo slots ━━━━━━━━━━━━ */
@@ -3773,7 +3846,7 @@ body {
    browser's outline, which a row or drawer edge can cut. */
 .v-application,
 .v-overlay-container {
-  :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-acc__head, .sn-acc__link,
+  :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-acc__head, .sn-acc__link, .sn-acc__more,
     .sn-tabs__tab, .sn-kind, .sn-shelf__tile, .sn-show__tile, .sn-show__card, .sn-story, .sn-card__img, .sn-card__t, .sn-heart, .sn-sw,
     .sn-mega__cat, .sn-mega__feature, .sn-support__tile, .sn-hero__nav, .sn-hero__seg, .sn-pdp-tabs a, .k-drawer__link, .sn-more):focus-visible {
     outline: none !important;
