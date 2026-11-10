@@ -1,5 +1,5 @@
 /*
- * Senso — every listing draws Senso's card.
+ * Senso — every listing draws Senso's card (with "Learn more").
  *
  * SProductsListing (a category, the catalogue, a search, the deals) draws
  * Selldone's SShopProductCard for each product. Its render is replaced here,
@@ -18,6 +18,6 @@ const card: any = SShopProductCard;
 if (!card.__senso) {
   card.__senso = true;
   card.render = function (this: any) {
-    return h(SensoCard, { product: this.product, class: "-listed" });
+    return h(SensoCard, { product: this.product, learn: true, class: "-listed" });
   };
 }

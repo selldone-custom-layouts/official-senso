@@ -13,57 +13,75 @@
   -->
 
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <!-- Kalio (5 November 2026): the questions in the shop's own page frame
-       (trail, title, the way to ask, topics as chips) and a word when there
-       are none yet; Selldone showed a bar with a menu button, an all-caps
-       grey button and two arrows over an empty page. -->
-  <div class="k-official k-faq">
+  <!-- Senso: a support centre. A calm band with "How can we help?" and a
+       search box (Selldone's own FAQ search), quick tiles (track an order,
+       contact, delivery and returns, account), the topics as pills and the
+       questions as accordions; a calm card when there are none yet. -->
+  <div class="k-official k-faq sn-support">
     <slot name="header"></slot>
-    <div class="k-wrap">
-      <nav aria-label="Breadcrumb" class="k-official__crumbs">
-        <router-link :to="{ name: 'ShopPage' }">{{ shop?.title || "Home" }}</router-link>
-        <v-icon size="16">chevron_right</v-icon>
-        <router-link v-if="current_tag" :to="{ name: 'ShopFAQ' }">Questions and answers</router-link>
-        <span v-else>Questions and answers</span>
-        <template v-if="current_tag">
-          <v-icon size="16">chevron_right</v-icon>
-          <span>{{ current_tag }}</span>
-        </template>
+    <section class="sn-support__band">
+      <sn-slot class="sn-support__photo" fill name="support-hero" />
+      <div class="sn-support__in">
+        <nav aria-label="Breadcrumb" class="sn-crumbs">
+          <router-link :to="{ path: '/' }">Home</router-link>
+          <span aria-hidden="true">/</span>
+          <router-link v-if="current_tag" :to="{ name: 'ShopFAQ' }">Support</router-link>
+          <span v-else aria-current="page">Support</span>
+          <template v-if="current_tag">
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{{ current_tag }}</span>
+          </template>
+        </nav>
+        <p class="sn-eyebrow -light">Support</p>
+        <h1 class="sn-support__h">How can we help?</h1>
+        <form class="sn-support__search" role="search" @submit.prevent>
+          <senso-icon name="search" size="22" />
+          <input v-model="search" aria-label="Search the questions" placeholder="Search questions, like returns or delivery" type="search" />
+        </form>
+      </div>
+    </section>
+
+    <div class="sn-page sn-support__body">
+      <nav aria-label="Support" class="sn-support__tiles">
+        <router-link :to="{ name: window.$storefront.routes.HISTORY_ORDERS_PHYSICAL }" class="sn-support__tile"><senso-icon name="local_shipping" size="30" /><b>Track an order</b><small>Status, delivery and messages</small></router-link>
+        <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-support__tile"><senso-icon name="mail" size="30" /><b>Contact us</b><small>Write to the shop</small></router-link>
+        <router-link :to="{ name: window.$storefront.routes.SHOP_PROFILE_PAGE_TERMS }" class="sn-support__tile"><senso-icon name="assignment_return" size="30" /><b>Delivery &amp; returns</b><small>The shop’s terms</small></router-link>
+        <router-link v-if="USER()" :to="{ name: 'KalioAccountHome' }" class="sn-support__tile"><senso-icon name="person" size="30" /><b>Your account</b><small>Orders, addresses, saved</small></router-link>
+        <button v-else class="sn-support__tile" type="button" @click="signIn"><senso-icon name="person" size="30" /><b>Your account</b><small>Sign in to see your orders</small></button>
       </nav>
 
-      <div class="k-faq__head">
+      <div class="sn-support__qhead">
         <div>
-          <h1 class="k-official__title">Questions and answers</h1>
-          <p class="k-faq__lede">Answers to what shoppers ask most. Can’t find yours? Ask the shop.</p>
+          <p class="sn-eyebrow">FAQ</p>
+          <h2>Questions and answers</h2>
         </div>
-        <button v-if="USER()" class="k-btn k-btn--solid" type="button" @click="dialog_faq = true">
-          <v-icon size="18">add</v-icon>Ask a question
-        </button>
-        <button v-else class="k-btn k-btn--line" type="button" @click="signIn">
-          <v-icon size="18">person_outline</v-icon>Sign in to ask
-        </button>
+        <button v-if="USER()" class="sn-btn" type="button" @click="dialog_faq = true">Ask a question</button>
+        <button v-else class="sn-btn -line" type="button" @click="signIn">Sign in to ask</button>
       </div>
-
-      <nav v-if="tags?.length" aria-label="Topics" class="k-faq__tags">
-        <router-link :class="{ '-on': !current_tag }" :to="{ name: 'ShopFAQ' }" exact>All</router-link>
-        <router-link v-for="tag in tags" :key="tag" :class="{ '-on': current_tag === tag }" :to="{ name: 'ShopFAQ', params: { tag: tag } }">{{ tag }}</router-link>
+      <nav v-if="tags?.length" aria-label="Topics" class="k-faq__tags sn-support__tags">
+        <router-link :class="{ '-on': !current_tag }" :to="{ name: 'ShopFAQ' }" class="sn-pillchip" exact>All topics</router-link>
+        <router-link v-for="tag in tags" :key="tag" :class="{ '-on': current_tag === tag }" :to="{ name: 'ShopFAQ', params: { tag: tag } }" class="sn-pillchip">{{ tag }}</router-link>
       </nav>
 
       <u-loading-progress v-if="busy_fetch"></u-loading-progress>
 
-      <div v-if="faqs?.length" class="k-faq__list">
-        <div v-for="faq in faqs" :key="faq.id" class="k-faq__item">
-          <p class="k-faq__q" v-html="faq.question"></p>
-          <div class="k-faq__a" v-html="faq.answer"></div>
-          <a v-if="faq.link" :href="faq.link" class="k-faq__more" target="_blank">{{ $t("global.faq.read_more") }}<v-icon size="16">open_in_new</v-icon></a>
+      <div v-if="faqs?.length" class="sn-acclist">
+        <div v-for="faq in faqs" :key="faq.id" :class="{ '-open': open === faq.id }" class="sn-acc -faq">
+          <button :aria-expanded="open === faq.id" class="sn-acc__head" type="button" @click="open = open === faq.id ? null : faq.id">
+            <span v-html="faq.question"></span><senso-icon :name="open === faq.id ? 'remove' : 'add'" size="20" />
+          </button>
+          <div v-if="open === faq.id" class="sn-acc__body">
+            <div class="k-prose" v-html="faq.answer"></div>
+            <a v-if="faq.link" :href="faq.link" class="sn-more" rel="noopener" target="_blank">{{ $t("global.faq.read_more") }}<senso-icon name="arrow_forward" size="16" /></a>
+          </div>
         </div>
       </div>
-      <div v-else-if="!busy_fetch" class="k-official__missing">
-        <v-icon size="30">forum</v-icon>
-        <h2>No questions here yet</h2>
-        <p>{{ shop?.title || "The shop" }} has not answered any questions here so far. Ask yours, or write to the shop directly.</p>
+      <div v-else-if="!busy_fetch" class="k-official__missing sn-empty">
+        <span class="sn-empty__mark"><senso-icon name="help" size="28" /></span>
+        <h2>{{ search ? "No question matches that" : "No questions here yet" }}</h2>
+        <p>{{ search ? "Try another word, or write to the shop." : `${shop?.title || "The shop"} has not answered any questions here so far. Ask yours, or write to the shop directly.` }}</p>
         <div class="k-official__missingacts">
-          <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="k-btn k-btn--solid">Contact the shop</router-link>
+          <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-btn">Contact the shop</router-link>
         </div>
       </div>
 
@@ -124,10 +142,12 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 import { throttle } from "lodash-es";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import ULoadingProgress from "@selldone/components-vue/ui/loading/progress/ULoadingProgress.vue";
+import SensoIcon from "@app-storefront/components/senso/SensoIcon.vue";
+import SnSlot from "@app-storefront/components/senso/SensoSlot.vue";
 
 export default {
   name: "StorefrontPageFaq",
-  components: {ULoadingProgress},
+  components: { ULoadingProgress, SensoIcon, SnSlot },
   props: {
     shop: {
       require: true,
@@ -150,6 +170,9 @@ export default {
       total: true,
 
       search: null,
+      /** The open question (an accordion). */
+      open: null,
+      window,
       //----------------------
       page: 1,
     };

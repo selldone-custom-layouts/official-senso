@@ -12,10 +12,10 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <!--
-  Senso — Contact us (design A of the page mockups, digini-design/contact-a.html).
-
-  A form card (name, email, phone, the order number when it is about one,
-  the message, a blue Send) beside the ways to reach the shop: messages on
+  Senso — Contact us, in the support centre's dress: the calm Support band
+  (the support-hero slot), then a form card (name, email, phone, the order
+  number when it is about one, the message, a teal Send pill) beside the
+  ways to reach the shop: messages on
   any order, the shop's own contact text when it has written one, and
   "Track your order". The form is Selldone's own contact form
   (POST_CONTACT_US_FORM); the shop's contact profile is read quietly — a
@@ -23,18 +23,29 @@
   only the general ways to reach it.
 -->
 <template>
-  <div class="sn-contact sn-page">
-    <header class="sn-sec sn-contact__head">
-      <h1>Contact us</h1>
-      <p>Questions about a product, an order or a return? Write to us and we’ll answer by email.</p>
-    </header>
+  <div class="sn-contact sn-support">
+    <section class="sn-support__band -short">
+      <sn-slot class="sn-support__photo" fill name="support-hero" />
+      <div class="sn-support__in">
+        <nav aria-label="Breadcrumb" class="sn-crumbs">
+          <router-link :to="{ path: '/' }">Home</router-link>
+          <span aria-hidden="true">/</span>
+          <router-link :to="{ name: 'ShopFAQ' }">Support</router-link>
+          <span aria-hidden="true">/</span>
+          <span aria-current="page">Contact us</span>
+        </nav>
+        <p class="sn-eyebrow -light">Support</p>
+        <h1 class="sn-support__h">Contact us</h1>
+        <p class="sn-support__p">Questions about a product, an order or a return? Write to us and we’ll answer by email.</p>
+      </div>
+    </section>
 
-    <div class="sn-contact__grid">
+    <div class="sn-contact__grid sn-page">
       <section aria-labelledby="sn-contact-form" class="sn-sec sn-contact__form">
         <div v-if="submitted" class="sn-contact__done">
           <span class="sn-contact__ok"><senso-icon name="check_circle" size="34" /></span>
           <h2>Thanks — your message is on its way</h2>
-          <p>We usually answer within one working day. Check your inbox (and the spam folder) for our reply.</p>
+          <p>We’ll answer by email. Check your inbox (and the spam folder) for our reply.</p>
           <button class="sn-btn -line" type="button" @click="submitted = false">Send another message</button>
         </div>
         <form v-else @submit.prevent="sendForm">
@@ -63,7 +74,6 @@
           <ul class="sn-contact__ways">
             <li><span><senso-icon name="receipt_long" size="22" /></span><div><b>About an order</b><small>Open the order and use its message thread: it reaches the people who packed it.</small><router-link :to="ordersRoute" class="sn-more">Track your order<senso-icon name="chevron_right" size="18" /></router-link></div></li>
             <li><span><senso-icon name="help" size="22" /></span><div><b>Quick answers</b><small>Delivery, returns and payments in a few lines.</small><router-link :to="{ name: 'ShopFAQ' }" class="sn-more">Read the FAQ<senso-icon name="chevron_right" size="18" /></router-link></div></li>
-            <li><span><senso-icon name="schedule" size="22" /></span><div><b>When we answer</b><small>Every day, usually within one working day.</small></div></li>
           </ul>
         </section>
         <section v-if="profile && profileText" class="sn-sec">
@@ -77,11 +87,12 @@
 
 <script lang="ts">
 import SensoIcon from "@app-storefront/components/senso/SensoIcon.vue";
+import SnSlot from "@app-storefront/components/senso/SensoSlot.vue";
 import { plainText } from "@app-storefront/components/kalio/pages/kalio-sample-pages";
 
 export default {
   name: "StorefrontPageOfficialContactUs",
-  components: { SensoIcon },
+  components: { SensoIcon, SnSlot },
   inject: ["$shop"],
   data: () => ({
     profile: null,

@@ -1,14 +1,20 @@
 <!--
-  Senso — the header (Home A "Deals hub", 8 November 2026): a blue bar, the
-  wordmark on the left, a big round white search, Account, Theme (the
-  palettes and Light / Dark in a small panel), and the Cart with
-  its count (a yellow badge) and total. A second row of pills: "Shop ▾"
-  opens the category mega menu on a click and closes it on the second
-  (SensoMegaMenu, no dark scrim), Deals, New arrivals, Brands; then a few
-  live categories (the ones with the most deals), and Track order, Blog and
-  Help on the right. On a phone: the wordmark, account and cart; the search
-  across the width; the pills in a sideways row (the menu button opens the
-  categories drawer). Never a bottom tab bar.
+  Senso — the header: a brand site's bar. The wordmark on the left; the
+  product families in the middle (TV & Display, Audio, Computing… built
+  from the live categories, senso-families.ts), each opening a clean mega
+  panel on a click (a second click, Esc, a click outside or a page change
+  closes it; no scrim); on the right Support, the search icon (a full-width
+  search panel with Selldone's suggestions and the categories), Account,
+  Theme (the palettes, a custom colour and Light / Dark in a small panel;
+  the owner's rule: after Account, just before the cart) and the cart.
+
+  On the home page it sits over the dark hero, clear with white words, and
+  turns solid white with ink words and a hairline once the page scrolls (or
+  a panel opens); on every other page it is solid. It stays at the top.
+
+  On a phone: the wordmark, then search, account, theme, cart and the menu
+  button, which opens a full-screen panel with the families as accordions.
+  Never a bottom tab bar.
 
   Every working part is the platform's: the search box and its events (the
   layout's onSearch/onClear), sign-in through the app's need-login event,
@@ -17,139 +23,123 @@
   (the layout decides), and a native app shell shows none.
 -->
 <template>
-  <header v-if="!$store.getters.getIsNative" class="k-header sn-header">
-    <div class="sn-header__top">
-      <router-link :aria-label="`${shopTitle} home`" :to="homeRoute" class="sn-header__brand"><senso-wordmark /></router-link>
+  <header
+    v-if="!$store.getters.getIsNative"
+    ref="root"
+    :class="{ '-home': onHome, '-over': over, '-solid': !over }"
+    class="k-header sn-header"
+  >
+    <div class="sn-header__bar">
+      <router-link :aria-label="`${shopTitle} home`" :to="homeRoute" class="sn-header__brand"><senso-wordmark :light="over" /></router-link>
 
-      <div v-if="showSearch && !compact" class="sn-header__search">
-        <s-storefront-search-box
-          v-model:expand-input="globalStyle.search_mode"
-          :dark="false"
-          :negative-qr-margin="false"
-          :placeholder="`Search ${shopTitle}`"
-          :title="`Search ${shopTitle}`"
-          color="#0f1729"
-          flat
-          no-qr
-          persistent-placeholder
-          rounded
-          variant="solo"
-          @onClear="$emit('clear')"
-          @onSearch="(event) => $emit('search', event)"
-        />
-      </div>
-      <span v-else class="sn-header__sp"></span>
+      <nav v-if="!compact && families.length" aria-label="Products" class="sn-header__nav">
+        <button
+          v-for="f in families"
+          :key="f.key + f.title"
+          :aria-expanded="openFamily === f"
+          :class="{ '-on': openFamily === f }"
+          class="sn-header__fam"
+          type="button"
+          @click.stop="toggleFamily(f)"
+        >
+          {{ f.title }}
+        </button>
+      </nav>
+      <span class="sn-header__grow"></span>
 
       <nav aria-label="Your account" class="sn-header__acts">
-        <s-language-selector v-if="!compact && hasLanguages" class="sn-header__pick" icon-color="#ffffff" icon-only></s-language-selector>
+        <router-link v-if="!compact" :to="helpRoute" class="sn-header__txt">Support</router-link>
+        <button :aria-expanded="searchOpen" aria-label="Search" class="sn-header__ic -search" type="button" @click.stop="toggleSearch">
+          <senso-icon :name="searchOpen ? 'close' : 'search'" size="22" />
+        </button>
+        <s-language-selector v-if="!compact && hasLanguages" :icon-color="over ? '#ffffff' : '#0d1b1e'" class="sn-header__pick" icon-only></s-language-selector>
         <u-currency-selector
           v-if="!compact && $shop.currencies && $shop.currencies.length > 1"
+          :icon-color="over ? '#ffffff' : '#0d1b1e'"
           :shop="$shop"
           class="sn-header__pick"
           dense
           hide-details
           icon
-          icon-color="#ffffff"
           icon-only
           single-line
           small
           @change="onChangeUserSelectedCurrency"
         />
 
-        <router-link v-if="user" :to="profileRoute" aria-label="Your account" class="sn-header__act">
-          <img v-if="user.id && !avatar_failed" :src="getUserAvatar(user.id)" alt="" class="sn-header__avatar" height="28" width="28" @error="avatar_failed = true" />
-          <senso-icon v-else name="person" size="26" />
-          <span><small>Account</small><b>{{ firstName }}</b></span>
+        <router-link v-if="user" :aria-label="`Your account, ${firstName}`" :to="profileRoute" class="sn-header__ic -account">
+          <img v-if="user.id && !avatar_failed" :src="getUserAvatar(user.id)" alt="" class="sn-header__avatar" height="26" width="26" @error="avatar_failed = true" />
+          <senso-icon v-else name="person" size="22" />
         </router-link>
-        <button v-else :disabled="busyUser" class="sn-header__act" type="button" @click="signIn">
-          <senso-icon name="person" size="26" />
-          <span><small>Account</small><b>{{ busyUser ? "…" : "Sign in" }}</b></span>
+        <button v-else :disabled="busyUser" aria-label="Sign in" class="sn-header__ic -account" type="button" @click="signIn">
+          <senso-icon name="person" size="22" />
         </button>
 
-        <!-- Theme: the palettes and Light / Dark in a small panel (the owner,
-             9 November 2026: at the top of the header, before the cart). -->
+        <!-- Theme: the palettes, a custom colour and Light / Dark in a small
+             panel (the owner, 9 November 2026: at the top right of the
+             header, after Account and before the cart). -->
         <theme-switcher-button button-class="sn-header__act -theme">
-          <template #default="{ modeLabel }">
-            <senso-icon name="palette" size="26" />
-            <span><small>Theme</small><b>{{ modeLabel }}</b></span>
+          <template #default>
+            <senso-icon name="palette" size="20" />
+            <span class="sn-header__actword">Theme</span>
           </template>
         </theme-switcher-button>
 
-        <!-- The badge counts units, as the drawer's "3 items" does (it counted
-             lines: 2 for one camera and two of another). -->
-        <button :aria-label="`Cart, ${basketUnits} ${basketUnits === 1 ? 'item' : 'items'}`" class="sn-header__act -cart" type="button" @click="basket = true">
-          <senso-icon name="shopping_cart" size="26" />
+        <!-- The badge counts units, as the drawer's "3 items" does. -->
+        <button :aria-label="`Cart, ${basketUnits} ${basketUnits === 1 ? 'item' : 'items'}`" class="sn-header__ic -cart" type="button" @click="basket = true">
+          <senso-icon name="shopping_cart" size="22" />
           <i v-if="basketUnits" class="sn-header__count">{{ basketUnits }}</i>
-          <span><small>Cart</small><b><u-price v-if="cartTotal" :amount="cartTotal.amount" :currency="cartTotal.currency" /><template v-else>Empty</template></b></span>
+        </button>
+
+        <button v-if="compact" :aria-expanded="menu" aria-label="Menu" class="sn-header__ic -menu" type="button" @click="menu = true">
+          <senso-icon name="menu" size="22" />
         </button>
       </nav>
-
-      <!-- Phone: the search across the width. Selldone's search box
-           autofocuses on a phone (the keyboard would open on every page),
-           so it is mounted only once the pill is tapped, already open. -->
-      <div v-if="showSearch && compact" class="sn-header__search -below">
-        <s-storefront-search-box
-          v-if="phone_search"
-          :dark="false"
-          :expand-input="true"
-          :negative-qr-margin="false"
-          :placeholder="`Search ${shopTitle}`"
-          :title="`Search ${shopTitle}`"
-          color="#0f1729"
-          flat
-          no-qr
-          persistent-placeholder
-          rounded
-          variant="solo"
-          @onClear="$emit('clear')"
-          @onSearch="(event) => { phone_search = false; $emit('search', event); }"
-        />
-        <button v-else class="sn-header__pill-search" type="button" @click="phone_search = true">
-          <span>Search {{ shopTitle }}</span><senso-icon name="search" size="22" />
-        </button>
-      </div>
     </div>
 
-    <nav aria-label="Shop" class="sn-header__nav">
-      <v-menu
-        v-if="!compact"
-        v-model="mega"
-        :close-on-content-click="false"
-        :scrim="false"
-        content-class="sn-mega-pop"
-        location="bottom start"
-        offset="8"
-      >
-        <template v-slot:activator="{ props }">
-          <button :aria-expanded="mega" :class="{ '-on': mega }" class="sn-pill -shop" type="button" v-bind="props">
-            <senso-icon name="menu" size="18" />Shop<senso-icon :name="mega ? 'expand_less' : 'expand_more'" size="18" />
-          </button>
-        </template>
-        <senso-mega-menu @close="mega = false" />
-      </v-menu>
-      <button v-else class="sn-pill -shop" type="button" @click="menu = true">
-        <senso-icon name="menu" size="18" />Shop<senso-icon name="expand_more" size="18" />
-      </button>
-      <router-link :to="dealsRoute" class="sn-pill">Deals</router-link>
-      <router-link :to="newRoute" class="sn-pill">New arrivals</router-link>
-      <v-menu v-if="brandList.length" :scrim="false" content-class="sn-brands-pop" location="bottom start" offset="8">
-        <template v-slot:activator="{ props }">
-          <button class="sn-pill" type="button" v-bind="props">Brands</button>
-        </template>
-        <div class="sn-brandmenu">
-          <router-link v-for="b in brandList" :key="b" :to="brandRoute(b)">{{ b }}</router-link>
-        </div>
-      </v-menu>
-      <span class="sn-header__sep"></span>
-      <router-link v-for="c in navCats" :key="c.id" :to="aisleRoute(c)" class="sn-header__txt -cat">{{ c.title || c.name }}</router-link>
-      <span class="sn-header__grow"></span>
-      <router-link :to="ordersRoute" class="sn-header__txt -end"><senso-icon name="local_shipping" size="18" />Track order</router-link>
-      <router-link :to="blogRoute" class="sn-header__txt -end">Blog</router-link>
-      <router-link :to="helpRoute" class="sn-header__txt -end">Help</router-link>
-    </nav>
+    <!-- ▆▆▆▆▆▆▆▆ A family's mega panel ▆▆▆▆▆▆▆▆ -->
+    <transition name="sn-drop">
+      <div v-if="openFamily && !compact" class="sn-header__panel" @click.stop>
+        <senso-mega-menu :family="openFamily" @close="openFamily = null" />
+      </div>
+    </transition>
 
-    <!-- ▆▆▆▆▆▆▆▆ Basket drawer ▆▆▆▆▆▆▆▆ -->
+    <!-- ▆▆▆▆▆▆▆▆ The search panel ▆▆▆▆▆▆▆▆ -->
+    <transition name="sn-drop">
+      <div v-if="searchOpen" class="sn-header__panel sn-searchpanel" @click.stop @keydown.esc="searchOpen = false">
+        <div class="sn-searchpanel__in">
+          <p class="sn-eyebrow">Search</p>
+          <div class="sn-searchpanel__box">
+            <s-storefront-search-box
+              :dark="false"
+              :expand-input="true"
+              :negative-qr-margin="false"
+              :placeholder="`Search ${shopTitle}`"
+              :title="`Search ${shopTitle}`"
+              color="#0d1b1e"
+              flat
+              no-qr
+              persistent-placeholder
+              rounded
+              variant="solo"
+              @onClear="$emit('clear')"
+              @onSearch="onSearch"
+            />
+          </div>
+          <div v-if="aisleList.length" class="sn-searchpanel__quick">
+            <p class="sn-searchpanel__label">Popular categories</p>
+            <nav aria-label="Popular categories" class="sn-searchpanel__chips">
+              <router-link v-for="a in aisleList.slice(0, 10)" :key="a.id" :to="aisleRoute(a)" class="sn-pillchip" @click="searchOpen = false">
+                <senso-category-icon :category="a" size="22" />{{ a.title || a.name }}
+              </router-link>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </transition>
+
     <teleport to="body">
+      <!-- ▆▆▆▆▆▆▆▆ Cart drawer ▆▆▆▆▆▆▆▆ -->
       <v-navigation-drawer
         v-model="basket"
         :location="$vuetify.locale.isRtl ? 'left' : 'right'"
@@ -162,31 +152,23 @@
             Your cart<small v-if="basketUnits">{{ basketUnits }} {{ basketUnits === 1 ? "item" : "items" }}</small>
           </p>
           <button aria-label="Close" class="k-header__icon" type="button" @click="basket = false">
-            <v-icon>close</v-icon>
+            <senso-icon name="close" size="22" />
           </button>
         </div>
-        <!-- Empty: Selldone's line "Your cart is empty." left the shopper
-             nowhere to go; Kalio's offers the way back to the shelves. -->
+        <!-- Empty: a calm card that leads back to the range. -->
         <div v-if="!itemsCount" class="k-drawer__empty">
-          <span aria-hidden="true" class="k-drawer__empty-mark"><v-icon size="30">shopping_bag</v-icon></span>
+          <span aria-hidden="true" class="k-drawer__empty-mark"><senso-icon name="shopping_cart" size="28" /></span>
           <p class="k-drawer__empty-title">Your cart is empty</p>
           <p class="k-drawer__empty-text">Pick something you like and it will wait for you here.</p>
           <div class="k-drawer__empty-ctas">
-            <router-link :to="dealsRoute" class="sn-btn" @click="basket = false">Shop today’s deals</router-link>
-            <router-link :to="catalogueRoute" class="sn-btn -line" @click="basket = false">Continue shopping</router-link>
+            <router-link :to="catalogueRoute" class="sn-btn" @click="basket = false">Explore the range</router-link>
+            <router-link :to="dealsRoute" class="sn-btn -line" @click="basket = false">See offers</router-link>
           </div>
           <template v-if="aisleList.length">
             <p class="k-eyebrow k-drawer__empty-label">Or start with a category</p>
             <nav aria-label="Categories" class="k-drawer__empty-aisles">
-              <router-link
-                v-for="aisle in aisleList.slice(0, 8)"
-                :key="aisle.id"
-                :to="aisleRoute(aisle)"
-                class="sn-chip"
-                @click="basket = false"
-              >
-                <img v-if="aisle.icon" :src="aisleImage(aisle, 64)" alt="" height="32" width="32" loading="lazy" />
-                {{ aisle.title || aisle.name }}
+              <router-link v-for="aisle in aisleList.slice(0, 8)" :key="aisle.id" :to="aisleRoute(aisle)" class="sn-pillchip" @click="basket = false">
+                <senso-category-icon :category="aisle" size="22" />{{ aisle.title || aisle.name }}
               </router-link>
             </nav>
           </template>
@@ -194,57 +176,53 @@
         <kalio-basket-drawer v-else @close="basket = false" />
       </v-navigation-drawer>
 
-      <!-- ▆▆▆▆▆▆▆▆ Phone menu ▆▆▆▆▆▆▆▆ -->
+      <!-- ▆▆▆▆▆▆▆▆ Phone menu: a full-screen panel, the families as accordions ▆▆▆▆▆▆▆▆ -->
       <v-navigation-drawer
         v-model="menu"
         :location="$vuetify.locale.isRtl ? 'right' : 'left'"
-        :width="Math.min(360, windowWidth * 0.88)"
-        class="k-drawer -menu"
+        :width="windowWidth"
+        class="k-drawer -menu sn-phonemenu"
         temporary
       >
         <div class="k-drawer__head">
-          <router-link :aria-label="shopTitle + ' home'" :to="homeRoute" class="sn-menu__brand" @click="menu = false"><senso-wordmark /></router-link>
+          <router-link :aria-label="shopTitle + ' home'" :to="homeRoute" class="sn-phonemenu__brand" @click="menu = false"><senso-wordmark /></router-link>
           <button aria-label="Close" class="k-header__icon" type="button" @click="menu = false">
-            <v-icon>close</v-icon>
+            <senso-icon name="close" size="24" />
           </button>
         </div>
 
-        <div class="k-drawer__account">
+        <nav aria-label="Products" class="sn-phonemenu__fams">
+          <div v-for="f in families" :key="f.key + f.title" :class="{ '-open': openAcc === f }" class="sn-acc">
+            <button :aria-expanded="openAcc === f" class="sn-acc__head" type="button" @click="openAcc = openAcc === f ? null : f">
+              <span>{{ f.title }}</span><senso-icon :name="openAcc === f ? 'remove' : 'add'" size="20" />
+            </button>
+            <div v-if="openAcc === f" class="sn-acc__body">
+              <router-link v-for="c in f.categories" :key="c.id" :to="aisleRoute(c)" class="sn-acc__link" @click="menu = false">
+                <senso-category-icon :category="c" size="28" />
+                <span><b>{{ c.title || c.name }}</b><small v-if="catLine(c)">{{ catLine(c) }}</small></span>
+              </router-link>
+            </div>
+          </div>
+          <router-link :to="dealsRoute" class="sn-acc__head -link" @click="menu = false"><span>Offers</span><senso-icon name="arrow_forward" size="20" /></router-link>
+          <router-link :to="newRoute" class="sn-acc__head -link" @click="menu = false"><span>New arrivals</span><senso-icon name="arrow_forward" size="20" /></router-link>
+        </nav>
+
+        <div class="sn-phonemenu__more">
+          <p class="sn-eyebrow">Support</p>
+          <router-link :to="helpRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="help" size="20" />Help &amp; FAQ</router-link>
+          <router-link :to="contactRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="mail" size="20" />Contact us</router-link>
+          <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="local_shipping" size="20" />Track an order</router-link>
+          <router-link :to="blogRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="receipt_long" size="20" />Journal</router-link>
           <template v-if="user">
-            <router-link :to="profileRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">person_outline</v-icon>My account</router-link>
-            <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">receipt_long</v-icon>Orders</router-link>
-            <router-link :to="savedRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">favorite_border</v-icon>Saved</router-link>
+            <router-link :to="profileRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="person" size="20" />My account</router-link>
+            <router-link :to="savedRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="favorite" size="20" />Saved</router-link>
           </template>
           <button v-else class="sn-btn -block" type="button" @click="menu = false; signIn()">Sign in</button>
-          <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">local_shipping</v-icon>Track order</router-link>
-          <router-link :to="blogRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">article</v-icon>Blog</router-link>
-          <router-link :to="helpRoute" class="k-drawer__link" @click="menu = false"><v-icon size="20">help_outline</v-icon>Help</router-link>
         </div>
-
-        <p class="k-eyebrow k-drawer__label">Shop by category</p>
-        <router-link :to="dealsRoute" class="k-drawer__link -deals" @click="menu = false"><span class="k-drawer__ring -icon"><senso-icon name="local_offer" size="22" /></span><span class="sn-menu__txt"><b>Today’s deals</b><small>Every saving in one place</small></span></router-link>
-        <router-link :to="newRoute" class="k-drawer__link" @click="menu = false"><span class="k-drawer__ring -icon"><senso-icon name="new_releases" size="22" /></span><span class="sn-menu__txt"><b>New arrivals</b><small>Just landed</small></span></router-link>
-        <router-link
-          v-for="aisle in aisleList"
-          :key="aisle.id"
-          :to="aisleRoute(aisle)"
-          class="k-drawer__link"
-          @click="menu = false"
-        >
-          <span class="k-drawer__ring">
-            <img v-if="aisle.icon" :src="aisleImage(aisle, 64)" alt="" height="30" width="30" loading="lazy" />
-          </span>
-          <span class="sn-menu__txt"><b>{{ aisle.title || aisle.name }}</b><small v-if="catLine(aisle)">{{ catLine(aisle) }}</small></span>
-        </router-link>
 
         <div class="k-drawer__pickers">
           <s-language-selector hide-details variant="outlined"></s-language-selector>
-          <u-currency-selector
-            v-if="$shop.currencies && $shop.currencies.length > 1"
-            :shop="$shop"
-            hide-details
-            @change="onChangeUserSelectedCurrency"
-          />
+          <u-currency-selector v-if="$shop.currencies && $shop.currencies.length > 1" :shop="$shop" hide-details @change="onChangeUserSelectedCurrency" />
         </div>
       </v-navigation-drawer>
     </teleport>
@@ -259,16 +237,18 @@ import UCurrencySelector from "@selldone/components-vue/ui/currency/selector/UCu
 import KalioBasketDrawer from "./KalioBasketDrawer.vue";
 import SensoWordmark from "../../senso/SensoWordmark.vue";
 import SensoIcon from "../../senso/SensoIcon.vue";
+import SensoCategoryIcon from "../../senso/SensoCategoryIcon.vue";
 import ThemeSwitcherButton from "../../theme-switcher/ThemeSwitcherButton.vue";
 import SensoMegaMenu from "../../senso/SensoMegaMenu.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
-import { aisleImage, aisleRoute, aisles, catalogueRoute, dealsRoute } from "../kalio-catalog";
-import { allProducts, categoryLine, money, savingOf } from "../../senso/senso-home";
+import { aisleRoute, aisles, catalogueRoute, dealsRoute } from "../kalio-catalog";
+import { allProducts, categoryLine, money } from "../../senso/senso-home";
+import { familiesOf } from "../../senso/senso-families";
 import { basketView } from "../kalio-basket";
 
 export default {
   name: "KalioHeader",
-  components: { SStorefrontSearchBox, SLanguageSelector, UCurrencySelector, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoMegaMenu, ThemeSwitcherButton },
+  components: { SStorefrontSearchBox, SLanguageSelector, UCurrencySelector, KalioBasketDrawer, SensoWordmark, SensoIcon, SensoCategoryIcon, SensoMegaMenu, ThemeSwitcherButton },
   inject: ["$shop"],
 
   props: {
@@ -283,11 +263,13 @@ export default {
       BRAND,
       aisleList: [],
       all: [],
-      mega: false,
+      openFamily: null,
+      openAcc: null,
+      searchOpen: false,
       basket: false,
       menu: false,
-      phone_search: false,
       windowWidth: window.innerWidth,
+      scrolled: window.scrollY > 24,
       avatar_failed: false,
     };
   },
@@ -301,7 +283,7 @@ export default {
     },
     firstName() {
       const name = String(this.user?.name || "").trim().split(/\s+/)[0];
-      return name ? "Hi, " + name : "Your account";
+      return name || "you";
     },
     busyUser() {
       return this.$store.getters.getBusyUser;
@@ -312,30 +294,27 @@ export default {
     hasLanguages() {
       return (this.$shop?.languages || []).length > 1;
     },
-    globalStyle() {
-      return this.$store.getters.getGlobalStyle;
+    families() {
+      return familiesOf(this.aisleList);
+    },
+    /** The bare shop page: the home, whose hero the header sits over. */
+    onHome() {
+      return (
+        String(this.$route.name || "").startsWith(window.$storefront.routes.SHOP_PAGE) &&
+        !this.$route.params?.vendor_id &&
+        !this.$route.params?.category_name &&
+        !Object.keys(this.$route.query || {}).length
+      );
+    },
+    /** Clear over the hero: on the home, at the top, with no panel open. */
+    over() {
+      return this.onHome && !this.scrolled && !this.openFamily && !this.searchOpen;
     },
     itemsCount() {
       return this.getTotalItemInBaskets() || 0;
     },
     basketUnits() {
       return this.getBaskets().reduce((sum, basket) => sum + (basket?.items || []).reduce((n, item) => n + (item.count || 0), 0), 0);
-    },
-    /** The physical cart's total, for "Cart $208.90". */
-    cartTotal() {
-      const basket = this.getBaskets().find((b) => b?.items?.length);
-      if (!basket) return null;
-      const bill = basket.bill || {};
-      const amount = typeof bill.price === "number" ? bill.price : basket.price;
-      return typeof amount === "number" ? { amount, currency: bill.currency || basket.currency } : null;
-    },
-    /** A few live categories beside the pills: the ones with the most deals. */
-    navCats() {
-      const deals = (c) => this.all.filter((p) => p.category_id === c.id && savingOf(p) > 0).length;
-      return [...this.aisleList].sort((a, b) => deals(b) - deals(a)).slice(0, 4);
-    },
-    brandList() {
-      return [...new Set(this.all.map((p) => p.brand).filter(Boolean))].sort((a, b) => a.localeCompare(b));
     },
     homeRoute() {
       return { path: "/" };
@@ -361,6 +340,9 @@ export default {
     helpRoute() {
       return { name: "ShopFAQ" };
     },
+    contactRoute() {
+      return { name: window.$storefront.routes.SHOP_CONTACT_US };
+    },
     profileRoute() {
       return { name: "KalioAccountHome" };
     },
@@ -376,11 +358,15 @@ export default {
     basket(open) {
       basketView.drawerOpen = open;
     },
+    compact() {
+      this.openFamily = null;
+    },
     $route() {
       this.menu = false;
       this.basket = false;
-      this.mega = false;
-      this.phone_search = false;
+      this.openFamily = null;
+      this.searchOpen = false;
+      this.$nextTick(() => this.onScroll && this.onScroll());
     },
   },
 
@@ -388,21 +374,46 @@ export default {
     aisles().then((list) => (this.aisleList = list));
     allProducts().then((list) => (this.all = list));
     this.onResize = () => (this.windowWidth = window.innerWidth);
+    this.onScroll = () => (this.scrolled = window.scrollY > 24);
+    this.onDoc = (e) => {
+      if (!this.$refs.root || this.$refs.root.contains(e.target)) return;
+      this.openFamily = null;
+      this.searchOpen = false;
+    };
+    this.onKey = (e) => {
+      if (e.key !== "Escape") return;
+      this.openFamily = null;
+      this.searchOpen = false;
+    };
     window.addEventListener("resize", this.onResize, { passive: true });
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+    document.addEventListener("click", this.onDoc);
+    document.addEventListener("keydown", this.onKey);
   },
 
   beforeUnmount() {
     window.removeEventListener("resize", this.onResize);
+    window.removeEventListener("scroll", this.onScroll);
+    document.removeEventListener("click", this.onDoc);
+    document.removeEventListener("keydown", this.onKey);
   },
 
   methods: {
     aisleRoute,
-    aisleImage,
     catLine(aisle) {
       return categoryLine(aisle, this.all, (n) => money(n, this.$shop?.currency || "USD", true));
     },
-    brandRoute(b) {
-      return catalogueRoute({ search: b });
+    toggleFamily(f) {
+      this.searchOpen = false;
+      this.openFamily = this.openFamily === f ? null : f;
+    },
+    toggleSearch() {
+      this.openFamily = null;
+      this.searchOpen = !this.searchOpen;
+    },
+    onSearch(event) {
+      this.searchOpen = false;
+      this.$emit("search", event);
     },
     signIn() {
       EventBus.$emit("need-login", true);

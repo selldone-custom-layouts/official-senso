@@ -1,20 +1,31 @@
 <!--
-  Senso — a section of product cards on one line: "Top deals", "Trending
-  now", "New arrivals", "<Tag> Items", "More in Headphones".
+  Senso — a section of product cards on one line: the home's offers and
+  new arrivals, a collection's tab, "You may also like".
 
-  Six cards to a screen on a computer, five on a laptop, two and a bit on a
-  phone; the line scrolls sideways with arrows and never breaks into a
-  second row. Either the caller passes the products (`items`), or the rail
+  A teal eyebrow over the title, and round prev / next buttons at the top
+  right (both always shown; the one at an end is disabled). Four cards to a
+  screen on a computer, three on a tablet, one and a bit on a phone; the
+  line scrolls sideways and never breaks into a second row. Either the caller passes the products (`items`), or the rail
   reads them itself (category, sort, filter, tags). A rail with nothing to
   show renders nothing; `lazy` rails wait until they are near the screen.
 -->
 <template>
-  <section v-if="busy || shown.length" ref="root" :aria-labelledby="headingId" class="sn-sec sn-railsec">
+  <section v-if="busy || shown.length" ref="root" :aria-labelledby="headingId" :class="{ '-ground': ground }" class="sn-sec sn-railsec">
     <header class="sn-head">
-      <h2 :id="headingId">{{ title }}</h2>
-      <router-link v-if="moreTo" :to="moreTo" class="sn-more">{{ moreLabel }}<senso-icon name="chevron_right" size="20" /></router-link>
+      <div>
+        <p v-if="eyebrow" class="sn-eyebrow">{{ eyebrow }}</p>
+        <h2 :id="headingId">{{ title }}</h2>
+      </div>
+      <div class="sn-head__end">
+        <router-link v-if="moreTo" :to="moreTo" class="sn-more">{{ moreLabel }}<senso-icon name="arrow_forward" size="18" /></router-link>
+        <button :disabled="at_start" aria-label="Scroll back" class="sn-arrowbtn" type="button" @click="scrollBy(-1)">
+          <senso-icon name="chevron_left" size="22" />
+        </button>
+        <button :disabled="at_end" aria-label="Scroll forward" class="sn-arrowbtn" type="button" @click="scrollBy(1)">
+          <senso-icon name="chevron_right" size="22" />
+        </button>
+      </div>
     </header>
-
     <div class="sn-rail">
       <div ref="track" class="sn-rail__track" @scroll.passive="measure">
         <template v-if="busy">
@@ -22,18 +33,8 @@
         </template>
         <template v-else>
           <senso-card v-for="product in shown" :key="product.id" :product="product" />
-          <router-link v-if="tile" :style="{ gridColumn: 'span ' + tile.span }" :to="tile.to" class="sn-rail__tile">
-            <senso-photo :products="shown" :src="tile.photo" :shape="tile.span > 2 ? 'wide' : 'square'" />
-            <span><small v-if="tile.line">{{ tile.line }}</small><b>All {{ tile.title }}</b><em>Shop now<senso-icon name="arrow_forward" size="17" /></em></span>
-          </router-link>
         </template>
       </div>
-      <button v-show="!at_start" aria-label="Scroll back" class="sn-arrow -l" type="button" @click="scrollBy(-1)">
-        <senso-icon name="chevron_left" size="22" />
-      </button>
-      <button v-show="!at_end" aria-label="Scroll forward" class="sn-arrow -r" type="button" @click="scrollBy(1)">
-        <senso-icon name="chevron_right" size="22" />
-      </button>
     </div>
   </section>
 </template>
@@ -41,7 +42,6 @@
 <script>
 import SensoCard from "./SensoCard.vue";
 import SensoIcon from "./SensoIcon.vue";
-import SensoPhoto from "./SensoPhoto.vue";
 import { allProducts, categoryLine, mix, money, photoOf } from "./senso-home";
 import { aisleRoute } from "../kalio/kalio-catalog";
 
@@ -49,11 +49,15 @@ let railCount = 0;
 
 export default {
   name: "SensoRail",
-  components: { SensoCard, SensoIcon, SensoPhoto },
+  components: { SensoCard, SensoIcon },
   inject: { $shop: { default: null } },
 
   props: {
     title: { type: String, required: true },
+    /** The small caps label over the title (DEALS, NEW…). */
+    eyebrow: { type: String, default: "" },
+    /** On the light grey ground (the deals band). */
+    ground: Boolean,
     /** The products to show; when null the rail reads them itself. */
     items: { type: Array, default: null },
     sort: { type: String, default: "bestselling" },

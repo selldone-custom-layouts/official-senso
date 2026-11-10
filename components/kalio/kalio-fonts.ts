@@ -1,8 +1,9 @@
 /*
  * Senso — typefaces.
  *
- * Plus Jakarta Sans sets everything; Material Symbols Rounded draws Senso's
- * own icons (SensoIcon, the `.sn-ms` class). They are requested from the
+ * Poppins sets everything; Senso's own icons are thin line SVGs
+ * (senso-icons.ts), and Material Symbols Rounded draws the few names that
+ * have no line icon (SensoIcon falls back to it, the `.sn-ms` class). They are requested from the
  * app at start-up rather than from index.html: in production the Layout runs
  * inside the HTML Selldone renders for the shop, and index.html never
  * reaches the visitor. Selldone's own parts keep the Material Icons font
@@ -25,7 +26,7 @@ export const ICONS = [
 
 const FONTS_HREF =
   "https://fonts.googleapis.com/css2" +
-  "?family=Plus+Jakarta+Sans:wght@400..800" +
+  "?family=Poppins:wght@400;500;600;700;800" +
   "&display=swap";
 
 const ICONS_HREF =

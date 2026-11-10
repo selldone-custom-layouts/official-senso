@@ -12,18 +12,18 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <!--
-  Senso — About us (design A of the page mockups, digini-design/about-a.html).
-
-  A wide photo with the story on a white card, four values with icons, a
-  blue band of service promises (no counts: the shop is the point, not its
-  size), the categories as circles, and how to reach the shop. The text is
+  Senso — About us: a wide photo (the about-hero slot, else the owner's
+  wide photo) with the story on a white card, four values with line icons,
+  a band of service promises from the shop's own settings (no counts: the
+  shop is the point, not its size), the categories as line-icon tiles, and
+  how to reach the shop. The text is
   the shop's own About profile (Selldone dashboard › Shop › Profile) when it
   has one; until then a general sample under a clear "Sample text" note.
 -->
 <template>
   <div class="sn-about sn-page">
     <section class="sn-about__hero">
-      <senso-photo :products="packs" :src="hero" class="sn-about__photo" eager shape="wide" />
+      <sn-slot :src="hero" alt="" class="sn-about__photo" eager fill name="about-hero" />
       <div class="sn-about__card">
         <span class="sn-eyebrow">About {{ shopTitle }}</span>
         <h1>{{ missing || busy ? sample.title : `About ${shopTitle}` }}</h1>
@@ -51,7 +51,7 @@
       <div v-for="p in promises" :key="p.t"><senso-icon :name="p.i" size="28" /><span><b>{{ p.t }}</b><small>{{ p.s }}</small></span></div>
     </section>
 
-    <senso-categories />
+    <senso-shelf eyebrow="The range" grid title="Everything we carry" />
 
     <section id="contact" class="sn-sec sn-about__contact">
       <div>
@@ -72,13 +72,13 @@ import KalioSampleNote from "@app-storefront/components/kalio/pages/KalioSampleN
 import { aboutSample, plainText } from "@app-storefront/components/kalio/pages/kalio-sample-pages";
 import { aisles, catalogueRoute } from "@app-storefront/components/kalio/kalio-catalog";
 import { allProducts, photoOf, waysOf } from "@app-storefront/components/senso/senso-home";
-import SensoPhoto from "@app-storefront/components/senso/SensoPhoto.vue";
+import SnSlot from "@app-storefront/components/senso/SensoSlot.vue";
 import SensoIcon from "@app-storefront/components/senso/SensoIcon.vue";
-import SensoCategories from "@app-storefront/components/senso/SensoCategories.vue";
+import SensoShelf from "@app-storefront/components/senso/SensoShelf.vue";
 
 export default {
   name: "StorefrontPageOfficialAboutUs",
-  components: { KalioSampleNote, SensoPhoto, SensoIcon, SensoCategories },
+  components: { KalioSampleNote, SnSlot, SensoIcon, SensoShelf },
   inject: ["$shop"],
 
   data: () => ({

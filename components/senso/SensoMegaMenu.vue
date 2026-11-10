@@ -1,44 +1,41 @@
 <!--
-  Senso — the "Shop" mega menu: every category on the left (its picture,
-  name, and "Up to $X off" or "From $Y"); on the right the pointed
-  category's top deals as four small cards and its photo tile. Opened by a
-  click on "Shop" and closed by a second one (KalioHeader); no dark scrim.
+  Senso — a family's mega panel (TV & Display, Audio…): the family's
+  categories as a clean list (line icon, name, "Up to $X off" or "From $Y"),
+  "Shop all", and one featured product on a pale tile (its packshot, name
+  and price). Opened by a click on the family in the header and closed by a
+  second click, Esc, a click outside or a page change; no scrim.
 -->
 <template>
   <div class="sn-mega" @keydown.esc="$emit('close')">
-    <nav aria-label="Categories" class="sn-mega__list">
-      <router-link
-        v-for="c in cats"
-        :key="c.id"
-        :class="{ '-on': active && active.id === c.id }"
-        :to="route(c)"
-        class="sn-mega__cat"
-        @click="$emit('close')"
-        @focus="active = c"
-        @mouseenter="active = c"
-      >
-        <span class="sn-mega__ring"><img v-if="c.icon" :src="image(c)" alt="" loading="lazy" /></span>
-        <span class="sn-mega__name"><b>{{ c.title || c.name }}</b><small>{{ line(c) }}</small></span>
-        <senso-icon name="chevron_right" size="18" />
-      </router-link>
-      <router-link :to="allRoute" class="sn-mega__all" @click="$emit('close')">All products<senso-icon name="arrow_forward" size="18" /></router-link>
-    </nav>
-
-    <div v-if="active" class="sn-mega__side">
-      <div class="sn-mega__head">
-        <h3>{{ active.title || active.name }}</h3>
-        <router-link :to="route(active)" class="sn-more" @click="$emit('close')">Shop all<senso-icon name="chevron_right" size="18" /></router-link>
+    <div class="sn-mega__in">
+      <div class="sn-mega__col">
+        <p class="sn-eyebrow">{{ family.title }}</p>
+        <nav :aria-label="family.title" class="sn-mega__list">
+          <router-link
+            v-for="c in family.categories"
+            :key="c.id"
+            :class="{ '-on': active && active.id === c.id }"
+            :to="route(c)"
+            class="sn-mega__cat"
+            @click="$emit('close')"
+            @focus="active = c"
+            @mouseenter="active = c"
+          >
+            <senso-category-icon :category="c" class="sn-mega__ic" size="34" />
+            <span class="sn-mega__name"><b>{{ c.title || c.name }}</b><small>{{ line(c) }}</small></span>
+            <senso-icon class="sn-mega__go" name="chevron_right" size="18" />
+          </router-link>
+        </nav>
+        <router-link :to="dealsTo" class="sn-mega__all" @click="$emit('close')">{{ family.categories.length === 1 ? `Offers in ${family.title}` : "See every offer" }}<senso-icon name="arrow_forward" size="18" /></router-link>
       </div>
-      <div class="sn-mega__deals">
-        <router-link v-for="p in picks" :key="p.id" :to="productRoute(p)" class="sn-mega__p" @click="$emit('close')">
-          <span class="sn-mega__pimg"><img :src="pimage(p)" alt="" loading="lazy" /></span>
-          <span class="sn-mega__pt">{{ p.title }}</span>
-          <span class="sn-mega__pp"><b>{{ m(finalOf(p), false) }}</b><em v-if="savingOf(p) > 0">Save {{ m(savingOf(p)) }}</em></span>
-        </router-link>
-      </div>
-      <router-link :to="route(active)" class="sn-mega__photo" @click="$emit('close')">
-        <senso-photo :products="inCat(active)" :src="photo(active)" shape="square" />
-        <span><small>{{ line(active) }}</small><b>{{ active.title || active.name }}</b></span>
+      <router-link v-if="pick" :to="productRoute(pick)" class="sn-mega__feature" @click="$emit('close')">
+        <span class="sn-mega__well sn-tile"><img :alt="pick.title" :src="pimage(pick)" loading="lazy" /></span>
+        <span class="sn-mega__ftxt">
+          <small>{{ active ? active.title || active.name : "" }}</small>
+          <b>{{ pick.title }}</b>
+          <span class="sn-mega__price">{{ m(finalOf(pick), false) }}<em v-if="savingOf(pick) > 0">Save {{ m(savingOf(pick)) }}</em></span>
+          <span class="sn-mega__more">Learn more<senso-icon name="arrow_forward" size="16" /></span>
+        </span>
       </router-link>
     </div>
   </div>
@@ -46,44 +43,44 @@
 
 <script>
 import SensoIcon from "./SensoIcon.vue";
-import SensoPhoto from "./SensoPhoto.vue";
-import { aisleImage, aisleRoute, aisles, catalogueRoute, productImage } from "../kalio/kalio-catalog";
-import { allProducts, categoryLine, finalOf, money, photoOf, savingOf } from "./senso-home";
+import SensoCategoryIcon from "./SensoCategoryIcon.vue";
+import { aisleRoute, dealsRoute, productImage } from "../kalio/kalio-catalog";
+import { allProducts, bestOf, categoryLine, finalOf, money, savingOf } from "./senso-home";
 
 export default {
   name: "SensoMegaMenu",
-  components: { SensoIcon, SensoPhoto },
+  components: { SensoIcon, SensoCategoryIcon },
   inject: { $shop: { default: null } },
+  props: { family: { type: Object, required: true } },
   emits: ["close"],
-  data: () => ({ cats: [], all: [], active: null }),
+  data: () => ({ all: [], active: null }),
   computed: {
-    allRoute() {
-      return catalogueRoute();
+    pick() {
+      return this.active ? bestOf(this.all, this.active) : null;
     },
-    picks() {
-      if (!this.active) return [];
-      return [...this.inCat(this.active)].sort((a, b) => savingOf(b) - savingOf(a)).slice(0, 4);
+    dealsTo() {
+      const c = this.family.categories[0];
+      return this.family.categories.length === 1 && c
+        ? { ...aisleRoute(c), query: { filter: JSON.stringify({ only_has_discount: true }) } }
+        : dealsRoute();
+    },
+  },
+  watch: {
+    family: {
+      handler(f) {
+        this.active = f?.categories?.[0] || null;
+      },
+      immediate: true,
     },
   },
   mounted() {
-    aisles().then((list) => {
-      this.cats = list;
-      if (!this.active) this.active = list[0] || null;
-    });
     allProducts().then((list) => (this.all = list));
   },
   methods: {
     finalOf,
     savingOf,
     route: aisleRoute,
-    image: (c) => aisleImage(c, 64),
-    pimage: (p) => productImage(p, true),
-    photo(c) {
-      return photoOf("square", c) || photoOf("portrait", c) || photoOf("wide", c);
-    },
-    inCat(c) {
-      return this.all.filter((p) => p.category_id === c.id);
-    },
+    pimage: (p) => productImage(p, false),
     m(n, short = true) {
       return money(n, this.$shop?.currency || "USD", short);
     },

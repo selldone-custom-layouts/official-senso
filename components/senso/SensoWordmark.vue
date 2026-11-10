@@ -1,15 +1,16 @@
 <!--
-  Senso — the wordmark: the Layout's name (kalio-brand.ts) in heavy lower
-  case, the dot of every "i" (and "j") a small yellow square. The letters are
-  a dotless ı / ȷ with the square drawn over them, so the name can change in
-  one place and the mark follows.
+  Senso — the wordmark: a rounded square with a soft wave (the mark, in the
+  palette's decoration colour) and the Layout's name (kalio-brand.ts) in
+  bold rounded lower case. The name changes in one place and the mark
+  follows. `light` draws it white (over the dark hero).
 -->
 <template>
-  <span :aria-label="name" class="sn-logo" role="img">
-    <template v-for="(ch, i) in letters" :key="i">
-      <span v-if="ch === 'i' || ch === 'j'" aria-hidden="true" class="sn-logo__i">{{ ch === "i" ? "ı" : "ȷ" }}</span>
-      <template v-else>{{ ch }}</template>
-    </template>
+  <span :aria-label="name" :class="{ '-light': light }" class="sn-logo" role="img">
+    <svg aria-hidden="true" class="sn-logo__mark" viewBox="0 0 32 32">
+      <rect fill="currentColor" height="32" rx="10" width="32" />
+      <path class="sn-logo__wave" d="M7 16.7c3-5 6-5 9 0s6 5 9 0" fill="none" stroke-linecap="round" stroke-width="2.7" />
+    </svg>
+    <b aria-hidden="true">{{ word }}</b>
   </span>
 </template>
 
@@ -19,12 +20,13 @@ import { BRAND } from "../kalio/kalio-brand";
 export default {
   name: "SensoWordmark",
   inject: { $shop: { default: null } },
+  props: { light: Boolean },
   computed: {
     name() {
       return BRAND.name || this.$shop?.title || "Shop";
     },
-    letters() {
-      return [...String(this.name).toLowerCase()];
+    word() {
+      return String(this.name).toLowerCase();
     },
   },
 };

@@ -6,21 +6,21 @@
  * (see themeSwitcher) they are the only theme. After a change: build and
  * upload (bash scripts/release.sh <new-version>), see AGENTS.md "Theme".
  *
- * palette        one of: "blue" (Senso blue, the default), "emerald",
- *                "violet", "teal", "orange"
+ * palette        one of: "teal" (Senso teal, the default), "ocean", "violet",
+ *                "forest", "ember"
  * brandColor     any colour, "#RRGGBB"; when set it replaces `palette` (the
  *                colour is made readable automatically: buttons, links, dark mode)
  * mode           "light" | "dark"
  * themeSwitcher  "showcase" (the visitor switcher only on Senso's own showcase
  *                shop, the default) | "on" (your visitors get it) | "off"
  * textOnBrand    with brandColor: "auto" (a light brand such as yellow keeps
- *                its colour, with dark words on its buttons and header) |
+ *                its colour, with dark words on its buttons) |
  *                "white" (white words; a light colour is darkened until they read)
  */
 import type { ThemeSettings } from "../theme-switcher/theme-switcher";
 
 export const THEME_SETTINGS: ThemeSettings = {
-  palette: "blue",
+  palette: "teal",
   // brandColor: "#F5C400",
   mode: "light",
   themeSwitcher: "showcase",

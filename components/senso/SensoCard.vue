@@ -1,40 +1,47 @@
 <!--
-  Senso — the product card (Home A "Deals hub", approved 8 November 2026).
+  Senso — the product card, on the home, in every listing (senso-card.ts
+  puts it in place of Selldone's card) and on the product page's rows.
 
-  A white square photo well (a small red "% off" flag on offer), the
-  product's colours as swatches — a click picks the colour the cart button
-  adds — or its capacities as chips, the name in two lines, brand ·
-  category, the price with a red "Save $X" and "Was $Y", then a full-width
-  blue button: "Add to cart" adds the picked colour at once and becomes
-  "− n in cart +" in place; a product that comes in capacities says
-  "Choose capacity" and opens the quick-buy sheet (each capacity has its
-  own price). Under it, Compare and Save. Nothing pops up.
+  A white rounded card: the packshot on a soft grey well (a small heart to
+  save it in the corner), the product's colours as swatches — a click picks
+  the colour the cart button adds — or its capacities as chips, the name in
+  bold on two lines, the price with "Was" struck and a red "Save $X", and a
+  quiet "Ends in …" line counting to the deal's own end date (reserved on
+  every card so a row's buttons stay level). Then a solid pill: "Add to
+  cart" adds the picked colour at once and becomes "− n in cart +" in place;
+  a product that comes in capacities says "Choose options" and opens the
+  quick-buy sheet (each capacity has its own price). In listings an
+  outlined "Learn more" pill opens the product beside it. Last, a Compare
+  checkbox. Nothing pops up.
 
   Prices follow Selldone's own rule (kalio-catalog priceOf: discount
-  dates, the shopper's currency). The same card is drawn on the home, in
-  every listing (senso-card.ts puts it in place of Selldone's card) and on
-  the product page.
+  dates, the shopper's currency).
 -->
 <template>
-  <article :class="{ '-sale': save > 0, '-big': big }" class="sn-card" @click="$emit('click', $event)">
-    <router-link :aria-label="product.title" :to="to" class="sn-card__img">
-      <img
-        v-if="picture"
-        :alt="product.title"
-        :sizes="big ? '(max-width: 760px) 90vw, 420px' : '(max-width: 760px) 46vw, 240px'"
-        :src="picture"
-        :srcset="srcset"
-        loading="lazy"
-        @error="dropSrcset"
-      />
+  <article :class="{ '-sale': save > 0, '-big': big, '-learn': learn }" class="sn-card" @click="$emit('click', $event)">
+    <div class="sn-card__well">
+      <router-link :aria-label="product.title" :to="to" class="sn-card__img">
+        <img
+          v-if="picture"
+          :alt="product.title"
+          :sizes="big ? '(max-width: 760px) 90vw, 420px' : '(max-width: 760px) 70vw, 300px'"
+          :src="picture"
+          :srcset="srcset"
+          loading="lazy"
+          @error="dropSrcset"
+        />
+      </router-link>
       <span v-if="off > 0 && !noFlag" class="sn-flag">{{ off }}% off</span>
-    </router-link>
+      <button v-if="!noFoot" :aria-label="saved ? 'Saved' : 'Save'" :aria-pressed="saved" :class="{ '-on': saved }" class="sn-heart" type="button" @click.prevent.stop="toggleSave">
+        <senso-icon :fill="saved" name="favorite" size="18" />
+      </button>
+    </div>
 
-    <div v-if="capacities.length" class="sn-caps" aria-label="Capacities">
+    <div v-if="capacities.length" aria-label="Capacities" class="sn-caps">
       <span v-for="c in capacities.slice(0, 4)" :key="c">{{ c }}</span>
       <em v-if="capacities.length > 4">+{{ capacities.length - 4 }}</em>
     </div>
-    <div v-else class="sn-swrow" :aria-label="colours.length ? 'Colours' : null" :role="colours.length ? 'radiogroup' : null">
+    <div v-else :aria-label="colours.length ? 'Colours' : null" :role="colours.length ? 'radiogroup' : null" class="sn-swrow">
       <button
         v-for="(c, i) in colours.slice(0, maxSwatches)"
         :key="c"
@@ -51,46 +58,42 @@
     </div>
 
     <router-link :to="to" class="sn-card__t">{{ product.title }}</router-link>
-    <div class="sn-card__meta">{{ meta }}</div>
 
     <div class="sn-price">
       <b class="sn-price__now">{{ fmt(now) }}</b>
-      <span v-if="save > 0" class="sn-save">Save {{ fmt(save, true) }}</span>
     </div>
     <div :class="{ '-none': !was }" class="sn-was">
-      <template v-if="was">Was <s>{{ fmt(was) }}</s></template>
+      <template v-if="was"><span>Was <s>{{ fmt(was) }}</s></span><em class="sn-save">Save {{ fmt(save, true) }}</em></template>
     </div>
     <div v-if="!noTimer" :class="{ '-none': !endsAt }" class="sn-ends">
       <template v-if="endsAt"><senso-icon name="schedule" size="14" />Ends in <b>{{ endsLeft }}</b></template>
     </div>
 
-    <div class="sn-card__buy" @click.prevent.stop>
+    <div :class="{ '-two': learn && shown <= 0 }" class="sn-card__buy" @click.prevent.stop>
+      <router-link v-if="learn && shown <= 0" :to="to" class="sn-btn -line -sm">Learn more</router-link>
       <div v-if="shown > 0" :class="{ '-busy': busy }" aria-label="Quantity in cart" class="sn-step" role="group">
         <button :aria-label="shown > 1 ? 'One fewer' : 'Remove from cart'" :disabled="!!line?.pending" type="button" @click="step(-1)">
-          <senso-icon :name="shown > 1 ? 'remove' : 'delete'" size="20" />
+          <senso-icon :name="shown > 1 ? 'remove' : 'delete'" size="18" />
         </button>
         <output aria-live="polite"><b>{{ shown }}</b><span> in cart</span></output>
         <button :disabled="!!line?.pending" aria-label="One more" type="button" @click="step(1)">
-          <senso-icon name="add" size="20" />
+          <senso-icon name="add" size="18" />
         </button>
       </div>
-      <button v-else-if="soldOut" class="sn-btn -block -off" disabled type="button">Out of stock</button>
-      <button v-else-if="capacities.length" class="sn-btn -block" type="button" @click="choose">
-        <senso-icon name="tune" size="19" /><span class="-long">Choose capacity</span><span class="-short">Choose</span>
+      <button v-else-if="soldOut" class="sn-btn -block -sm -off" disabled type="button">Out of stock</button>
+      <button v-else-if="capacities.length" class="sn-btn -block -sm" type="button" @click="choose">
+        <span class="-long">Choose options</span><span class="-short">Options</span>
       </button>
-      <button v-else class="sn-btn -block" type="button" @click="add">
-        <senso-icon name="add_shopping_cart" size="19" /><span class="-long">Add to cart</span><span class="-short">Add</span>
+      <button v-else class="sn-btn -block -sm" type="button" @click="add">
+        <span class="-long">Add to cart</span><span class="-short">Add</span>
       </button>
     </div>
 
     <div v-if="!noFoot" class="sn-card__foot">
       <label :class="{ '-on': comparing }" class="sn-cmp" @click.stop>
         <input :checked="comparing" type="checkbox" @change="toggleCompare" />
-        <i><senso-icon name="check" size="15" /></i>{{ comparing ? "Comparing" : "Compare" }}
+        <i><senso-icon name="check" size="14" /></i>{{ comparing ? "Comparing" : "Compare" }}
       </label>
-      <button :aria-pressed="saved" :class="{ '-on': saved }" class="sn-heart" type="button" @click.prevent.stop="toggleSave">
-        <senso-icon :fill="saved" name="favorite" size="18" /><span>{{ saved ? "Saved" : "Save" }}</span>
-      </button>
     </div>
   </article>
 </template>
@@ -132,6 +135,8 @@ export default {
     noFlag: Boolean,
     /** No "Ends in" line (a place that shows the deal's clock itself). */
     noTimer: Boolean,
+    /** Listings: an outlined "Learn more" beside the cart button. */
+    learn: Boolean,
     maxSwatches: { type: Number, default: 4 },
   },
 

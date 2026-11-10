@@ -1,13 +1,14 @@
 <!--
-  Senso — the top of a product page, in three columns like a big
-  electronics store: the gallery (thumbnails beside a big white well; a
-  colour or capacity with its own picture shows it), the product (name,
-  brand · category · model, the rating line, Colour / Capacity as Selldone's
-  own variant picker, key specs, highlights), and a sticky buy card (price,
-  Save $X, Was $Y, stock, delivery and pickup lines from the shop's own
-  methods, "Add to cart" that becomes − n + in place, Compare and Save).
-  On a phone it is one column and the buy button floats at the foot
-  (Selldone's sticky buy button).
+  Senso — the top of a product page, a brand site's way: the gallery on the
+  left (the picture at the card's width, one row of thumbnails under it; a
+  colour or capacity with its own picture shows it) and a sticky column on
+  the right: the category as a teal eyebrow, the bold name, the brand and
+  model line, the colour or capacity chips (Selldone's own variant picker,
+  each capacity with its own price), the price with "Save $X" and "Was",
+  the deal's real clock, stock, "Add to cart" (a solid pill that becomes
+  − n + in place), Compare and Save as outlined pills, and the shop's own
+  delivery and pickup lines. On a phone it is one column and the buy button
+  floats at the foot (Selldone's sticky buy button).
 
   Every behaviour is Selldone's SProductOverview, inherited through
   `extends`: variant selection and deep links, preferences, valuation,
@@ -24,27 +25,18 @@
         <s-shop-product-slide-show :current-variant="current_variant" :vertical="false" />
       </section>
 
-      <!-- ▆▆▆▆ The product ▆▆▆▆ -->
-      <section class="sn-pdp__info">
+      <!-- ▆▆▆▆ The product, sticky ▆▆▆▆ -->
+      <aside class="sn-pdp__buy">
+        <p v-if="aisle" class="sn-eyebrow"><router-link :to="aisleTo">{{ aisle.title || aisle.name }}</router-link></p>
         <h1 class="sn-pdp__title">{{ $product.title }}</h1>
         <p class="sn-pdp__meta">
           <router-link v-if="$product.brand" :to="brandRoute">{{ $product.brand }}</router-link>
-          <template v-if="aisle"><i aria-hidden="true">•</i><router-link :to="aisleTo">{{ aisle.title || aisle.name }}</router-link></template>
-          <template v-if="model"><i aria-hidden="true">•</i><span>Model {{ model }}</span></template>
-        </p>
-
-        <div class="sn-pdp__rating">
+          <template v-if="model"><i aria-hidden="true">·</i><span>Model {{ model }}</span></template>
           <template v-if="$product.rate_count && $product.rate">
-            <span :style="{ '--k-rate': $product.rate }" class="k-stars"></span>
-            <b>{{ numeralFormat($product.rate, "0.0") }}</b>
-            <a href="#k-reviews" @click.prevent="toReviews">{{ numeralFormat($product.rate_count, "0,0") }} {{ $product.rate_count === 1 ? "review" : "reviews" }}</a>
+            <i aria-hidden="true">·</i>
+            <a class="sn-pdp__rate" href="#k-reviews" @click.prevent="toReviews"><span :style="{ '--k-rate': $product.rate }" class="k-stars"></span>{{ numeralFormat($product.rate, "0.0") }} ({{ numeralFormat($product.rate_count, "0,0") }})</a>
           </template>
-          <template v-else>
-            <span :style="{ '--k-rate': 0 }" class="k-stars"></span>
-            <span>No reviews yet</span>
-            <a href="#k-reviews" @click.prevent="toReviews">Be the first</a>
-          </template>
-        </div>
+        </p>
 
         <p v-if="!has_original_warranty" class="sn-pdp__warn">
           <v-icon size="16">error_outline</v-icon>
@@ -66,30 +58,6 @@
           ></s-product-section-valuation>
         </div>
 
-        <div v-if="keySpecs.length" class="sn-pdp__specs">
-          <h2>Key specs</h2>
-          <dl>
-            <template v-for="row in keySpecs" :key="row.key">
-              <dt>{{ row.key }}</dt>
-              <dd>{{ row.value }}</dd>
-            </template>
-          </dl>
-          <a class="sn-more" href="#sn-specs" @click.prevent="toSpecs">All specifications<senso-icon name="expand_more" size="18" /></a>
-        </div>
-
-        <div v-if="highlights.length" class="sn-pdp__hl">
-          <h2>Highlights</h2>
-          <ul>
-            <li v-for="h in highlights" :key="h.key">
-              <span class="sn-pdp__tick"><senso-icon name="check" size="15" /></span>
-              <span><b>{{ h.key }}</b><small v-if="h.value">{{ h.value }}</small></span>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <!-- ▆▆▆▆ Buy card ▆▆▆▆ -->
-      <aside class="sn-pdp__buy">
         <div class="sn-pdp__price">
           <s-subscription-price-select
             v-if="isSubscription"
@@ -105,29 +73,17 @@
               <span v-if="price.save > 0" class="sn-save">Save {{ fmt(price.save, true) }}</span>
             </div>
             <p v-if="price.was" class="sn-pdp__was">Was <s>{{ fmt(price.was) }}</s></p>
-            <p v-if="endsAt" class="sn-pdp__ends"><senso-icon name="schedule" size="18" />Deal ends in <b>{{ endsLeft }}</b></p>
+            <p v-if="endsAt" class="sn-pdp__ends"><senso-icon name="schedule" size="18" /><span>Deal ends in <b>{{ endsLeft }}</b></span></p>
           </template>
           <s-product-section-tax></s-product-section-tax>
           <s-product-section-cashback :amount="0" :currency="GetUserSelectedCurrency()?.code"></s-product-section-cashback>
         </div>
 
-        <ul class="sn-pdp__lines">
-          <li :class="{ '-out': !stock }">
-            <senso-icon :name="stock ? 'check_circle' : 'close'" size="20" />
-            <span><b>{{ stock ? "In stock" : "Out of stock" }}</b><small v-if="stock && stock <= 5">Only {{ stock }} left</small><small v-else-if="stock">Ready to ship</small><small v-else>Check back soon</small></span>
-          </li>
-          <li v-for="w in ways" :key="w.key">
-            <senso-icon :name="w.key === 'Pickup' ? 'storefront' : 'local_shipping'" size="20" />
-            <span
-              ><b>{{ w.key === "Pickup" ? "Pickup" : w.word }}</b
-              ><small>{{ w.free ? "Free" : w.freeOver ? "Free over " + fmt(w.freeOver, true) : "Cost and day shown at checkout" }}</small></span
-            >
-          </li>
-          <li>
-            <senso-icon name="assignment_return" size="20" />
-            <span><b>Easy returns</b><small>Ask from your order page</small></span>
-          </li>
-        </ul>
+        <p :class="{ '-out': !stock }" class="sn-pdp__stock">
+          <senso-icon :name="stock ? 'check_circle' : 'close'" size="18" />
+          <b>{{ stock ? "In stock" : "Out of stock" }}</b>
+          <small v-if="stock && stock <= 5">Only {{ stock }} left</small><small v-else-if="stock">Ready to ship</small><small v-else>Check back soon</small>
+        </p>
 
         <s-product-section-extra-pricings
           :current-variant="current_variant"
@@ -190,6 +146,21 @@
             </div>
           </v-menu>
         </div>
+
+        <ul class="sn-pdp__lines">
+          <li v-for="w in ways" :key="w.key">
+            <senso-icon :name="w.key === 'Pickup' ? 'storefront' : 'local_shipping'" size="20" />
+            <span
+              ><b>{{ w.key === "Pickup" ? "Pickup" : w.word }}</b
+              ><small>{{ w.free ? "Free" : w.freeOver ? "Free over " + fmt(w.freeOver, true) : "Cost and day shown at checkout" }}</small></span
+            >
+          </li>
+          <li>
+            <senso-icon name="assignment_return" size="20" />
+            <span><b>Returns</b><small>Ask from your order page</small></span>
+          </li>
+        </ul>
+        <p class="sn-pdp__help"><senso-icon name="help" size="18" /><span>Questions about this product? <router-link :to="{ name: 'ShopFAQ' }">Visit Support</router-link></span></p>
       </aside>
     </div>
 
@@ -202,8 +173,8 @@
     ></basket-item-user-message-form>
 
     <!-- Selldone's rotated countdown badge (ProductDiscountCountdown) is
-         replaced by the "Deal ends in" line in the buy card, on the same
-         dates (senso-clock.ts). -->
+         replaced by the "Deal ends in" line, on the same dates
+         (senso-clock.ts). -->
   </div>
 </template>
 

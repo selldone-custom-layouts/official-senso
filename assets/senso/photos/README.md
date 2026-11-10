@@ -1,0 +1,1 @@
+# Senso's photos\n\nDrop the Codex photos here (WebP), named as in components/senso/senso-photos.ts (hero-tv-display.webp, feature-wide.webp, listing-audio.webp, ...). Build and release; each slot shows its photo instead of the placeholder. Prompts: digini-design/codex-photos-senso.md in the design folder.

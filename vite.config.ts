@@ -111,8 +111,18 @@ export default ({mode}: any) => {
             darkSelector: "html.sn-dark",
             include: [/\/style\//, /\/StorefrontApp\.vue/, /\/components\//, /\/pages\//, /\/layouts\//],
             exclude: [/\/node_modules\//, /\/modules\/pagebuilder\//, /\/theme-switcher\//],
-            lightVars: ["--sn-yellow", "--k-well", "--k-tint"],
-            keepLightExtra: /sn-bill__nav/, // the hero arrows: white circles on a photo
+            lightVars: ["--sn-yellow", "--sn-mint", "--sn-well", "--k-well", "--k-tint"],
+            // white arrow circles on photos, and the pale tiles that hold packshots
+            keepLightExtra: /sn-hero__nav|sn-tile|sn-pedestal/,
+            // Senso's dark neutrals (the same as senso-theme.ts "dark")
+            card: "#132326",
+            raise: "#1a2c2f",
+            variant: "#263b3e",
+            line: "#263b3e",
+            lineStrong: "#33494c",
+            ink: "#e6efef",
+            ink2: "#d1dddd",
+            muted: "#9db0b2",
           }),
         ],
       },

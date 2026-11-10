@@ -1,10 +1,10 @@
 /* ▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Senso — tokens, type and shared pieces ▆▆▆▆▆▆▆▆▆▆▆▆▆▆
 
    Senso (9 November 2026): an electronics shop dressed as a deals hub —
-   a light grey floor (#f0f2f5, --k-paper) with white rounded section cards,
-   blue #0a4bd8 for every button and action (--k-green keeps its Kalio name),
+   Senso: a white page (--k-paper) with rounded cards and pale mint tiles,
+   teal #00736f for every button and action (--k-green keeps its Kalio name),
    sale red #c4122f for a saving (--k-coral), yellow #ffd91a only as an
-   accent, navy #071634, Plus Jakarta Sans. Product photos sit on white.
+   accent, ink #0d1b1e, Poppins. Product photos sit on white.
    senso-skin.scss (loaded last) holds the structural differences.
 
    Tario, which Senso started from:
@@ -29,22 +29,22 @@
 
 :root {
   /* Ink and surface */
-  --k-ink: #0f1729;
-  --k-ink-2: #1d2738;
-  --k-muted: #5a6474;
-  --k-paper: #f0f2f5;
-  --k-wash: #f0f2f5;
+  --k-ink: #0d1b1e;
+  --k-ink-2: #1b2d30;
+  --k-muted: #55666a;
+  --k-paper: #ffffff;
+  --k-wash: #f3f5f5;
   --k-card: #ffffff;
-  --k-line: #e1e5eb;
-  --k-line-strong: #c3cad5;
+  --k-line: #dfe8e8;
+  --k-line-strong: #8a9a9d;
 
   /* Deep green carries every commerce action */
-  --k-green: #0a4bd8;
-  --k-green-deep: #0a4bd8;
-  --k-green-hover: #0838a8;
-  --k-green-lift: #2a63e6;
-  --k-leaf: #0a4bd8;
-  --k-green-soft: #e8efff;
+  --k-green: #00736f;
+  --k-green-deep: #00736f;
+  --k-green-hover: #005a57;
+  --k-green-lift: #00736f;
+  --k-leaf: #00736f;
+  --k-green-soft: #e1f4f3;
 
   /* Coral marks a saving. #c9431e keeps white badge text and sale prices
      above 4.5:1 on white; the brighter mockup coral did not. */
@@ -61,22 +61,22 @@
   /* White boxes that hold no photo (receipts, empty states, map buttons): the
      theme switcher darkens these; --k-well and --k-tint stay white for packshots. */
   --k-plain: #ffffff;
-  --k-line-soft: #eceff3;
+  --k-line-soft: #e8efef;
 
   /* Ratings (design A, 7 November 2026): amber stars on a warm grey. */
   --k-amber: #e5a100;
-  --k-star-off: #d5dae2;
+  --k-star-off: #8a9a9d;
 
   /* Type */
-  --k-display: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --k-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --k-display: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --k-body: "Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Geometry */
-  --k-radius: 14px;
-  --k-radius-sm: 8px;
-  --k-radius-lg: 16px;
+  --k-radius: 18px;
+  --k-radius-sm: 12px;
+  --k-radius-lg: 20px;
   --k-pill: 999px;
-  --k-maxw: 1440px;
+  --k-maxw: 1248px;
   --k-gutter: clamp(16px, 2.4vw, 24px);
   --k-tap: 44px;
   --k-shadow: 0 10px 28px -14px rgba(20, 20, 20, 0.32);
@@ -90,9 +90,9 @@
 :root,
 .v-theme--light,
 .v-theme--dark {
-  --v-theme-primary: var(--sn-primary-rgb, 10, 75, 216) !important;
+  --v-theme-primary: var(--sn-primary-rgb, 0, 115, 111) !important;
   --v-theme-on-primary: var(--sn-on-brand-rgb, 255, 255, 255) !important;
-  --v-theme-secondary: 7, 22, 52 !important;
+  --v-theme-secondary: 13, 27, 30 !important;
   --v-theme-on-secondary: 255, 255, 255 !important;
 }
 

@@ -1,169 +1,186 @@
 <!--
-  Senso — the hero: a photo carousel beside the Deal of the Day.
+  Senso — the hero: a full-bleed carousel, about 85% of the screen's height,
+  under the clear header. One slide per product family (senso-families.ts)
+  that has a photo: the family's own hero photo (senso-photos.ts,
+  hero-<family>) or, until it arrives, the owner's wide photo of one of its
+  categories. The words sit on the photo's calm left side over a soft dark
+  gradient: a huge white headline ("TVs. Made to be seen."), the category's
+  own description, and an outlined white "Shop now" pill to the category.
+  Round white arrows on both sides, always shown, and a thin progress bar
+  at the bottom centre (one segment per slide, the current one filling).
 
-  One slide per category that has a wide photo (assets/senso/wide-<name>),
-  the deepest saving first; the words sit on the photo's dark left third
-  ("Up to $589 off TVs", the category's own description and brands, "Shop
-  TVs deals"). On a phone the words go under the photo. Without any wide
-  photo, the three categories with the deepest savings get a collage of
-  their own products. It turns every 7 seconds, stops on hover or focus,
-  swipes on a phone, and never moves with reduced motion.
-
-  The Deal of the Day is one of the shop's deals, a different one each
-  day. "Ends in" counts down to that deal's own end date in Selldone (the
-  owner, 9 November 2026: "a real timer from Selldone"); a deal with no end
-  date shows no clock.
+  It turns every 7 seconds, and stops on hover or focus, when it is off the
+  screen, when the tab is hidden and with reduced motion. Image and words of
+  a slide change together (one element per slide, crossfaded), and the next
+  slide's photo is loaded ahead. Swipes on a phone. A shop with no photo at
+  all gets the families' placeholders with their best product.
 -->
 <template>
-  <section v-if="busy || slides.length || dotd" class="sn-hero">
-    <div
-      v-if="busy || slides.length"
-      :class="{ '-busy': busy }"
-      aria-roledescription="carousel"
-      class="sn-bill"
-      @focusin="paused = true"
-      @focusout="paused = false"
-      @mouseenter="paused = true"
-      @mouseleave="paused = false"
+  <section
+    v-if="busy || slides.length"
+    ref="root"
+    :class="{ '-busy': busy }"
+    aria-label="Featured"
+    aria-roledescription="carousel"
+    class="sn-hero"
+    @focusin="hover = true"
+    @focusout="hover = false"
+    @mouseenter="hover = true"
+    @mouseleave="hover = false"
+    @touchend.passive="onTouchEnd"
+    @touchstart.passive="onTouchStart"
+  >
+    <article
+      v-for="(s, i) in slides"
+      :key="s.key"
+      :aria-hidden="i !== at"
+      :aria-label="`${i + 1} of ${slides.length}`"
+      :class="{ '-on': i === at }"
+      aria-roledescription="slide"
+      class="sn-hero__slide"
     >
-      <div ref="track" class="sn-bill__track" @scroll.passive="onScroll">
-        <article v-for="(s, i) in slides" :key="s.category.id" :aria-label="`${i + 1} of ${slides.length}`" aria-roledescription="slide" class="sn-bill__slide">
-          <senso-photo :alt="s.title" :eager="i === 0" :products="s.products" :src="s.photo" class="sn-bill__photo" shape="wide" />
-          <div class="sn-bill__txt">
-            <span class="sn-eyebrow"><senso-icon fill name="bolt" size="16" />{{ s.saving ? "Deals of the week" : "Top picks" }}</span>
-            <h2 class="sn-bill__h">
-              <template v-if="s.saving">Up to <mark>{{ money(s.saving) }} off</mark> {{ s.title }}</template>
-              <template v-else>{{ s.title }} from <mark>{{ money(s.from) }}</mark></template>
-            </h2>
-            <p>{{ s.line }}</p>
-            <router-link :to="s.to" class="sn-btn -lg">Shop {{ s.title }}{{ s.saving ? " deals" : "" }}</router-link>
-          </div>
-        </article>
+      <sn-slot :alt="s.title" :eager="i === 0 || i === next" :name="s.slot" :src="s.photo" class="sn-hero__photo" fill>
+        <img v-if="s.product" :alt="s.product.title" :src="s.packshot" class="sn-hero__pack" loading="lazy" />
+      </sn-slot>
+      <div class="sn-hero__shade"></div>
+      <div class="sn-hero__txt">
+        <p class="sn-hero__fam">{{ s.family }}</p>
+        <h2 class="sn-hero__h">
+          {{ s.title }}.<br />{{ s.line }}
+        </h2>
+        <p v-if="s.sub" class="sn-hero__sub">{{ s.sub }}</p>
+        <router-link :tabindex="i === at ? null : -1" :to="s.to" class="sn-btn -glass -lg">Shop now</router-link>
       </div>
-      <template v-if="slides.length > 1">
-        <div class="sn-bill__dots">
-          <button
-            v-for="(s, i) in slides"
-            :key="s.category.id"
-            :aria-current="i === at"
-            :aria-label="s.title"
-            :class="{ '-on': i === at }"
-            type="button"
-            @click="go(i)"
-          ></button>
-        </div>
-        <button aria-label="Previous slide" class="sn-bill__nav -l" type="button" @click="go(at - 1)"><senso-icon name="chevron_left" size="22" /></button>
-        <button aria-label="Next slide" class="sn-bill__nav -r" type="button" @click="go(at + 1)"><senso-icon name="chevron_right" size="22" /></button>
-      </template>
-    </div>
-
-    <article v-if="dotd" class="sn-dotd">
-      <div class="sn-dotd__head">
-        <h2>Deal of the Day</h2>
-        <span v-if="dotdEnd" class="sn-clock"><senso-icon name="schedule" size="16" />Ends in <b>{{ dotdLeft }}</b></span>
-      </div>
-      <senso-card :max-swatches="6" :product="dotd" big class="-dotd" no-foot no-timer />
     </article>
+
+    <template v-if="slides.length > 1">
+      <button aria-label="Previous slide" class="sn-hero__nav -l" type="button" @click="go(at - 1, true)"><senso-icon name="chevron_left" size="24" /></button>
+      <button aria-label="Next slide" class="sn-hero__nav -r" type="button" @click="go(at + 1, true)"><senso-icon name="chevron_right" size="24" /></button>
+      <div class="sn-hero__bar">
+        <button
+          v-for="(s, i) in slides"
+          :key="s.key"
+          :aria-current="i === at"
+          :aria-label="`Slide ${i + 1}: ${s.title}`"
+          :class="{ '-on': i === at, '-done': i < at, '-run': i === at && running }"
+          class="sn-hero__seg"
+          type="button"
+          @click="go(i, true)"
+        >
+          <i :key="at + '-' + runKey" :style="{ animationDuration: TURN + 'ms' }"></i>
+        </button>
+      </div>
+    </template>
   </section>
 </template>
 
 <script>
 import SensoIcon from "./SensoIcon.vue";
-import SensoCard from "./SensoCard.vue";
-import SensoPhoto from "./SensoPhoto.vue";
-import { aisleRoute, aisles } from "../kalio/kalio-catalog";
-import { allProducts, dealsOf, finalOf, money, photoOf, savingOf } from "./senso-home";
-import { clock, dealEnd, leftText, releaseClock, useClock } from "./senso-clock";
+import SnSlot from "./SensoSlot.vue";
+import { aisleRoute, aisles, productImage } from "../kalio/kalio-catalog";
+import { allProducts, bestOf, photoOf, savingOf } from "./senso-home";
+import { familiesOf } from "./senso-families";
+import { slotPhoto } from "./senso-photos";
+
+const TURN = 7000;
 
 export default {
   name: "SensoHero",
-  components: { SensoIcon, SensoCard, SensoPhoto },
-  inject: ["$shop"],
-
-  emits: ["dotd"],
-
-  data: () => ({ slides: [], dotd: null, busy: true, at: 0, paused: false, reduced: false }),
+  components: { SensoIcon, SnSlot },
+  data: () => ({ TURN, slides: [], busy: true, at: 0, hover: false, seen: true, reduced: false, runKey: 0 }),
 
   computed: {
-    /** The Deal of the Day's own end, by Selldone's dates. */
-    dotdEnd() {
-      return this.dotd ? dealEnd(this.dotd) : null;
+    running() {
+      return !this.hover && this.seen && !this.reduced && this.slides.length > 1;
     },
-    dotdLeft() {
-      return leftText(this.dotdEnd, clock.now);
+    next() {
+      return this.slides.length ? (this.at + 1) % this.slides.length : 0;
+    },
+  },
+
+  watch: {
+    running(now) {
+      clearTimeout(this.timer);
+      if (now) this.schedule();
     },
   },
 
   mounted() {
-    this.reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    this.reduced = !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || !!navigator.webdriver;
     Promise.all([aisles(), allProducts()]).then(([cats, list]) => {
       this.build(cats, list);
       this.busy = false;
+      this.$nextTick(() => this.running && this.schedule());
     });
-    useClock();
-    this.turnTimer = setInterval(() => {
-      if (!this.paused && !this.reduced && !document.hidden && this.slides.length > 1) this.go(this.at + 1);
-    }, 7000);
+    if ("IntersectionObserver" in window) {
+      this.io = new IntersectionObserver((e) => (this.seen = e.some((x) => x.isIntersecting)), { threshold: 0.35 });
+      this.$nextTick(() => this.$refs.root && this.io.observe(this.$refs.root));
+    }
+    this.onVis = () => (this.seen = !document.hidden);
+    document.addEventListener("visibilitychange", this.onVis);
   },
 
   beforeUnmount() {
-    releaseClock();
-    clearInterval(this.turnTimer);
+    clearTimeout(this.timer);
+    this.io?.disconnect();
+    document.removeEventListener("visibilitychange", this.onVis);
   },
 
   methods: {
-    money(n) {
-      return money(n, this.$shop?.currency || "USD", true);
-    },
     build(cats, list) {
-      const brandsOf = (id) => [...new Set(list.filter((p) => p.category_id === id).map((p) => p.brand).filter(Boolean))];
-      const make = (c) => {
-        const ps = list.filter((p) => p.category_id === c.id);
-        if (!ps.length) return null;
-        const saving = Math.max(0, ...ps.map(savingOf));
-        const brands = brandsOf(c.id).slice(0, 3);
-        const title = c.title || c.name;
-        const desc = (c.description || "").trim();
-        const by = brands.length ? `From ${brands.length > 1 ? brands.slice(0, -1).join(", ") + " and " + brands[brands.length - 1] : brands[0]}.` : "";
+      const families = familiesOf(cats);
+      const count = (c) => list.filter((p) => p.category_id === c.id).length;
+      const deals = (c) => list.filter((p) => p.category_id === c.id && savingOf(p) > 0).length;
+      const make = (f, withPhotoOnly) => {
+        const own = slotPhoto(`hero-${f.key}`);
+        const withOwner = f.categories.filter((c) => photoOf("wide", c) && count(c)).sort((a, b) => count(b) - count(a))[0];
+        const lead = withOwner || [...f.categories].filter(count).sort((a, b) => deals(b) - deals(a) || count(b) - count(a))[0];
+        if (!lead) return null;
+        const photo = own || (withOwner ? photoOf("wide", withOwner) : null);
+        if (withPhotoOnly && !photo) return null;
+        const product = photo ? null : bestOf(list, lead);
+        const desc = String(lead.description || "").trim();
         return {
-          category: c,
-          title,
-          saving,
-          from: Math.min(...ps.map(finalOf)),
-          line: [desc && !/[.!?]$/.test(desc) ? desc + "." : desc, by].filter(Boolean).join(" "),
-          photo: photoOf("wide", c),
-          products: [...ps].sort((a, b) => savingOf(b) - savingOf(a)),
-          to: saving ? { ...aisleRoute(c), query: { filter: JSON.stringify({ only_has_discount: true }) } } : aisleRoute(c),
+          key: `${f.key}-${lead.id}`,
+          slot: `hero-${f.key}`,
+          photo,
+          family: f.title,
+          title: lead.title || lead.name,
+          line: f.line,
+          sub: desc && !/[.!?]$/.test(desc) ? desc + "." : desc,
+          to: aisleRoute(lead),
+          product,
+          packshot: product ? productImage(product) : null,
         };
       };
-      let slides = cats.filter((c) => photoOf("wide", c)).map(make).filter(Boolean);
-      if (!slides.length) slides = cats.map(make).filter(Boolean).sort((a, b) => b.saving - a.saving).slice(0, 3);
-      this.slides = slides.sort((a, b) => b.saving - a.saving);
-
-      /* The deal of the day: a different deal each day, from the twelve
-         deepest savings by percent. */
-      const deals = dealsOf(list)
-        .filter((p) => Number(p.quantity) !== 0)
-        .sort((a, b) => savingOf(b) / b.price - savingOf(a) / a.price)
-        .slice(0, 12);
-      if (deals.length) {
-        const day = Math.floor((Date.now() - new Date().getTimezoneOffset() * 60000) / 86400000);
-        this.dotd = deals[day % deals.length];
-        this.$emit("dotd", this.dotd);
-      }
+      let slides = families.map((f) => make(f, true)).filter(Boolean);
+      if (!slides.length) slides = families.map((f) => make(f, false)).filter(Boolean).slice(0, 4);
+      this.slides = slides;
     },
-    go(i) {
+    schedule() {
+      clearTimeout(this.timer);
+      this.runKey++;
+      this.timer = setTimeout(() => {
+        if (this.running) this.go(this.at + 1);
+      }, TURN);
+    },
+    go(i, byHand = false) {
       const n = this.slides.length;
       if (!n) return;
       this.at = ((i % n) + n) % n;
-      const track = this.$refs.track;
-      const slide = track?.children[this.at];
-      if (track && slide) track.scrollTo({ left: slide.offsetLeft, behavior: this.reduced ? "auto" : "smooth" });
+      if (this.running) this.schedule();
+      else if (byHand) this.runKey++;
     },
-    onScroll() {
-      const track = this.$refs.track;
-      if (!track || !track.clientWidth) return;
-      this.at = Math.round(Math.abs(track.scrollLeft) / track.clientWidth);
+    onTouchStart(e) {
+      this.touchX = e.changedTouches?.[0]?.clientX ?? null;
+    },
+    onTouchEnd(e) {
+      if (this.touchX == null) return;
+      const dx = (e.changedTouches?.[0]?.clientX ?? this.touchX) - this.touchX;
+      this.touchX = null;
+      if (Math.abs(dx) < 40) return;
+      const rtl = getComputedStyle(this.$el).direction === "rtl";
+      this.go(this.at + ((dx < 0) !== rtl ? 1 : -1), true);
     },
   },
 };

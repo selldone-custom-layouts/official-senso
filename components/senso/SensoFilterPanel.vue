@@ -5,7 +5,7 @@
   on a phone or tablet (SensoShopTop opens it). It reads the category's
   own Selldone filter record (tario-filters.ts groupsOf): the price range,
   the variant values (Colour as swatches, Capacity), every spec key the shop
-  saved for the category, and the brands. "Only deals" sits on top. Every
+  saved for the category, and the brands. "On sale" sits on top. Every
   change goes straight to the listing, which fetches and writes the address.
   The first three groups are open with five values and "Show more".
 -->
@@ -16,10 +16,10 @@
       <button v-if="on" class="sn-link" type="button" @click="clearAll">Clear all</button>
     </div>
 
-    <label class="sn-switch">
-      <span><b>Only deals</b><small>Products with a saving</small></span>
+    <label class="sn-check sn-filter__sale">
       <input :checked="!!modelValue?.only_has_discount" type="checkbox" @change="toggleDeals($event.target.checked)" />
-      <i aria-hidden="true"></i>
+      <i><senso-icon name="check" size="15" /></i>
+      <span>On sale</span>
     </label>
 
     <div v-if="range" class="sn-fgroup -open">

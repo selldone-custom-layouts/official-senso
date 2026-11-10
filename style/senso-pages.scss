@@ -181,7 +181,7 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: var(--sn-blue-l);
+    background: var(--sn-brand-l);
     color: var(--sn-link);
     display: grid;
     place-items: center;
@@ -691,7 +691,7 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--sn-blue);
+    background: var(--sn-brand);
     color: var(--sn-on-brand);
     display: grid;
     place-items: center;
@@ -699,7 +699,7 @@
 
   &__band {
     margin-top: 16px;
-    background: var(--sn-blue);
+    background: var(--sn-brand);
     color: var(--sn-on-brand);
     border-radius: var(--sn-r);
     padding: 22px 24px;
@@ -866,7 +866,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--sn-blue-l);
+        background: var(--sn-brand-l);
         color: var(--sn-link);
         display: grid;
         place-items: center;
@@ -915,8 +915,8 @@
     resize: vertical;
 
     &:focus {
-      border-color: var(--sn-blue);
-      box-shadow: 0 0 0 3px var(--sn-blue-l);
+      border-color: var(--sn-brand);
+      box-shadow: 0 0 0 3px var(--sn-brand-l);
     }
   }
 
@@ -943,7 +943,7 @@
     width: 84px;
     height: 84px;
     border-radius: 50%;
-    background: var(--sn-blue-l);
+    background: var(--sn-brand-l);
     color: var(--sn-link);
     display: inline-grid;
     place-items: center;
@@ -987,7 +987,7 @@
       outline: 0;
 
       &:focus {
-        border-color: var(--sn-blue);
+        border-color: var(--sn-brand);
       }
     }
 
@@ -1018,7 +1018,7 @@
     width: 84px;
     height: 84px;
     border-radius: 50%;
-    background: var(--sn-blue-l);
+    background: var(--sn-brand-l);
     color: var(--sn-link);
     display: inline-grid;
     place-items: center;
@@ -1064,7 +1064,7 @@
     height: 56px !important;
     margin: 0 0 14px !important;
     border-radius: 50%;
-    background: var(--sn-blue-l);
+    background: var(--sn-brand-l);
     color: var(--sn-link) !important;
   }
 
@@ -1091,7 +1091,7 @@
   }
 
   .k-btn {
-    background: var(--sn-blue) !important;
+    background: var(--sn-brand) !important;
   }
 }
 
@@ -1167,9 +1167,9 @@ body .u--price .small,
 
 /* ━━━━━━━━━━━━ Compare page: Senso's dress ━━━━━━━━━━━━ */
 .v-application .k-cmp {
-  --c-accent: var(--sn-blue);
-  --c-accent-deep: var(--sn-blue-d);
-  --c-soft: var(--sn-blue-l);
+  --c-accent: var(--sn-brand);
+  --c-accent-deep: var(--sn-brand-d);
+  --c-soft: var(--sn-brand-l);
   --c-ink: var(--sn-ink);
   --c-muted: var(--sn-muted);
   --c-line: var(--sn-line);
@@ -1279,13 +1279,13 @@ body .u--price .small,
 
 /* ━━━━━━━━━━━━ Selldone's buy button: Senso's blue, flat, 8px ━━━━━━━━━━━━ */
 .v-application .s--shop-buy-button {
-  background-color: var(--sn-blue) !important;
+  background-color: var(--sn-brand) !important;
   border-radius: 8px !important;
   font-family: var(--sn-font) !important;
   font-weight: 700 !important;
 
   &:hover {
-    background-color: var(--sn-blue-d) !important;
+    background-color: var(--sn-brand-d) !important;
   }
 }
 
@@ -1383,10 +1383,10 @@ body .u--price .small,
 
 /* Every button is blue, the account's "Pay" too (it was the sale red). */
 .k-btn.-pay {
-  background: var(--sn-blue) !important;
+  background: var(--sn-brand) !important;
 
   &:hover {
-    background: var(--sn-blue-d) !important;
+    background: var(--sn-brand-d) !important;
   }
 }
 

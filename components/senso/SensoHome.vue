@@ -1,150 +1,143 @@
 <!--
-  Senso — Home A "Deals hub" (approved by the owner, 8 November 2026).
+  Senso — the home: a brand site's sections, in Senso's dress, top to bottom:
 
-  Best Buy's sections, in Senso's own dress, top to bottom:
+    the full-bleed hero carousel, one slide per product family
+    FEATURED     a wide image card (a family's story) + 3 category tiles
+    COLLECTIONS  one tab per tag in use (best sellers first), a line of cards
+    LIFESTYLE    another wide image card + 4 category tiles
+    DEALS        "Offers worth a closer look": the biggest savings
+    CATEGORY     "Shop the latest": every category as a line-icon tile
+    NEW          "Just arrived": the new-arrival tag (hidden when no product has it)
+    STORIES      the four newest articles
+    the newsletter form
 
-    the photo hero carousel and the Deal of the Day
-    Shop by category — two even rows of big circles
-    Top deals — one line of cards, deepest savings, spread by category
-    Doorbusters — one tile per category
-    <Tag> Items — the shop's own tags (any tag but best-seller / new)
-    Best sellers — a bento from the best-seller tag
-    Sign in (guests only)
-    Gear for every moment — tall photo cards
-    Trending now — Selldone's most visited
-    Shop by budget — price bands from the shop's own prices
-    New arrivals — the new-arrival tag, else the newest
-    Shop by brand — one row and See all
-    the four newest articles, last
-
-  Everything is read live; a section with nothing to show is not drawn. A
-  product shows once on the page where the shop has enough of them. The
-  header and footer are the Layout's (KalioHeader, KalioFooter). It shows
-  on the bare shop page only: any query shows the listing.
+  Everything is read live; a section with nothing to show is not drawn. The
+  tiles take the categories family by family, so FEATURED and LIFESTYLE show
+  different ones. The header (KalioHeader, clear over the hero) and footer
+  (KalioFooter) are the Layout's. It shows on the bare shop page only: any
+  query shows the listing.
 -->
 <template>
-  <div class="sn-home sn-page">
-    <senso-hero @dotd="(p) => (dotd = p)" />
+  <div class="sn-home">
+    <senso-hero />
 
-    <senso-categories />
+    <div class="sn-page sn-home__body">
+      <senso-showcase
+        :categories="featuredCats"
+        :family="families[0] || null"
+        :products="all"
+        eyebrow="Featured"
+        photo="feature-wide"
+        title="Built for every kind of setup"
+      />
 
-    <senso-rail v-if="topDeals.length || !loaded" :items="topDeals" :more-to="dealsRoute" :pending="!loaded" more-label="See all deals" title="Top deals" />
+      <senso-collections />
 
-    <senso-doorbusters :deals="doorDeals" />
+      <senso-showcase
+        v-if="families.length > 1 || lifestyleCats.length"
+        :categories="lifestyleCats"
+        :family="lifestyleFamily"
+        :products="all"
+        eyebrow="Lifestyle"
+        photo="lifestyle-wide"
+        title="Made for the way you work and play"
+      />
+    </div>
 
-    <senso-rail v-for="t in tagSlots[0]" :key="t.tag" :items="t.products" :title="t.title" />
+    <div class="sn-ground">
+      <div class="sn-page">
+        <senso-rail
+          v-if="deals.length || !loaded"
+          :items="deals"
+          :more-to="dealsRoute"
+          :pending="!loaded"
+          eyebrow="Deals"
+          more-label="All offers"
+          title="Offers worth a closer look"
+        />
+      </div>
+    </div>
 
-    <senso-bento :products="bestSellers" />
+    <div class="sn-page sn-home__body">
+      <senso-shelf />
 
-    <senso-rail v-for="t in tagSlots[1]" :key="t.tag" :items="t.products" :title="t.title" />
+      <senso-rail v-if="newTagged.length" :items="newTagged" :more-to="newRoute" eyebrow="New" more-label="See what’s new" title="Just arrived" />
 
-    <senso-sign-in-nudge />
+      <senso-blog />
+    </div>
 
-    <senso-moments />
-
-    <senso-rail :exclude="early" :more-to="trendingRoute" lazy sort="most_visited" spread title="Trending now" />
-
-    <senso-budget />
-
-    <senso-rail v-if="newTagged.length >= 4" :items="newTagged" :more-to="newRoute" title="New arrivals" />
-    <senso-rail v-else-if="tagsKnown" :exclude="early" :more-to="newRoute" lazy sort="newest" title="New arrivals" />
-
-    <senso-brands />
-
-    <template v-for="(pair, i) in pairs" :key="'pair' + i">
-      <senso-tag-split v-if="pair.length === 2" :rows="pair" />
-      <senso-rail v-else :items="pair[0].products" :title="pair[0].title" />
-    </template>
-
-    <senso-blog />
+    <div class="sn-newsband">
+      <div class="sn-page">
+        <senso-newsletter />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import SensoHero from "./SensoHero.vue";
-import SensoCategories from "./SensoCategories.vue";
+import SensoShowcase from "./SensoShowcase.vue";
+import SensoCollections from "./SensoCollections.vue";
 import SensoRail from "./SensoRail.vue";
-import SensoDoorbusters from "./SensoDoorbusters.vue";
-import SensoBento from "./SensoBento.vue";
-import SensoSignInNudge from "./SensoSignInNudge.vue";
-import SensoMoments from "./SensoMoments.vue";
-import SensoBudget from "./SensoBudget.vue";
-import SensoBrands from "./SensoBrands.vue";
+import SensoShelf from "./SensoShelf.vue";
 import SensoBlog from "./SensoBlog.vue";
-import SensoTagSplit from "./SensoTagSplit.vue";
-import { catalogueRoute, dealsRoute } from "../kalio/kalio-catalog";
-import { allProducts, dealsOf, isBestSellerTag, isNewTag, mix, tagIndex, tagTitle } from "./senso-home";
+import SensoNewsletter from "./SensoNewsletter.vue";
+import { aisles, catalogueRoute, dealsRoute } from "../kalio/kalio-catalog";
+import { allProducts, dealsOf, isNewTag, mix, tagIndex } from "./senso-home";
+import { familiesOf } from "./senso-families";
 
 export default {
   name: "SensoHome",
-  components: {
-    SensoHero,
-    SensoCategories,
-    SensoRail,
-    SensoDoorbusters,
-    SensoBento,
-    SensoSignInNudge,
-    SensoMoments,
-    SensoBudget,
-    SensoBrands,
-    SensoBlog,
-    SensoTagSplit,
-  },
+  components: { SensoHero, SensoShowcase, SensoCollections, SensoRail, SensoShelf, SensoBlog, SensoNewsletter },
 
-  data: () => ({ all: [], loaded: false, dotd: null, byTag: new Map(), tagsKnown: false }),
+  data: () => ({ all: [], cats: [], loaded: false, byTag: new Map() }),
 
   computed: {
+    families() {
+      return familiesOf(this.cats);
+    },
+    /** Every category with products, family by family. */
+    ordered() {
+      const has = new Set(this.all.map((p) => p.category_id));
+      return this.families.flatMap((f) => f.categories).filter((c) => !this.loaded || has.has(c.id));
+    },
+    featuredCats() {
+      return this.ordered.slice(0, 3);
+    },
+    /** The family the LIFESTYLE card tells (the third, else the second). */
+    lifestyleFamily() {
+      return this.families[this.families.length > 2 ? 2 : 1] || null;
+    },
+    /** Four tiles from the LIFESTYLE family on, never one FEATURED shows. */
+    lifestyleCats() {
+      const used = new Set(this.featuredCats.map((c) => c.id));
+      const first = this.lifestyleFamily?.categories?.[0];
+      const at = first ? Math.max(0, this.ordered.findIndex((c) => c.id === first.id)) : 0;
+      const rest = [...this.ordered.slice(at), ...this.ordered.slice(0, at)].filter((c) => !used.has(c.id));
+      return rest.length >= 4 ? rest.slice(0, 4) : rest.length === 3 ? rest : rest.slice(0, 2);
+    },
+    /** The biggest savings, two at most per category so one kind does not fill the row. */
     deals() {
-      return dealsOf(this.all).filter((p) => !this.dotd || p.id !== this.dotd.id);
-    },
-    topDeals() {
-      return mix(this.deals, 12);
-    },
-    doorDeals() {
-      const used = new Set(this.topDeals.map((p) => p.id));
-      const rest = this.deals.filter((p) => !used.has(p.id));
-      return rest.length >= 4 ? rest : this.deals;
-    },
-    bestSellers() {
-      for (const [tag, list] of this.byTag) if (isBestSellerTag(tag)) return mix(list, 9);
-      return [];
+      const per = new Map();
+      const out = [];
+      for (const p of dealsOf(this.all)) {
+        const n = per.get(p.category_id) || 0;
+        if (n >= 2) continue;
+        per.set(p.category_id, n + 1);
+        out.push(p);
+        if (out.length >= 12) break;
+      }
+      return out;
     },
     newTagged() {
       for (const [tag, list] of this.byTag) if (isNewTag(tag)) return mix(list, 12);
       return [];
-    },
-    /** Every other tag in use: its own "<Tag> Items" row, biggest first,
-        dealt into three places so no two rows of tags stand together
-        unless there are more than three. */
-    tagRows() {
-      return [...this.byTag.entries()]
-        .filter(([tag, list]) => !isBestSellerTag(tag) && !isNewTag(tag) && list.length)
-        .sort((a, b) => b[1].length - a[1].length)
-        .map(([tag, list]) => ({ tag, title: `${tagTitle(tag)} Items`, products: mix(list, 12) }));
-    },
-    tagSlots() {
-      const rows = this.tagRows;
-      return [rows.slice(0, 1), rows.slice(1, 2), rows.slice(2)];
-    },
-    /** The tags past the second, two to a section. */
-    pairs() {
-      const rest = this.tagSlots[2];
-      const out = [];
-      for (let i = 0; i < rest.length; i += 2) out.push(rest.slice(i, i + 2));
-      return out;
-    },
-    /** Shown in the first sections; the later rows leave them out. */
-    early() {
-      return [...this.topDeals, ...this.bestSellers].map((p) => p.id);
     },
     dealsRoute() {
       return dealsRoute();
     },
     newRoute() {
       return catalogueRoute({ sort: "newest" });
-    },
-    trendingRoute() {
-      return catalogueRoute({ sort: "most_visited" });
     },
   },
 
@@ -153,9 +146,8 @@ export default {
       this.all = list;
       this.loaded = true;
     });
-    tagIndex()
-      .then(({ byTag }) => (this.byTag = byTag))
-      .finally(() => (this.tagsKnown = true));
+    aisles().then((list) => (this.cats = list));
+    tagIndex().then(({ byTag }) => (this.byTag = byTag));
   },
 };
 </script>

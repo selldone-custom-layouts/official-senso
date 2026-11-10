@@ -287,3 +287,13 @@ export function money(amount: number, currency = "USD", short = false): string {
     return (short ? Math.round(amount) : (amount || 0).toFixed(2)) + " " + currency;
   }
 }
+
+/* ━━━━━━━━━━━━ Senso: a category's showcase product ━━━━━━━━━━━━ */
+
+/** The product a category is shown by (tiles, mega panels, banners): the
+ *  deepest saving, then the highest price, in stock first. */
+export function bestOf(list: any[], category: any): any | null {
+  const ps = list.filter((p) => p.category_id === category?.id);
+  const inStock = (p: any) => (p.quantity == null || Number(p.quantity) > 0 ? 1 : 0);
+  return [...ps].sort((a, b) => inStock(b) - inStock(a) || savingOf(b) - savingOf(a) || finalOf(b) - finalOf(a))[0] || null;
+}

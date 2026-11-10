@@ -60,24 +60,28 @@
         filter, sort, "All products") asks for the catalogue itself.
       -->
 
-      <!-- ▆▆▆▆▆▆▆▆ The home (Senso Home A) ▆▆▆▆▆▆▆▆ -->
+      <!-- ▆▆▆▆▆▆▆▆ The home (SensoHome) ▆▆▆▆▆▆▆▆ -->
       <!-- On the bare shop page only: any query (a search, a filter, a sort,
            "All products") shows the listing instead. -->
       <senso-home v-if="show_home" />
 
       <!-- ▆▆▆▆▆▆▆▆ A category, the catalogue, a search, the deals ▆▆▆▆▆▆▆▆ -->
-      <!-- Senso: a short head, the filter panel beside the grid on a
-           computer (a sheet on a phone), the sort menu; Selldone's listing
-           does the fetching and draws Senso's card (senso-card.ts). -->
-      <div v-else class="sn-shop sn-page">
+      <!-- Senso: a dark banner, the kinds as chips, "N results" and the sort
+           pill; the filter card beside a three-a-row grid on a computer (a
+           sheet on a phone); Selldone's listing does the fetching and draws
+           Senso's card with "Learn more" (senso-card.ts). -->
+      <div v-else class="sn-shop">
         <senso-shop-top
           :aisle="listing_parent"
           :filter="t_filter"
+          :filters="filters_def"
           :mode="shop_mode"
           :products="listing_products"
           :search="search_query"
           :sort="t_sort"
+          :total="catalogue_total"
           @brand="toggleBrand"
+          @kind="pickType"
           @update:sort="setSort"
         >
           <template #panel>
@@ -85,11 +89,24 @@
           </template>
         </senso-shop-top>
 
-        <div class="sn-shop__body">
+        <div class="sn-page sn-shop__body">
           <aside aria-label="Filters" class="sn-shop__side">
             <senso-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
           </aside>
-          <div class="sn-shop__main">
+          <!-- Loading, Senso's way: the first read shows skeleton cards in
+               the card's shape; a new filter, sort or search keeps the cards,
+               dims them and floats an "Updating results…" pill; the new cards
+               fade up; "load more" appends skeletons. Selldone's thin progress
+               line is hidden. -->
+          <div :class="{ '-busy': loading === 'refresh', '-arrived': arrived }" class="sn-shop__main">
+            <transition name="sn-fade">
+              <div v-if="loading === 'refresh'" aria-live="polite" class="sn-updating" role="status">
+                <span class="sn-updating__pill"><i aria-hidden="true" class="sn-spin"></i>Updating results…</span>
+              </div>
+            </transition>
+            <div v-if="loading === 'first'" aria-hidden="true" class="sn-skelgrid">
+              <div v-for="n in 6" :key="'f' + n" class="sn-skelcard"><i></i><b></b><b class="-mid"></b><b class="-short"></b><em></em></div>
+            </div>
             <s-products-listing
               ref="listing"
               :key="$route.path"
@@ -102,19 +119,26 @@
               route-mode
               update-route
               @fetch-products="updateProductsSeo"
+              @sn-fetch="onFetchStart"
             ></s-products-listing>
+            <div v-if="loading === 'more'" aria-hidden="true" class="sn-skelgrid -more">
+              <div v-for="n in 3" :key="'m' + n" class="sn-skelcard"><i></i><b></b><b class="-mid"></b><b class="-short"></b><em></em></div>
+            </div>
           </div>
         </div>
 
-        <senso-rail v-if="catalogue && search_query" :limit="12" lazy sort="bestselling" title="Popular right now" />
-        <section v-if="more_aisles.length" class="sn-sec sn-keep">
-          <h2>More categories</h2>
-          <div class="sn-keep__list">
-            <router-link v-for="a in more_aisles" :key="a.id" :to="aisleTo(a)" class="sn-chip">
-              <img v-if="a.icon" :src="aisleIcon(a)" alt="" />{{ a.title || a.name }}
-            </router-link>
-          </div>
-        </section>
+        <div class="sn-page">
+          <senso-rail v-if="catalogue && search_query" :limit="12" eyebrow="Popular" lazy sort="bestselling" title="Popular right now" />
+          <section v-if="more_aisles.length" class="sn-sec sn-keep">
+            <p class="sn-eyebrow">Keep exploring</p>
+            <h2>More categories</h2>
+            <div class="sn-keep__list">
+              <router-link v-for="a in more_aisles" :key="a.id" :to="aisleTo(a)" class="sn-pillchip">
+                <senso-category-icon :category="a" size="22" />{{ a.title || a.name }}
+              </router-link>
+            </div>
+          </section>
+        </div>
       </div>
     </v-card>
 
@@ -128,6 +152,7 @@ import SensoHome from "../../components/senso/SensoHome.vue";
 import SensoShopTop from "../../components/senso/SensoShopTop.vue";
 import SensoFilterPanel from "../../components/senso/SensoFilterPanel.vue";
 import SensoRail from "../../components/senso/SensoRail.vue";
+import SensoCategoryIcon from "../../components/senso/SensoCategoryIcon.vue";
 import { fromRoute, clone } from "../../components/tario/shop/tario-filters";
 import { aisleImage, aisleRoute, aisles } from "../../components/kalio/kalio-catalog";
 import {StorefrontSeo} from "../../helpers/StorefrontSeo";
@@ -135,6 +160,7 @@ import { hostQuickBuy } from "../../components/kalio/kalio-listing-quick-buy";
 import { quickAdd } from "../../components/kalio/kalio-basket";
 import { openQuickBuy } from "../../components/senso/senso-quick";
 import "../../components/senso/senso-card"; // every listing draws Senso's card
+import "../../components/senso/senso-listing-loading"; // the listing tells when it starts a read
 
 export default {
   name: "StorefrontPageProducts",
@@ -144,6 +170,7 @@ export default {
     SensoShopTop,
     SensoFilterPanel,
     SensoRail,
+    SensoCategoryIcon,
   },
   mixins: [TemplateMixin],
 
@@ -161,6 +188,10 @@ export default {
     t_filter: null /* The filter the listing has (the bar shows it). */,
     t_sort: null,
     aisle_list: [],
+    /** first | refresh | more | null: how the listing is loading now. */
+    loading: null,
+    /** The moment new cards arrive (they fade up). */
+    arrived: false,
   }),
   /**
    * ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -299,7 +330,22 @@ export default {
         ? this.$route.params?.vendor_id
         : this.$route.query?.vendor_id || null;
     },
+    /** The listing starts a read (senso-listing-loading.ts tells it). */
+    onFetchStart(more) {
+      clearTimeout(this.loadingTimer);
+      this.loading = more ? "more" : this.listing_products.length ? "refresh" : "first";
+      this.arrived = false;
+      // A read that fails never sends its products: stop waiting after a while.
+      this.loadingTimer = setTimeout(() => (this.loading = null), 15000);
+    },
     updateProductsSeo(data) {
+      clearTimeout(this.loadingTimer);
+      if (this.loading && this.loading !== "more") {
+        this.arrived = true;
+        clearTimeout(this.arrivedTimer);
+        this.arrivedTimer = setTimeout(() => (this.arrived = false), 900);
+      }
+      this.loading = null;
       this.catalogue_total = typeof data?.total === "number" ? data.total : null;
       if (data?.parent !== undefined) this.listing_parent = data.parent && data.parent.id ? data.parent : null;
       this.listing_products = data?.products || [];

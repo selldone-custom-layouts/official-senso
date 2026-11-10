@@ -34,7 +34,7 @@
         <nav aria-label="Breadcrumb" class="sn-crumbs sn-page">
           <router-link :to="{ path: '/' }">Home</router-link>
           <template v-if="product && product.category">
-            <span aria-hidden="true" class="sn-ms">chevron_right</span>
+            <span aria-hidden="true">/</span>
             <router-link
               :to="{
                 name: window.$storefront.routes.SHOP_CATEGORY_PAGE,
@@ -44,7 +44,7 @@
             >
           </template>
           <template v-if="product">
-            <span aria-hidden="true" class="sn-ms">chevron_right</span>
+            <span aria-hidden="true">/</span>
             <span aria-current="page">{{ product.title }}</span>
           </template>
           <span class="sn-crumbs__tools">
@@ -61,33 +61,62 @@
     </div>
 
     <template v-if="product">
+      <nav aria-label="On this page" class="sn-pdp-tabs">
+        <div class="sn-page">
+          <a href="#sn-highlights" @click.prevent="jump('sn-highlights')">Highlights</a>
+          <a v-if="has_spec" href="#sn-specs" @click.prevent="jump('sn-specs')">Specifications</a>
+          <a href="#sn-similar" @click.prevent="jump('sn-similar')">Compare</a>
+          <a href="#k-reviews" @click.prevent="jump('k-reviews')">Reviews</a>
+          <a href="#sn-also" @click.prevent="jump('sn-also')">You may also like</a>
+        </div>
+      </nav>
+
       <div class="sn-page sn-pdp-more">
+        <senso-highlights :product="product" />
+
         <!-- The merchant's own cross-sells and offers, as Selldone keeps them. -->
         <s-product-cross-sells class="s--product-section k-pdp-block"></s-product-cross-sells>
         <s-product-offers class="s--product-section k-pdp-block"></s-product-offers>
 
         <section v-if="has_spec" id="sn-specs" aria-labelledby="sn-spec-h" class="sn-sec sn-specs">
-          <header class="sn-head"><h2 id="sn-spec-h">Specifications</h2></header>
+          <header class="sn-head">
+            <div>
+              <p class="sn-eyebrow">Specifications</p>
+              <h2 id="sn-spec-h">The details</h2>
+            </div>
+          </header>
           <div class="sn-specs__groups">
             <div v-for="g in spec_groups" :key="g.title" class="sn-specs__g">
               <h3>{{ g.title }}</h3>
               <dl>
-                <template v-for="row in g.rows" :key="row.key">
+                <div v-for="row in g.rows" :key="row.key" class="sn-specs__row">
                   <dt>{{ row.key }}</dt>
                   <dd>{{ row.value }}</dd>
-                </template>
+                </div>
               </dl>
             </div>
           </div>
         </section>
 
-        <section v-if="article" aria-label="About this product" class="sn-sec sn-about">
-          <header class="sn-head"><h2>About this product</h2></header>
+        <senso-similar :product="product" />
+
+        <section v-if="article" aria-labelledby="sn-story-h" class="sn-sec sn-about">
+          <header class="sn-head">
+            <div>
+              <p class="sn-eyebrow">Overview</p>
+              <h2 id="sn-story-h">About this product</h2>
+            </div>
+          </header>
           <s-product-article hide-title></s-product-article>
         </section>
 
         <section id="k-reviews" aria-labelledby="sn-rev-h" class="sn-sec sn-reviews">
-          <header class="sn-head"><h2 id="sn-rev-h">Reviews</h2></header>
+          <header class="sn-head">
+            <div>
+              <p class="sn-eyebrow">Reviews</p>
+              <h2 id="sn-rev-h">What owners say</h2>
+            </div>
+          </header>
           <kalio-reviews></kalio-reviews>
         </section>
 
@@ -103,21 +132,26 @@
         </section>
 
         <s-product-landing></s-product-landing>
+      </div>
 
-        <senso-rail
-          v-if="product.category"
-          :key="'more-' + product.category.id"
-          :dir="product.category.name"
-          :exclude="[product.id]"
-          :photo-category="product.category"
-          :more-to="{
-            name: window.$storefront.routes.SHOP_CATEGORY_PAGE,
-            params: { category_name: product.category.name },
-          }"
-          :title="'More in ' + (product.category.title || product.category.name)"
-          lazy
-          sort="bestselling"
-        />
+      <div id="sn-also" class="sn-ground">
+        <div class="sn-page">
+          <senso-rail
+            v-if="product.category"
+            :key="'more-' + product.category.id"
+            :dir="product.category.name"
+            :exclude="[product.id]"
+            :eyebrow="'More ' + (product.category.title || product.category.name)"
+            :more-to="{
+              name: window.$storefront.routes.SHOP_CATEGORY_PAGE,
+              params: { category_name: product.category.name },
+            }"
+            lazy
+            more-label="See all"
+            sort="bestselling"
+            title="You may also like"
+          />
+        </div>
       </div>
     </template>
   </div>
@@ -129,6 +163,8 @@ import NotificationService from "@selldone/components-vue/plugins/notification/N
 import SensoProductOverview from "../../components/senso/SensoProductOverview.vue";
 import SensoRail from "../../components/senso/SensoRail.vue";
 import SensoFbt from "../../components/senso/SensoFbt.vue";
+import SensoHighlights from "../../components/senso/SensoHighlights.vue";
+import SensoSimilar from "../../components/senso/SensoSimilar.vue";
 import { waysOf } from "../../components/senso/senso-home";
 import { specGroups, specValue } from "../../components/kalio/compare/kalio-compare";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
@@ -183,6 +219,8 @@ export default {
     SensoProductOverview,
     SensoRail,
     SensoFbt,
+    SensoHighlights,
+    SensoSimilar,
 
   },
 
@@ -307,6 +345,9 @@ export default {
   },
 
   methods: {
+    jump(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    },
     askToSignIn() {
       EventBus.$emit("need-login", true);
     },

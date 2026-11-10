@@ -8,7 +8,7 @@
 -->
 <template>
   <section v-if="items.length > 1" aria-labelledby="sn-fbt-h" class="sn-sec sn-fbt">
-    <header class="sn-head"><h2 id="sn-fbt-h">Frequently bought together</h2></header>
+    <header class="sn-head"><div><p class="sn-eyebrow">Complete the setup</p><h2 id="sn-fbt-h">Frequently bought together</h2></div></header>
     <div class="sn-fbt__row">
       <template v-for="(it, i) in items" :key="it.p.id">
         <span v-if="i" aria-hidden="true" class="sn-fbt__plus"><senso-icon name="add" size="20" /></span>
