@@ -3843,9 +3843,11 @@ body {
 }
 
 /* Focus: a ring drawn inside the element (the owner's ring rule), never the
-   browser's outline, which a row or drawer edge can cut. */
+   browser's outline, which a row or drawer edge can cut. The phone menu and
+   the cart are drawers outside .v-application, so they are named too. */
 .v-application,
-.v-overlay-container {
+.v-overlay-container,
+.v-navigation-drawer {
   :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-acc__head, .sn-acc__link, .sn-acc__more,
     .sn-tabs__tab, .sn-kind, .sn-shelf__tile, .sn-show__tile, .sn-show__card, .sn-story, .sn-card__img, .sn-card__t, .sn-heart, .sn-sw,
     .sn-mega__cat, .sn-mega__feature, .sn-support__tile, .sn-hero__nav, .sn-hero__seg, .sn-pdp-tabs a, .k-drawer__link, .sn-more):focus-visible {
