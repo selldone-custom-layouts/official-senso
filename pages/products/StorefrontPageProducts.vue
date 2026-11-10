@@ -320,8 +320,31 @@ export default {
     this.readRoute();
     aisles().then((list) => (this.aisle_list = list));
   },
+  /* "Load more" never skipped: the listing asks for the next page when its
+     "Show N more" pill comes into view (Selldone's v-intersect). A fast
+     flick or a jump to the page's end can carry the pill past the screen
+     between two frames, and the list then stopped at its first page (a
+     phone showed 6 of 61 offers). The pill coming near the screen, or
+     already above it, now asks too; a read already running is never asked
+     twice. */
+  mounted() {
+    this.onScrollMore = () => {
+      if (this.moreFrame) return;
+      this.moreFrame = requestAnimationFrame(() => {
+        this.moreFrame = null;
+        const list = this.$refs.listing;
+        const pill = this.$el?.querySelector?.(".k-loadmore__go");
+        if (!list || !pill || list.busy_fetch || !list.has_more || !list.loadMore) return;
+        const r = pill.getBoundingClientRect();
+        if (r.width && r.top < window.innerHeight + 240) list.fetchData(false, true);
+      });
+    };
+    window.addEventListener("scroll", this.onScrollMore, { passive: true });
+  },
   beforeUnmount() {
     this.releaseQuickBuy?.();
+    window.removeEventListener("scroll", this.onScrollMore);
+    if (this.moreFrame) cancelAnimationFrame(this.moreFrame);
   },
 
   methods: {
