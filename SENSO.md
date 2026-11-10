@@ -70,6 +70,12 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.4 (10 November 2026, deploy 484, release `01M72DH8QC4N2MMY960W4XS00X`, pinned on domain 1242): content never touches its card's edge.**
+  - **The owner's report on 1.0.3:** on every listing (category, search, offers, filtered or not), the card's content sat flush on its left and right edges, and the image well lost its inset.
+  - **The cause:** Selldone's listing hands each card its column and utility classes (`v-col-12 v-col-sm-6 … pa-0`). `senso-card.ts` let them fall through to SensoCard's root, and Vuetify's `.pa-0 { padding: 0 !important }` (with an old `padding: 0 !important` in the base dress) wiped the card's 12px padding.
+  - **Before the fix,** the new card check in `scripts/senso-layout-checks.cjs` found all 7 cards on /monitors-category at 1440 with padding 0/0. The cards on the home rails were fine.
+  - **The fix:** the listing's card now passes only the listing's listeners (click, hover) to SensoCard, never its classes (`inheritAttrs = false`). The base dress no longer zeroes the padding, and `.v-application .sn-card` keeps 12px 12px 16px (10px on a phone) whatever lands on it.
+  - **The card check** now runs in the layout checks: every visible card's padding is 10px or more, and every part of it sits 8px or more inside its edges.
 - **1.0.3 (10 November 2026, deploy 481, release `01M72BBFWZ0CF3MR7PCBXNW9FN`, pinned on domain 1242).**
   - The hero's white arrow circles keep a dark arrow in dark mode: the build step had turned the arrow light, white on white.
   - A family of two or three categories gets a one-column mega panel.
