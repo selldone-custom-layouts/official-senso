@@ -1,8 +1,8 @@
 {
   "name": "Senso Electronics",
   "shop": "Digini",
-  "kind": "Electronics shop · deals hub · blue",
-  "summary": "An electronics shop built like a big deals hub: a blue header with a category mega menu, a photo hero beside the Deal of the Day, two even rows of round categories, deal rails with an Add to cart that turns into − n +, doorbusters, a best-seller bento, category pages with a filter panel, a three-column product page with specs and Frequently bought together, and a receipt-first cart.",
+  "kind": "Electronics shop · brand site · teal",
+  "summary": "An electronics shop dressed as a calm, cinematic brand site: a clear header over a full-bleed hero carousel, product families with clean mega panels, featured and lifestyle image cards over pale category tiles, offers and new-arrival rails, line-icon category tiles, dark category banners with kinds and a filter card, a product page with a sticky info column, Highlights bands, a two-column spec table and Compare with similar, and a support centre.",
   "live": "https://senso.selldone.shop",
   "cover": "docs/screenshots/cover.jpg",
   "screenshots": [
@@ -10,17 +10,21 @@
     "docs/screenshots/desktop-category.jpg",
     "docs/screenshots/desktop-product.jpg",
     "docs/screenshots/desktop-cart.jpg",
+    "docs/screenshots/desktop-theme.jpg",
+    "docs/screenshots/desktop-dark.jpg",
     "docs/screenshots/phone-home.jpg",
     "docs/screenshots/phone-category.jpg",
     "docs/screenshots/phone-product.jpg",
-    "docs/screenshots/phone-cart.jpg"
+    "docs/screenshots/phone-cart.jpg",
+    "docs/screenshots/phone-dark.jpg"
   ],
   "tags": [
     "electronics",
     "single-vendor",
-    "deals",
-    "big-box",
-    "blue"
+    "brand-site",
+    "cinematic",
+    "teal",
+    "dark-mode"
   ],
   "package": "senso-electronics",
   "base": "selldone/storefront",

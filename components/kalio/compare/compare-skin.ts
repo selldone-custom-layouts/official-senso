@@ -2,7 +2,7 @@
    KalioCompare.vue is the same page in every Layout built from Molino; this
    file and the Senso dress at the end of style/senso-pages.scss make it
    this Layout's own: picks pinned at the top as white cards, differing rows
-   on a light yellow ground in bold, one Only differences switch, a blue
+   marked by a dot and bold values, one Only differences switch, a teal
    share card. */
 export const SKIN = {
   /** The page's heading (and the tab's title). */

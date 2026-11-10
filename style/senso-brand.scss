@@ -3768,3 +3768,45 @@ body {
     display: none;
   }
 }
+
+/* Focus: a ring drawn inside the element (the owner's ring rule), never the
+   browser's outline, which a row or drawer edge can cut. */
+.v-application,
+.v-overlay-container {
+  :is(.sn-btn, .sn-arrowbtn, .sn-pillchip, .sn-header__fam, .sn-header__txt, .sn-header__ic, .sn-header__act, .sn-acc__head, .sn-acc__link,
+    .sn-tabs__tab, .sn-kind, .sn-shelf__tile, .sn-show__tile, .sn-show__card, .sn-story, .sn-card__img, .sn-card__t, .sn-heart, .sn-sw,
+    .sn-mega__cat, .sn-mega__feature, .sn-support__tile, .sn-hero__nav, .sn-hero__seg, .sn-pdp-tabs a, .k-drawer__link, .sn-more):focus-visible {
+    outline: none !important;
+    box-shadow: inset 0 0 0 2px var(--sn-deco) !important;
+  }
+}
+
+/* White packshots melt into a tile: lift a near-white ground to white first. */
+.sn-tile img,
+.sn-card__img img,
+.sn-pedestal__img img,
+.sn-kind__img img,
+.sn-sim__img img {
+  filter: brightness(1.03) contrast(1.02);
+}
+
+/* The phone's filter sheet has its own "Filters" head: the panel's heading
+   is not repeated there (its "Clear all" stays). */
+.sn-sheet .sn-filter__top h2 {
+  display: none;
+}
+
+.sn-sheet .sn-filter__top {
+  justify-content: flex-end;
+  min-height: 0;
+  margin-bottom: 4px;
+}
+
+.v-application .sn-sort select,
+.sn-sort select {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  height: 40px;
+}

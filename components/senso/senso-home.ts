@@ -1,24 +1,21 @@
 /*
- * Senso — the shared reads and rules of the home page and its sections.
+ * Senso — the shared reads and rules of the home page and its sections
+ * (SensoHome: the hero, FEATURED, COLLECTIONS, LIFESTYLE, DEALS, the
+ * category shelf, NEW, STORIES), the listing head and the mega panels.
+ * Everything is read live; nothing here names a product, a price or a
+ * category.
  *
- * Home A "Deals hub" (approved by the owner, 8 November 2026): a photo hero
- * carousel with the Deal of the Day, round categories, Top deals, doorbuster
- * tiles, the best-seller bento, tall photo cards, Trending, Shop by budget,
- * New arrivals, brands and the newest articles. Everything is read live;
- * nothing here names a product, a price or a category.
- *
- *  - Lifestyle photos are bundled in assets/senso/ as <shape>-<category
- *    name>.webp (wide 16:9 with a quiet left third, portrait 4:5, square).
- *    A category is matched by its `name` (the slug in its address). A
- *    category without a photo falls back to a collage of its own products
- *    (SensoPhoto), so the Layout is complete without any photo.
+ *  - The owner's lifestyle photos are bundled in assets/senso/ as
+ *    wide-<category name>.webp (16:9 with a quiet left third); the hero uses
+ *    them until a family's own photo arrives (senso-photos.ts). A category is
+ *    matched by its `name` (the slug in its address).
  *  - Tags: Selldone's storefront has no list of a shop's tags, but products
  *    can be asked for by tag, and an answer carries every tag of each
  *    product. One request with a vocabulary of common merchandising tags
  *    finds the tags in use (and any other tag those products also carry).
- *    A tag with no products shows nothing; every tag found gets its own
- *    "<Tag> Items" row, except the best-seller tag (the bento) and the
- *    new-arrival tag (New arrivals).
+ *    A tag with no products shows nothing; the best-seller tag is the first
+ *    COLLECTIONS tab, the new-arrival tag fills NEW, and every other tag
+ *    gets a tab of its own.
  */
 
 declare const window: any;

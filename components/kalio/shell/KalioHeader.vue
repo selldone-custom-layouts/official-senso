@@ -36,8 +36,8 @@
         <button
           v-for="f in families"
           :key="f.key + f.title"
-          :aria-expanded="openFamily === f"
-          :class="{ '-on': openFamily === f }"
+          :aria-expanded="famKey === keyOf(f)"
+          :class="{ '-on': famKey === keyOf(f) }"
           class="sn-header__fam"
           type="button"
           @click.stop="toggleFamily(f)"
@@ -100,7 +100,7 @@
     <!-- ▆▆▆▆▆▆▆▆ A family's mega panel ▆▆▆▆▆▆▆▆ -->
     <transition name="sn-drop">
       <div v-if="openFamily && !compact" class="sn-header__panel" @click.stop>
-        <senso-mega-menu :family="openFamily" @close="openFamily = null" />
+        <senso-mega-menu :family="openFamily" @close="famKey = null" />
       </div>
     </transition>
 
@@ -192,11 +192,11 @@
         </div>
 
         <nav aria-label="Products" class="sn-phonemenu__fams">
-          <div v-for="f in families" :key="f.key + f.title" :class="{ '-open': openAcc === f }" class="sn-acc">
-            <button :aria-expanded="openAcc === f" class="sn-acc__head" type="button" @click="openAcc = openAcc === f ? null : f">
-              <span>{{ f.title }}</span><senso-icon :name="openAcc === f ? 'remove' : 'add'" size="20" />
+          <div v-for="f in families" :key="f.key + f.title" :class="{ '-open': openAcc === keyOf(f) }" class="sn-acc">
+            <button :aria-expanded="openAcc === keyOf(f)" class="sn-acc__head" type="button" @click="openAcc = openAcc === keyOf(f) ? null : keyOf(f)">
+              <span>{{ f.title }}</span><senso-icon :name="openAcc === keyOf(f) ? 'remove' : 'add'" size="20" />
             </button>
-            <div v-if="openAcc === f" class="sn-acc__body">
+            <div v-if="openAcc === keyOf(f)" class="sn-acc__body">
               <router-link v-for="c in f.categories" :key="c.id" :to="aisleRoute(c)" class="sn-acc__link" @click="menu = false">
                 <senso-category-icon :category="c" size="28" />
                 <span><b>{{ c.title || c.name }}</b><small v-if="catLine(c)">{{ catLine(c) }}</small></span>
@@ -263,7 +263,8 @@ export default {
       BRAND,
       aisleList: [],
       all: [],
-      openFamily: null,
+      /* The open family, by key (a computed family is a new object each time). */
+      famKey: null,
       openAcc: null,
       searchOpen: false,
       basket: false,
@@ -296,6 +297,9 @@ export default {
     },
     families() {
       return familiesOf(this.aisleList);
+    },
+    openFamily() {
+      return this.famKey ? this.families.find((f) => this.keyOf(f) === this.famKey) || null : null;
     },
     /** The bare shop page: the home, whose hero the header sits over. */
     onHome() {
@@ -359,12 +363,12 @@ export default {
       basketView.drawerOpen = open;
     },
     compact() {
-      this.openFamily = null;
+      this.famKey = null;
     },
     $route() {
       this.menu = false;
       this.basket = false;
-      this.openFamily = null;
+      this.famKey = null;
       this.searchOpen = false;
       this.$nextTick(() => this.onScroll && this.onScroll());
     },
@@ -377,13 +381,14 @@ export default {
     this.onScroll = () => (this.scrolled = window.scrollY > 24);
     this.onDoc = (e) => {
       if (!this.$refs.root || this.$refs.root.contains(e.target)) return;
-      this.openFamily = null;
+      this.famKey = null;
       this.searchOpen = false;
     };
     this.onKey = (e) => {
       if (e.key !== "Escape") return;
-      this.openFamily = null;
+      this.famKey = null;
       this.searchOpen = false;
+      this.menu = false;
     };
     window.addEventListener("resize", this.onResize, { passive: true });
     window.addEventListener("scroll", this.onScroll, { passive: true });
@@ -403,12 +408,15 @@ export default {
     catLine(aisle) {
       return categoryLine(aisle, this.all, (n) => money(n, this.$shop?.currency || "USD", true));
     },
+    keyOf(f) {
+      return f.key + ":" + f.title;
+    },
     toggleFamily(f) {
       this.searchOpen = false;
-      this.openFamily = this.openFamily === f ? null : f;
+      this.famKey = this.famKey === this.keyOf(f) ? null : this.keyOf(f);
     },
     toggleSearch() {
-      this.openFamily = null;
+      this.famKey = null;
       this.searchOpen = !this.searchOpen;
     },
     onSearch(event) {

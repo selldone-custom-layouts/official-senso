@@ -1,9 +1,9 @@
 /* ▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Senso — every page after the home ▆▆▆▆▆▆▆▆▆▆▆▆▆▆
 
-   The product page (three columns like a big electronics store), and the
-   Kalio pages that Senso keeps (cart, checkout, order, account, sign-in,
-   content pages) in the deals-hub dress: grey floor, white cards, one blue.
-   Loaded after senso-skin.scss. */
+   The Kalio pages that Senso keeps (cart, checkout, order, account,
+   sign-in, compare, content pages) in Senso's dress: white cards, one
+   teal, pill buttons. Loaded after senso-skin.scss; senso-brand.scss
+   (loaded last) draws the product page's new shape and Senso's sections. */
 
 /* ━━━━━━━━━━━━ Product page ━━━━━━━━━━━━ */
 .sn-crumbs__tools {
