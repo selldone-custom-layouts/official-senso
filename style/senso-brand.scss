@@ -456,6 +456,16 @@ body {
     margin: 16px 0 18px;
   }
 
+  /* A family of two or three: one column, and a smaller feature beside it. */
+  &__in.-few {
+    grid-template-columns: minmax(0, 520px) 340px;
+    justify-content: space-between;
+
+    .sn-mega__list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
   &__cat {
     display: flex;
     align-items: center;

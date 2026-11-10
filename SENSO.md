@@ -70,6 +70,10 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.2 (10 November 2026, deploy 480, release `01M72AYFAN6YN1YTW1N6XATSQT`, pinned on domain 1242): the offers wording and theme colour for chosen states.** The empty cart, the blog and an article now say "offers" (Senso has no "Today's deals"). Selldone's chosen Compare and Save pills take the theme colour instead of Vuetify's green. The walk-through on dev before it passed 42 of 45 steps at 1440 in light. The three that did not pass:
+  - the walker's own default palette check (fixed in the walker);
+  - Selldone's "Price: low to high", which orders by the price before the deal (763.50 before 761.90; a Selldone limit, as on Digito);
+  - one 429 rate-limit answer from Selldone.
 - **1.0.1 (10 November 2026, deploy 479, release `01M72AABPDGFSJN47DFB3DJVKQ`, pinned on domain 1242), the first round of fixes.**
   - The phone menu's family accordions and the header's family panels open by the family's key. A family is rebuilt as a new object each time, so the first build compared objects and nothing opened on a phone. Esc closes the phone menu too.
   - Focus rings are drawn inside each control (never the browser's outline). Product pictures in "Often added" and the cart lines sit inside clipping boxes. The cart page's delivery hint lines up with its tiles' icons. The phone's filter sheet says "Filters" once. Packshots melt into their tiles.

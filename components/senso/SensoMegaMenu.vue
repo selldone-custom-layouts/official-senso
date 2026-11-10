@@ -7,7 +7,7 @@
 -->
 <template>
   <div class="sn-mega" @keydown.esc="$emit('close')">
-    <div class="sn-mega__in">
+    <div :class="{ '-few': family.categories.length <= 3 }" class="sn-mega__in">
       <div class="sn-mega__col">
         <p class="sn-eyebrow">{{ family.title }}</p>
         <nav :aria-label="family.title" class="sn-mega__list">

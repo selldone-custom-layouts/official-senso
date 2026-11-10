@@ -45,7 +45,7 @@
 import SnSlot from "./SensoSlot.vue";
 import SensoCategoryIcon from "./SensoCategoryIcon.vue";
 import { aisleRoute, productImage, productSrcset } from "../kalio/kalio-catalog";
-import { bestOf, categoryLine, money } from "./senso-home";
+import { bestOf, categoryLine, money, savingOf } from "./senso-home";
 
 let n = 0;
 
@@ -64,8 +64,13 @@ export default {
   },
   data: () => ({ hid: `sn-show-${++n}` }),
   computed: {
+    /** The family's lead category: the one with the most deals, then the most products. */
     familyTo() {
-      return this.family?.categories?.[0] ? aisleRoute(this.family.categories[0]) : { path: "/" };
+      const cats = this.family?.categories || [];
+      if (!cats.length) return { path: "/" };
+      const n = (c, deals) => this.products.filter((p) => p.category_id === c.id && (!deals || savingOf(p) > 0)).length;
+      const lead = [...cats].sort((a, b) => n(b, true) - n(a, true) || n(b) - n(a))[0];
+      return aisleRoute(lead);
     },
     tiles() {
       const cur = this.$shop?.currency || "USD";
