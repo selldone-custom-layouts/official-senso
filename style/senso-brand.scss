@@ -878,14 +878,14 @@ body {
     padding: 0;
     border-radius: 50%;
     background: #ffffff;
-    color: #0d1b1e !important;
+    color: var(--sn-on-mint) !important; /* a white circle on a photo: a dark arrow in both modes */
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     transition: background-color 0.15s;
 
     .sn-i {
       stroke-width: 2.4;
-      color: #0d1b1e;
+      color: var(--sn-on-mint);
     }
 
     &:hover {
