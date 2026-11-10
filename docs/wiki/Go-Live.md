@@ -25,10 +25,10 @@ Senso is pinned on that one domain:
 
 ```json
 api.shops.domains.layout.set   path { "domain_key": "1242" }
-body { "mode": "private", "layout_id": <Senso's Layout id>, "layout_version": "1.0.0" }
+body { "mode": "private", "layout_id": 33, "layout_version": "1.0.0" }
 ```
 
-- Senso's Layout id is in [`SENSO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/SENSO.md). For your own shop, use your domain's id and `<Layout id>`.
+- Senso's Layout id is **33** (see [`SENSO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/SENSO.md)). For your own shop, use your domain's id and `<Layout id>`.
 - The domain has its own Home set to the shop page (`selldone_shop_home_domain_set`).
 - **Never** pin the shop default (`api.shops.layout.set`) when you release Senso: that would move every other address too.
 - After a release, check both addresses' `window.sdShopLayout`: senso.selldone.shop shows the new Senso version, and the shop's default address still shows its own Layout.

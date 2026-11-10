@@ -70,6 +70,10 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.3 (10 November 2026, deploy 481, release `01M72BBFWZ0CF3MR7PCBXNW9FN`, pinned on domain 1242).**
+  - The hero's white arrow circles keep a dark arrow in dark mode: the build step had turned the arrow light, white on white.
+  - A family of two or three categories gets a one-column mega panel.
+  - The FEATURED and LIFESTYLE cards open the family's lead category: the one with the most deals, then the most products.
 - **1.0.2 (10 November 2026, deploy 480, release `01M72AYFAN6YN1YTW1N6XATSQT`, pinned on domain 1242): the offers wording and theme colour for chosen states.** The empty cart, the blog and an article now say "offers" (Senso has no "Today's deals"). Selldone's chosen Compare and Save pills take the theme colour instead of Vuetify's green. The walk-through on dev before it passed 42 of 45 steps at 1440 in light. The three that did not pass:
   - the walker's own default palette check (fixed in the walker);
   - Selldone's "Price: low to high", which orders by the price before the deal (763.50 before 761.90; a Selldone limit, as on Digito);

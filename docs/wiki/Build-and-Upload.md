@@ -29,7 +29,7 @@ The arguments:
 - the **new version**, never used before;
 - the **account design**: always `desk` for Senso (the buyer account with a side rail of sections).
 
-`<Layout id>` is **your** Layout's number on Selldone. Leave `LAYOUT_ID` out on the very first upload. Afterwards, read the id from the Selldone developer panel. Senso's own id is in [`SENSO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/SENSO.md).
+`<Layout id>` is **your** Layout's number on Selldone. Leave `LAYOUT_ID` out on the very first upload. Afterwards, read the id from the Selldone developer panel. Senso's own id is 33 ([`SENSO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/SENSO.md)).
 
 `scripts/ship-built.sh` is the second half of the same script, for a build you have already made: checks, package, upload, verify.
 
