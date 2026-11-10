@@ -11,6 +11,12 @@
  *  2. ICON LISTS: in every vertical list of icon + text rows, the icons share
  *     one left edge and one width (±1px), and the words share one left edge
  *     (so wrapped text sits under the text, not under the icon).
+ *  3. CARD PADDING (the owner's rule, 10 November 2026: content never touches
+ *     its card's edge): every visible product card (.sn-card) keeps a computed
+ *     padding-left/right of 10px or more, and every visible part of it (the
+ *     image well, swatches, title, price, clock, buttons, Compare) sits 8px or
+ *     more inside the card's left and right edges. Selldone's utility classes
+ *     (pa-0, v-col-*) must never reach a card root.
  *
  * usage:
  *   PAGES="home=/,category=/laptop-category,product=/product/709977" \
@@ -157,6 +163,30 @@ function check(debug) {
     if (Math.max(...il) - Math.min(...il) > 1) out.push(`icon lefts differ by ${Math.round(Math.max(...il) - Math.min(...il))}px in ${where}`);
     else if (Math.max(...iw) - Math.min(...iw) > 1) out.push(`icon widths differ (${iw.map(Math.round).join("/")}) in ${where}`);
     else if (tl.length >= 2 && Math.max(...tl) - Math.min(...tl) > 1) out.push(`text lefts differ by ${Math.round(Math.max(...tl) - Math.min(...tl))}px in ${where}`);
+  }
+
+  /* 3. Card padding */
+  const PARTS = ".sn-card__well, .sn-swrow, .sn-caps, .sn-card__t, .sn-price, .sn-was, .sn-ends, .sn-card__buy, .sn-card__foot";
+  for (const card of document.querySelectorAll(".sn-card")) {
+    if (!vis(card)) continue;
+    const cr = card.getBoundingClientRect();
+    if (cr.width < 80) continue;
+    const st = getComputedStyle(card);
+    const pl = parseFloat(st.paddingLeft), pr = parseFloat(st.paddingRight);
+    const title = (card.querySelector(".sn-card__t")?.textContent || "").trim().slice(0, 28);
+    const label = `card "${title}"${card.classList.contains("-listed") ? " (listing)" : ""}`;
+    if (pl < 10 || pr < 10) {
+      out.push(`${label}: padding ${pl}/${pr}px (classes: ${[...card.classList].filter((c) => !c.startsWith("sn-")).join(" ").slice(0, 60)})`);
+      continue;
+    }
+    for (const part of card.querySelectorAll(PARTS)) {
+      if (!vis(part)) continue;
+      const r = part.getBoundingClientRect();
+      if (r.left < cr.left + 8 - 0.5 || r.right > cr.right - 8 + 0.5) {
+        out.push(`${label}: ${[...part.classList][0]} is ${Math.round(r.left - cr.left)}px / ${Math.round(cr.right - r.right)}px from the card's edges`);
+        break;
+      }
+    }
   }
   return out;
 }

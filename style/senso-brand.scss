@@ -3856,3 +3856,20 @@ body {
 .v-overlay .s--product-section-extra-buttons .text-success {
   color: var(--sn-link) !important;
 }
+
+/* Content never touches its card's edge (the owner's rule, 10 November
+   2026). Selldone's listing hands its cards Vuetify column and utility
+   classes (pa-0, v-col-*); senso-card.ts keeps them off the card, and this
+   keeps the card's own padding whatever lands on it. */
+.v-application .sn-card.-listed,
+.v-application .sn-card {
+  padding: 12px 12px 16px !important;
+  margin: 0 !important;
+}
+
+@media (max-width: $phone) {
+  .v-application .sn-card.-listed,
+  .v-application .sn-card {
+    padding: 10px 10px 14px !important;
+  }
+}
