@@ -380,6 +380,7 @@ export default {
       this.famKey = null;
       this.searchOpen = false;
       this.menu = false;
+      this.basket = false;
     };
     window.addEventListener("resize", this.onResize, { passive: true });
     window.addEventListener("scroll", this.onScroll, { passive: true });
