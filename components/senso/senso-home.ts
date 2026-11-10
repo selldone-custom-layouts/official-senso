@@ -76,10 +76,11 @@ export function askWithRetry<T>(ask: () => Promise<T | null>, tries = 4): Promis
 }
 
 /** Whether the home's hero is on screen (loading or with slides). The header
- *  sits clear over it, with white words, only while it is; a home whose
- *  hero has nothing to show (every read failed) gets the solid header,
- *  never white on white. True by default, so the first paint has no flash. */
-export const heroState = reactive({ shown: true });
+ *  sits clear over it, with white words, only while it is: before the home
+ *  has mounted, and on a home whose hero has nothing to show (every read
+ *  failed), the header is solid, never white words on the white page (the
+ *  contrast audit caught that moment on a slow first load). */
+export const heroState = reactive({ shown: false });
 
 let allRead: Promise<any[]> | null = null;
 export function allProducts(): Promise<any[]> {

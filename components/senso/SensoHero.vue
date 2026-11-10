@@ -130,7 +130,7 @@ export default {
   },
 
   beforeUnmount() {
-    heroState.shown = true;
+    heroState.shown = false;
     clearTimeout(this.timer);
     this.io?.disconnect();
     document.removeEventListener("visibilitychange", this.onVis);
