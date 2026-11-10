@@ -18,7 +18,9 @@
   --sn-deco: #00a3a1; /* decoration: line icons, the mark, rings */
   --sn-mint: #eef8f8; /* the pale tile behind packshots, light in both modes */
   --sn-well: #f3f5f5; /* the grey well behind a card's packshot, light in both modes */
-  --sn-on-mint: #0d1b1e; /* words on a mint tile: always dark */
+  --sn-on-mint: #0d1b1e; /* words on a mint tile or a white light island: always dark */
+  --sn-on-mint-2: #4a5b5f; /* quieter words there */
+  --sn-link-light: #00625f; /* the palette's text colour on a light island (light value in both modes) */
   --sn-navy: #0d1b1e;
   --sn-navy-2: #16302f;
   --sn-night: #0a1d20; /* the dark bands (listing banner, highlights) */

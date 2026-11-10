@@ -110,9 +110,13 @@ export default {
       if (cur.parts.length) out.push(cur);
       return out.map((s) => ({ title: s.title, text: s.parts.join(" ") }));
     },
+    /** The section's title: the article's own after its colon ("…: Power and
+        Precision for Every Project"), else the family's line. */
     lead() {
-      const intro = this.sections.find((s) => !s.title);
-      return intro ? clip(plain(intro.text), 90).replace(/…$/, "") : `Why ${this.product.title}`;
+      const t = String(this.product?.article_pack?.article?.title || "");
+      const after = t.includes(":") ? t.split(":").slice(1).join(":").trim() : "";
+      if (after.length >= 10 && after.length <= 70) return after;
+      return this.family?.line || "Made for every day.";
     },
     /** Four key specs, the first of each group. */
     glance() {

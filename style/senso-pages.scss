@@ -298,47 +298,8 @@
   padding-bottom: 8px;
 }
 
-.sn-specs {
-  &__groups {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px 40px;
-    align-items: start;
-  }
-
-  &__g {
-    h3 {
-      font-size: 14.5px !important;
-      font-weight: 800 !important;
-      margin: 8px 0 0;
-      padding-bottom: 8px;
-      border-bottom: 2px solid var(--sn-ink);
-    }
-
-    dl {
-      display: grid;
-      grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
-      margin: 0;
-    }
-
-    dt,
-    dd {
-      margin: 0;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--sn-line);
-      font-size: 13.5px;
-    }
-
-    dt {
-      color: var(--sn-muted);
-      padding-inline-end: 12px;
-    }
-
-    dd {
-      font-weight: 600;
-    }
-  }
-}
+/* The Specifications table: senso-brand.scss draws it (two columns of
+   groups, rows of key and value on a hairline). */
 
 .sn-fbt {
   &__row {
@@ -699,7 +660,7 @@
 
   &__band {
     margin-top: 16px;
-    background: var(--sn-brand);
+    background: var(--sn-head);
     color: var(--sn-on-brand);
     border-radius: var(--sn-r);
     padding: 22px 24px;

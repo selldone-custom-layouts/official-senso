@@ -101,6 +101,7 @@ export const SENSO_THEME: ThemeSwitcherConfig = {
     "--sn-pop": "light.mint",
     "--sn-deco": "deco",
     "--sn-mint": "light.mint",
+    "--sn-link-light": "light.deep",
     "--sn-primary-rgb": "primary:rgb",
     "--k-green": "primary",
     "--k-green-deep": "primary",
