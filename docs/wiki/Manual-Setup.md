@@ -4,7 +4,7 @@ Set the Layout up on your shop yourself. Follow these steps in order, or let an 
 
 ## 1. Get your own copy
 
-Fork **selldone-custom-layouts/official-senso** on GitHub, then clone your fork with its submodules:
+Fork **selldone-custom-layouts/official-senso** on GitHub, then clone your fork with its submodules (the shared Selldone code in `modules/*`):
 
 ```bash
 git clone --recurse-submodules https://github.com/<you>/<your-repo>.git
@@ -20,6 +20,7 @@ git remote set-url --push upstream DISABLED
 ## 2. Install
 
 ```bash
+npm run setup            # Selldone's modules
 npm install --force
 ```
 
@@ -27,7 +28,7 @@ Node.js 20 or newer. On Windows use Git Bash for the shell scripts.
 
 ## 3. Point development at your shop
 
-Edit `.env`. These are public client values, read only in development; in production Selldone injects the shop that runs the Layout.
+Edit `.env`. These are public values, read only in development. In production Selldone gives the Layout the shop that runs it.
 
 ```dotenv
 VITE_APP_SAMPLE_SHOP_NAME=<your shop handle>
@@ -35,10 +36,10 @@ VITE_APP_SAMPLE_SHOP_CUSTOM_HOME=shop
 VITE_APP_SAMPLE_DEFAULT_CURRENCY=USD
 VITE_APP_SAMPLE_DEFAULT_COUNTRY=US
 VITE_APP_SAMPLE_DEFAULT_LANGUAGE=en
-VITE_APP_DEV_SERVER_PORT=9130
+VITE_APP_DEV_SERVER_PORT=9133
 ```
 
-`.env.development.local` picks the buyer-account design for development: `VITE_KALIO_ACCOUNT=desk` (side rail) or remove it for `home` (tabs).
+`VITE_KALIO_ACCOUNT=desk` (in `.env` and `.env.development.local`) shows the buyer account Senso uses: a side rail of sections ("desk"). Releases set it themselves.
 
 ## 4. Run it
 
@@ -46,16 +47,28 @@ VITE_APP_DEV_SERVER_PORT=9130
 npm run serve
 ```
 
-Open <http://localhost:9130>. Check the home, a category, a product page, the cart and the account against your shop. If a section looks empty, see [Shop Requirements](Shop-Requirements).
+Open <http://localhost:9133>. Check the home, a category, a product page, the cart and the account against your shop.
 
-## 5. Give the Layout your identity
+- If a section is missing or looks empty, see [Shop Requirements](Shop-Requirements). Senso hides a section that has nothing to show.
+- If a category sits under "More" in the header, its name matches no family. See [Customize](Customize#product-families).
+
+## 5. Make it yours
+
+- **Name:** `BRAND.name` in `components/kalio/kalio-brand.ts`. Set it to `null` to show your shop's own title.
+- **Families:** `FAMILIES` in `components/senso/senso-families.ts`.
+- **Photos:** put them in `assets/senso/photos/` with the names in `components/senso/senso-photos.ts`. Remove the sample category photos `assets/senso/wide-*.webp` if they do not fit your categories.
+- **Colours:** `components/senso/senso-theme.settings.ts`. See [Theme and colours](Theme-and-colours).
+
+[Customize](Customize) explains each one.
+
+## 6. Give the Layout your identity
 
 In `manifest.json`:
 
 ```json
 {
-  "package": "mybrand-market",
-  "name": "Mybrand Market",
+  "package": "mybrand-electronics",
+  "name": "Mybrand Electronics",
   "version": "1.0.0",
   "storefront": true,
   "backoffice": false,
@@ -67,12 +80,12 @@ In `manifest.json`:
 - `name`: at least 8 characters.
 - `version`: new for every upload, never reused.
 
-## 6. Release and go live
+## 7. Release and go live
 
 1. [Build and Upload](Build-and-Upload): `bash scripts/release.sh 1.0.0 desk`.
 2. [Go Live](Go-Live): attach the version to your shop, make the domains inherit it, and set Home to the shop page.
 
-## 7. Keep up with Selldone
+## 8. Keep up with Selldone
 
 ```bash
 git fetch upstream main --tags --prune

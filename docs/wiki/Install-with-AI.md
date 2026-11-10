@@ -1,6 +1,6 @@
 # Install with AI
 
-An AI coding agent (for example **Claude Code** or **OpenAI Codex**) can set this Layout up on your Selldone shop. It forks the repository, points it at your shop, builds it, uploads it and puts it live, while you do the few steps that need you. This page gives you what to prepare, a prompt to paste, and what to expect.
+An AI coding agent (for example **Claude Code** or **OpenAI Codex**) can set this Layout up on your Selldone shop. It copies the repository, points it at your shop, builds it, uploads it and puts it live. You do the few steps that need you. This page gives you what to prepare, a prompt to paste, and what to expect.
 
 ## 1. Prepare (10 minutes)
 
@@ -12,10 +12,11 @@ An AI coding agent (for example **Claude Code** or **OpenAI Codex**) can set thi
 | A computer with **Git**, **Node.js 20+**, **Python 3** and **Bash** (Git Bash on Windows) | Building and packaging | — |
 | An AI coding agent that can run terminal commands | Does the work | Claude Code, Codex… |
 | Optional: the **Selldone MCP connector** for your shop | Lets the agent attach the Layout and set your Home page for you | [selldone.com/mcp/connections](https://selldone.com/mcp/connections) |
+| Optional: your lifestyle photos | Fill Senso's 19 photo slots. Without them, each slot shows a tidy placeholder. | [Customize](Customize#photo-slots) |
 
-**Your part.** Only you should do these, and the agent will ask you when the time comes:
+**Your part.** Only you should do these. The agent will ask you when the time comes:
 
-- **Sign in to the Selldone CLI.** Run `selldone`, choose **Login**, approve the sign-in in your browser and type your **2FA code**. Never give a password or code to the agent.
+- **Sign in to the Selldone CLI** (the command-line tool that uploads Layouts). Run `selldone`, choose **Login**, approve the sign-in in your browser and type your **2FA code**. Never give a password or code to the agent.
 - **Approve the GitHub fork** (or create the repository yourself).
 - **Attach the Layout to your shop,** unless the agent has the Selldone MCP connector.
 
@@ -29,22 +30,28 @@ Set up the Selldone custom Layout "Senso Electronics" on my Selldone shop.
 My shop handle: {SHOP_HANDLE}        (as in {SHOP_HANDLE}.myselldone.com)
 My shop id: {SHOP_ID}
 My GitHub account: {GITHUB_USER}
-New Layout package name (lowercase, permanent, unique to me): {PACKAGE}   e.g. mybrand-market
+New Layout package name (lowercase, permanent, unique to me): {PACKAGE}   e.g. mybrand-electronics
 
 Source: https://github.com/selldone-custom-layouts/official-senso
 
-Before you change anything, read completely: README.md, SENSO.md, KALIO.md, every file in
-docs/wiki/, and .ai-agent/AGENTS.md, .ai-agent/SKILL.md, .ai-agent/AI_WORKFLOW.md.
+Before you change anything, read completely: README.md, AGENTS.md, SENSO.md, KALIO.md, every file
+in docs/wiki/, and .ai-agent/AGENTS.md, .ai-agent/SKILL.md, .ai-agent/AI_WORKFLOW.md.
 
 Then:
 1. Fork the repository to my GitHub account (or create {GITHUB_USER}/{PACKAGE}) and clone it
    with submodules. Keep https://github.com/selldone/storefront as a fetch-only "upstream".
 2. npm run setup, then npm install --force. Put my shop in .env: VITE_APP_SAMPLE_SHOP_NAME={SHOP_HANDLE},
-   and my currency, country and language. Run the dev server and check home, a category,
-   a product page and the cart against my shop. Tell me what my shop's data is missing
-   (see docs/wiki/Shop-Requirements.md) instead of hard-coding anything. Put my shop's
-   name in BRAND.name (components/kalio/kalio-brand.ts), or null to use the shop's title.
-   Replace or remove the photos in assets/senso/ (named <shape>-<category name>.webp).
+   and my currency, country and language. Run the dev server (port 9133) and check the home,
+   a category, a product page and the cart against my shop. Tell me what my shop's data is
+   missing (see docs/wiki/Shop-Requirements.md) instead of hard-coding anything.
+   - Put my shop's name in BRAND.name (components/kalio/kalio-brand.ts), or null to use the
+     shop's title.
+   - Check that my categories fall into sensible families (components/senso/senso-families.ts).
+     Tell me which ones land in "More" and suggest changes to FAMILIES; do not rename my categories.
+   - Remove the sample category photos assets/senso/wide-*.webp unless they fit my categories.
+     If I give you photos, put them in assets/senso/photos/ with the file names listed in
+     components/senso/senso-photos.ts. Otherwise leave the placeholders.
+   - If I ask for a colour or dark mode, follow AGENTS.md, section "Theme".
 3. In manifest.json set "package" to {PACKAGE}, "name" to my shop's name plus "Electronics"
    (at least 8 characters), and "version" to 1.0.0. The package name is permanent after
    the first upload.
@@ -53,12 +60,14 @@ Then:
    store tokens, never type a password or 2FA code for me.
 5. Release with: SELLDONE_CLI_SRC=<cli clone> bash scripts/release.sh 1.0.0 desk
    Then read my new Layout id and verify with scripts/kalio-verify-deploy.mjs:
-   extracting false, error null, js_match and css_match true. Never reuse a version number.
+   extracting false, error null, js_match and css_match true. Pass LAYOUT_ID=<Layout id>
+   on every later release. Never reuse a version number.
 6. Attach the exact version to my shop (with the Selldone MCP connector, api.shops.layout.set,
    mode private, exact version; or tell me the dashboard steps). Make every domain inherit
    the shop's layout and set the shop's Home to the shop page.
 7. Open my shop's address without a query and confirm window.sdShopLayout names the new
-   release. Check it on a phone-sized screen. Send me screenshots.
+   release. Run the contrast audit and scripts/senso-layout-checks.cjs on the live shop
+   (both must print TOTAL 0). Check it on a phone-sized screen. Send me screenshots.
 8. Commit and push to my repository. Report what you did, what you could not test, and what
    is mine to set (payment methods, shipping methods, login modes).
 
@@ -67,19 +76,25 @@ Do not change my shop's settings (payments, shipping, login modes). Do not place
 
 ## 3. What the agent does
 
-1. **Forks and clones** the repository with its six Selldone submodules (`modules/*`).
-2. **Installs and configures** `.env` for your shop, then runs the dev server on port 9130. In development the Layout reads your shop's public data from Selldone.
-3. **Checks your data** against [Shop Requirements](Shop-Requirements): category icons and descriptions, product photos and brands, colour and capacity variants, specs for filters.
-4. **Sets your identity** in `manifest.json`: the package name, a display name and a first version.
-5. **Releases** with `scripts/release.sh`: build, SVG flattening, safety checks, packaging, upload and server check. See [Build and Upload](Build-and-Upload).
+1. **Forks and clones** the repository with Selldone's submodules (`modules/*`, the shared Selldone code).
+2. **Installs and configures** `.env` for your shop, then runs the dev server on port 9133. In development the Layout reads your shop's public data from Selldone.
+3. **Checks your data** against [Shop Requirements](Shop-Requirements):
+   - category names (they decide the families and the line icons) and descriptions;
+   - product photos, extra gallery photos and articles (they feed the Highlights bands);
+   - colour and capacity variants, deal end dates, tags;
+   - specs and category filter lists (filters, kinds chips, the Specifications table).
+4. **Sets your identity:** the name in `kalio-brand.ts`, and the package name, display name and first version in `manifest.json`.
+5. **Releases** with `scripts/release.sh`: build, SVG clean-up, safety checks, packaging, upload and server check. See [Build and Upload](Build-and-Upload).
 6. **Goes live** by attaching the exact version to your shop, making every domain inherit it, and setting Home to the shop page. See [Go Live](Go-Live).
-7. **Verifies** the live HTML and takes screenshots.
+7. **Verifies** the live page, runs the checks and takes screenshots.
 
 ## 4. Check the result yourself
 
-- Open your shop's address. You should see the photo hero with the Deal of the Day, the category circles and the deal rows, not Selldone's default home.
+- Open your shop's address. You should see a full-screen photo carousel under a clear header, not Selldone's default home. Without photos, each slide is a calm placeholder with a product.
+- Scroll down: the header turns white. Click a family in the header: its panel opens with your categories.
 - Tap "Add to cart" on a card: it becomes "− 1 in cart +".
 - Open the cart from the header and add an address on the map.
+- There is no Theme button on your shop. That is on purpose: see [Theme and colours](Theme-and-colours).
 - If something is off, see [Troubleshooting](Troubleshooting).
 
 ## Tips for working with the agent

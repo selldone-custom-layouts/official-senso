@@ -39,7 +39,7 @@ export const SLOTS: Record<string, Slot> = {
   "feature-wide": { file: "feature-wide.webp", width: 2400, height: 1000, tone: "dark", where: "Home, FEATURED wide card" },
   "lifestyle-wide": { file: "lifestyle-wide.webp", width: 2400, height: 1000, tone: "dark", where: "Home, LIFESTYLE wide card" },
   ...Object.fromEntries(
-    FAMILY_KEYS.map((k) => [`listing-${k}`, { file: `listing-${k}.webp`, width: 2400, height: 800, tone: "dark", where: "Category page banner, every category of the family" }]),
+    FAMILY_KEYS.map((k) => [`listing-${k}`, { file: `listing-${k}.webp`, width: 1600, height: 900, tone: "dark", where: "Category page banner (its right half), every category of the family" }]),
   ),
   ...Object.fromEntries(
     FAMILY_KEYS.map((k) => [`highlight-${k}`, { file: `highlight-${k}.webp`, width: 1600, height: 1200, tone: "dark", where: "Product page, first Highlights band" }]),

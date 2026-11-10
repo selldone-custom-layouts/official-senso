@@ -3,8 +3,8 @@
   "deploy_path": "",
   "package": "senso-electronics",
   "name": "Senso Electronics",
-  "version": "1.0.17",
+  "version": "1.0.0",
   "storefront": true,
   "backoffice": false,
-  "description": "A deals-hub storefront for an electronics shop: a blue header with a category mega menu, a photo hero beside the Deal of the Day, round categories, deal rails with Add to cart that turns into − n +, doorbusters, a best-seller bento, category pages with a filter panel, a three-column product page with specs, reviews and Frequently bought together, a side-by-side compare page, a receipt-first cart and checkout, and blog, About, Contact and FAQ pages of its own."
+  "description": "A calm, cinematic brand-site storefront for an electronics shop: a clear header over a full-bleed hero carousel, product families with clean mega panels, featured and lifestyle image cards with pale category tiles, offers and new-arrival rails, line-icon category tiles, stories and a newsletter; dark category banners with kinds, a filter card and three-a-row cards with Learn more; a product page with a sticky info column, Highlights bands, a two-column spec table and Compare with similar; and a support centre, cart, checkout and account in the same dress."
 }

@@ -357,23 +357,32 @@ html.sn-locked {
 .k-drawer {
   font-family: var(--sn-font);
 
+  /* Senso: the drawers' heads are white with a hairline, like the header. */
   .k-drawer__head {
-    background: var(--sn-head);
-    color: var(--sn-on-brand);
+    background: var(--sn-card);
+    color: var(--sn-ink);
     border: 0 !important;
+    box-shadow: inset 0 -1px 0 var(--sn-line);
 
     .k-drawer__title {
-      color: var(--sn-on-brand) !important;
-      font-weight: 800 !important;
+      color: var(--sn-ink) !important;
+      font-weight: 700 !important;
+      font-family: var(--sn-font) !important;
 
       small {
-        color: rgba(var(--sn-on-brand-rgb), 0.8) !important;
+        color: var(--sn-muted) !important;
       }
     }
 
     .k-header__icon {
-      color: var(--sn-on-brand) !important;
-      background: rgba(var(--sn-on-brand-rgb), 0.14) !important;
+      color: var(--sn-ink) !important;
+      background: transparent !important;
+      border-radius: 999px !important;
+
+      &:hover {
+        background: var(--sn-brand-l) !important;
+        color: var(--sn-link) !important;
+      }
     }
   }
 

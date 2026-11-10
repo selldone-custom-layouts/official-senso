@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="docs/screenshots/cover.jpg" alt="Senso Electronics — a blue deals-hub storefront Layout for Selldone, on desktop and phone" width="100%">
+  <img src="docs/screenshots/cover.jpg" alt="Senso Electronics — a calm, cinematic brand-site storefront Layout for Selldone, on desktop and phone" width="100%">
 </p>
 
 <h1 align="center">Senso Electronics</h1>
 
 <p align="center">
-  <b>A deals-hub storefront for a Selldone electronics shop.</b><br>
+  <b>A calm, cinematic brand-site storefront for a Selldone electronics shop.</b><br>
   A custom Selldone Layout built on the official <a href="https://github.com/selldone/storefront">selldone/storefront</a>.
 </p>
 
 <p align="center">
-  <a href="https://senso.selldone.shop"><img src="https://img.shields.io/badge/live%20shop-senso.selldone.shop-0A4BD8?style=flat-square" alt="Live shop"></a>
+  <a href="https://senso.selldone.shop"><img src="https://img.shields.io/badge/live%20shop-senso.selldone.shop-00736F?style=flat-square" alt="Live shop"></a>
   <a href="https://github.com/selldone-custom-layouts/official-senso/wiki"><img src="https://img.shields.io/badge/docs-wiki-6C3DF4?style=flat-square" alt="Wiki"></a>
   <a href="https://github.com/selldone-custom-layouts/official-senso/wiki/Install-with-AI"><img src="https://img.shields.io/badge/set%20up-with%20AI-f39f37?style=flat-square" alt="Set up with AI"></a>
   <img src="https://img.shields.io/badge/Selldone-Layout-2B2F7A?style=flat-square" alt="Selldone Layout">
@@ -29,31 +29,58 @@
 
 ## What it is
 
-**Senso Electronics** dresses a single-seller electronics shop like a big deals hub:
-- a light grey floor with white rounded section cards;
-- one blue for every button, a yellow accent for the logo's dots, chips and the clock, a red "Save $X" for every saving;
-- Plus Jakarta Sans and Material Symbols Rounded;
-- the shop's own lifestyle photos in the hero and photo cards, and a collage of the category's products wherever a photo is missing.
+**Senso Electronics** dresses a single-seller electronics shop like a premium electronics **brand site**: calm, spacious and cinematic.
+
+- Big full-bleed imagery and lots of white space.
+- Bold geometric headings in Poppins, each under a small teal eyebrow in capitals.
+- One teal for every button: solid pills with white words, outlined teal pills, and outlined white pills on photos.
+- Pale mint tiles behind the product cut-outs, and 18–20px corners on cards and tiles.
+- Thin teal line icons drawn for Senso, a wordmark and mark of its own, and no line under any word or icon.
 
 It runs on **[senso.selldone.shop](https://senso.selldone.shop)**, an address of the Selldone shop Digini. Selldone lets each domain of a shop carry its own Layout.
 
-Selldone's own cart, checkout, payments and orders keep working underneath. Nothing about the shop is hard-coded: the name (one line in `kalio-brand.ts`), categories, products, prices, deals, tags and brands all come from the shop that runs it.
+Selldone's own cart, checkout, payments and orders keep working underneath. Nothing about the shop is hard-coded. The name is one line in `kalio-brand.ts`. Categories, product families, products, prices, deals and their end dates, tags and articles all come from the shop that runs it.
 
 ## Highlights
 
-- **Header:** a blue bar with the wordmark (every "i" dotted with a yellow square), a big round search, Account, and the Cart with its count and total; a row of pills — **Shop ▾** opens a category mega menu on a click (and closes on the next), Deals, New arrivals, Brands — the categories with the most deals, and Track order, Blog and Help.
+- **Header:** clear over the dark hero with white words, then solid white with a hairline once the page scrolls (solid on every other page).
+  - The wordmark on the left.
+  - The product **families** in the middle, built from the live categories (TV & Display, Audio, Computing, Cameras, Storage & Power, and "More" for anything else). Each family opens a clean mega panel on a click: its categories with line icons and price lines, and one featured product. There is no scrim.
+  - On the right: Support, a search icon that opens a full-width search panel with suggestions and the categories, Account, Theme and the cart.
+  - On a phone: the wordmark and icons. The menu is a full-screen panel with the families as accordions. There is never a bottom tab bar.
 - **Home:**
-  - a photo hero that turns, one slide per category with a wide photo, the deepest saving first, beside the **Deal of the Day** with a "Next deal in" clock to midnight;
-  - **Shop by category** in two even rows of big circles (an "All categories" tile keeps the rows even);
-  - **Top deals** on one line with arrows, **Doorbusters** one per category, the shop's tags as "<Tag> Items" rows, a **Best sellers** bento from the best-seller tag, a sign-in nudge for guests, **Gear for every moment** tall photo cards, **Trending now**, **Shop by budget** (price bands from the shop's own prices), **New arrivals**, **Shop by brand** and the four newest articles.
-- **Cards:** a white photo well, colour swatches (a click picks the colour the cart button adds) or capacity chips, the name in two lines, brand · category, the price with a red **Save $X** and "Was $Y", a full-width blue **Add to cart** that turns into "− 1 in cart +" in place, **Choose capacity** (a quick-buy sheet with an ×) for products whose capacities have their own prices, Compare and Save.
-- **Category, search and deals pages:** a short head (the category's brands as chips, a search's categories, or the categories with deals and the clock), a filter panel with Only deals, a price range, Colour, Capacity, the category's own spec filters and brands, a sort menu, and five cards a row; a Filter and Sort bar and a sheet on a phone.
-- **Product page:** three columns — the gallery, the product (brand · category · model, the rating line, colours and capacities with their own pictures and prices, key specs, highlights) and a sticky buy card (price, saving, stock, delivery and pickup from the shop's own methods, Add to cart, Compare, Save); then Specifications in the shop's own groups, Reviews, **Frequently bought together** and More in the category.
-- **Compare:** side by side, picks pinned at the top, differing rows on a yellow ground, Only differences, a link to share.
-- **Cart drawer and cart page:** a receipt first (subtotal, You save, delivery, total, Checkout), compact rows with − n +, Often added; the cart page with Delivery method tiles, a map-first address sheet and an order summary that leads to whatever is missing.
-- **About, Contact, FAQ, Terms, Privacy, blog, 404:** all in the same dress; sample text on About, Terms and Privacy is marked as sample until the shop writes its own.
-- **Theme (showcase only):** on Senso's own showcase shop, a Theme button at the top right of the header offers five tested colour palettes, a free **Custom colour** (any colour, made readable automatically) and Light / Dark. See "The theme switcher" below.
-- **Everywhere:** no "Added to cart" pop-ups, no phone bottom bar, no line under any word or icon, and no seller interface (one shop sells everything).
+  - a full-bleed hero carousel, about 85% of the screen, with one slide per family ("TVs. Made to be seen."), round white arrows and a thin progress bar. It pauses on hover, off the screen and with reduced motion;
+  - **FEATURED** and **LIFESTYLE**: a wide rounded image card telling a family's story, over a row of pale tiles, each with a category's name and its showcase product as a large cut-out;
+  - **COLLECTIONS**: one tab per tag in use (best sellers first). A new tag makes a new tab, and an empty tag shows nothing;
+  - **DEALS** "Offers worth a closer look": the biggest savings;
+  - **CATEGORY** "Shop the latest": every category as a line-icon tile;
+  - **NEW** "Just arrived": from the new-arrival tag, hidden when empty;
+  - **STORIES**: the four newest articles as large image cards;
+  - the newsletter form, using Selldone's own subscription.
+- **Cards:** a white rounded card with the packshot on a soft grey well, and colour swatches (a click picks the colour the cart button adds) or capacity chips.
+  - Below them: the bold name, the price with "Was" and a red "Save $X", and a quiet "Ends in …" line counting to the deal's own end date.
+  - Then a solid **Add to cart** pill that becomes "− n in cart +" in place, or **Choose options** for products whose capacities have their own prices.
+  - In listings, an outlined **Learn more** sits beside it. Last comes a Compare checkbox.
+- **Category, search and offers pages:** on a light grey ground.
+  - A dark banner with the headline, the family photo (or a placeholder holding the category's showcase product) and the deals clock on the offers page.
+  - The category's kinds as white rounded chips: a spec such as Display or Screen, else its brands. A click filters the list.
+  - "N RESULTS" and a rounded Sort pill.
+  - A white filter card with collapsible groups (On sale, Price, Colour, the category's own spec filters, Brand), and three cards a row. On a phone the filters open in a full sheet.
+  - Loading keeps the cards and dims them, with an "Updating results…" pill. New cards fade up. The first load shows skeletons in the card's shape.
+- **Product page:**
+  - the gallery on the left (one row of thumbnails) beside a sticky info column: category eyebrow, name, brand and model, colour or capacity chips with their own prices, price and saving, the deal's real clock, stock, Add to cart, Compare, Save, and the shop's delivery lines;
+  - **Highlights** bands written from the product's own article and spec;
+  - **Specifications** as a clean two-column table in the shop's own groups;
+  - **Compare with similar**: three products of the category side by side;
+  - Reviews, Frequently bought together, and **You may also like**.
+- **Support centre:** FAQ with a search box, quick tiles and the questions as accordions. Contact, About, Terms, Privacy, the blog, the 404 (a big headline and the category tiles), the compare page, the cart drawer and page, checkout, the order page and the account (design "desk") are all in the same dress.
+- **Theme (showcase only):** on Senso's own showcase shop, the header's Theme button offers five tested palettes, a free **Custom colour** and Light / Dark. Dark mode is complete.
+
+## Photos
+
+Every lifestyle photo slot is listed in one file, [`components/senso/senso-photos.ts`](components/senso/senso-photos.ts): the hero slides, the home's two wide cards, the category banners, the Highlights cards, About and Support. Each slot uses `assets/senso/photos/<file>` when that file exists at build time.
+
+Until then it shows a designed placeholder: a calm tinted panel of the slot's exact shape, a small photo icon and the file name. The hero uses the shop's own wide category photos (`assets/senso/wide-<category>.webp`) meanwhile. Drop the photos in, build and release; no code changes.
 
 ## Use it on your shop
 
@@ -64,7 +91,7 @@ Selldone's own cart, checkout, payments and orders keep working underneath. Noth
 | Know what data your shop needs for the design to look right | [Shop Requirements](https://github.com/selldone-custom-layouts/official-senso/wiki/Shop-Requirements) |
 | Build, upload and verify a release | [Build and Upload](https://github.com/selldone-custom-layouts/official-senso/wiki/Build-and-Upload) |
 | Put the Layout live on your shop, or on one domain of it | [Go Live](https://github.com/selldone-custom-layouts/official-senso/wiki/Go-Live) |
-| Change colours, fonts, photos, sections or pages | [Customize](https://github.com/selldone-custom-layouts/official-senso/wiki/Customize) |
+| Change colours, fonts, photos, families, sections or pages | [Customize](https://github.com/selldone-custom-layouts/official-senso/wiki/Customize) |
 | Fix a blank page, a rejected upload or an old version showing | [Troubleshooting](https://github.com/selldone-custom-layouts/official-senso/wiki/Troubleshooting) |
 
 The wiki's source is also in [`docs/wiki/`](docs/wiki/).
@@ -73,14 +100,16 @@ The wiki's source is also in [`docs/wiki/`](docs/wiki/).
 
 Choose Senso's colours in one file, `components/senso/senso-theme.settings.ts`:
 
-- `palette`: blue, emerald, violet, teal or orange;
-- or `brandColor`: any `#RRGGBB`, made readable automatically (`textOnBrand: "auto"` keeps a light brand such as yellow, with dark words);
+- `palette`: teal (the default), ocean, violet, forest or ember;
+- or `brandColor`: any `#RRGGBB`, made readable automatically (`textOnBrand: "auto"` keeps a light brand such as yellow, with dark words on its buttons);
 - `mode`: light or dark;
 - `themeSwitcher`: showcase, on or off.
 
 You can also tell your AI agent "use the yellow theme" or "make it dark": `AGENTS.md` (section "Theme") tells it what to change. Then build and upload. See the wiki page [Theme and colours](https://github.com/selldone-custom-layouts/official-senso/wiki/Theme-and-colours).
 
-The header's Theme button (palettes, Custom colour, Light / Dark) is a showcase feature. It shows only on Senso's own showcase shop (Selldone shop 15549), so when you import Senso into your shop, your shoppers see Senso in its designed blue, with no Theme button. The Layout looks exactly as it does without the switcher, and any stored choice is ignored. To offer the switcher to your shoppers, set `themeSwitcher: "on"` in `components/senso/senso-theme.settings.ts`, then build and upload. `themeSwitcher: "off"` hides it everywhere.
+The header's Theme button is a showcase feature. It shows only on Senso's own showcase shop (Selldone shop 15549), so when you import Senso into your shop, your shoppers see Senso in its designed teal, with no Theme button. The Layout looks exactly as it does without the switcher, and any stored choice is ignored.
+
+To offer the switcher to your shoppers, set `themeSwitcher: "on"`, then build and upload. `themeSwitcher: "off"` hides it everywhere.
 
 ## Quick start (developers)
 
@@ -89,7 +118,7 @@ git clone https://github.com/selldone-custom-layouts/official-senso.git
 cd official-senso
 npm run setup            # Selldone's modules
 npm install --force
-npm run serve            # dev server on http://localhost:9130
+npm run serve            # dev server on http://localhost:9133
 ```
 
 Point `.env` at your shop (`VITE_APP_SAMPLE_SHOP_NAME`). Releases: `bash scripts/release.sh <new-version> desk`. See [Build and Upload](https://github.com/selldone-custom-layouts/official-senso/wiki/Build-and-Upload).
@@ -98,14 +127,15 @@ Point `.env` at your shop (`VITE_APP_SAMPLE_SHOP_NAME`). Releases: `bash scripts
 
 | Area | Files |
 | --- | --- |
-| The home page, card, rails, hero, mega menu, filter panel, product overview | [`components/senso/`](components/senso/) |
+| The home sections, card, rails, hero, mega panel, listing head, filter card, product overview, Highlights, compare with similar | [`components/senso/`](components/senso/) |
+| Product families (from the live categories) and the line icons | [`senso-families.ts`](components/senso/senso-families.ts), [`senso-icons.ts`](components/senso/senso-icons.ts) |
+| The photo slots | [`senso-photos.ts`](components/senso/senso-photos.ts), [`assets/senso/photos/`](assets/senso/photos/) |
 | The name and logo (one place) | [`components/kalio/kalio-brand.ts`](components/kalio/kalio-brand.ts), [`assets/brand/`](assets/brand/) |
-| Lifestyle photos, named `<shape>-<category name>.webp` | [`assets/senso/`](assets/senso/) |
-| Tokens: blue, red, navy, the grey floor, Plus Jakarta Sans | [`style/kalio-tokens.scss`](style/kalio-tokens.scss) |
-| Senso's dress | [`style/senso-skin.scss`](style/senso-skin.scss), [`style/senso-pages.scss`](style/senso-pages.scss) |
+| The theme (palettes, dark mode) | [`senso-theme.settings.ts`](components/senso/senso-theme.settings.ts), [`senso-theme.ts`](components/senso/senso-theme.ts), [`components/theme-switcher/`](components/theme-switcher/) |
+| Senso's dress | [`style/senso-brand.scss`](style/senso-brand.scss) (loaded last), [`style/senso-skin.scss`](style/senso-skin.scss), [`style/senso-pages.scss`](style/senso-pages.scss) |
 | What Senso changed, and why | [`SENSO.md`](SENSO.md) |
-| The components and every behaviour it shares with Molino and Tario | [`components/kalio/`](components/kalio/), [`KALIO.md`](KALIO.md), [`TARIO.md`](TARIO.md) |
-| Release tooling | [`scripts/`](scripts/) |
+| The behaviours it shares with Digito, Tario and Molino | [`components/kalio/`](components/kalio/), [`DIGITO.md`](DIGITO.md), [`KALIO.md`](KALIO.md), [`TARIO.md`](TARIO.md) |
+| Release tooling and checks | [`scripts/`](scripts/) |
 | Selldone storefront's original README | [`README.selldone.md`](README.selldone.md) |
 
 ## Credits and license

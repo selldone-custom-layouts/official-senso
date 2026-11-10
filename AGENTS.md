@@ -26,20 +26,20 @@ When a merchant asks for a theme ("use the yellow theme", "my brand colour is #F
 
 | Setting | Allowed values |
 | --- | --- |
-| `palette` | `"blue"` (Senso blue, the default), `"emerald"`, `"violet"`, `"teal"`, `"orange"` |
+| `palette` | `"teal"` (Senso teal, the default), `"ocean"`, `"violet"`, `"forest"`, `"ember"` |
 | `brandColor` | any `"#RRGGBB"`; when set it replaces `palette` |
 | `mode` | `"light"` or `"dark"` |
 | `themeSwitcher` | `"showcase"` (the visitor switcher shows only on Senso's own showcase shop; the default), `"on"` (the merchant's visitors get a Theme button in the header), `"off"` |
-| `textOnBrand` | only with `brandColor`: `"auto"` (a light brand such as yellow keeps its colour, with dark words on it) or `"white"` (white words; a light colour is darkened) |
+| `textOnBrand` | only with `brandColor`: `"auto"` (a light brand such as yellow keeps its colour, with dark words on its buttons) or `"white"` (white words; a light colour is darkened) |
 
 Worked examples (change only these lines; leave the rest of the file as it is):
 
-- **"Use the yellow theme"**: there is no tested yellow palette, so use a brand colour: `brandColor: "#F5C400", textOnBrand: "auto"`. Yellow buttons and header get dark words.
+- **"Use the yellow theme"**: there is no tested yellow palette, so use a brand colour: `brandColor: "#F5C400", textOnBrand: "auto"`. Yellow buttons get dark words.
 - **"My brand colour is #F5C400"**: `brandColor: "#F5C400", textOnBrand: "auto"`. Add `textOnBrand: "white"` instead if they want white words, in which case the colour is darkened.
 - **"Make it dark"**: `mode: "dark"`.
 - **"Let visitors switch themes"**: `themeSwitcher: "on"`.
 - **"Remove the switcher"**: `themeSwitcher: "off"`. On a merchant's own shop it is already hidden with `"showcase"`.
-- **"Go back to Senso's blue"**: remove `brandColor` and set `palette: "blue", mode: "light"`.
+- **"Go back to Senso's teal"**: remove `brandColor` and set `palette: "teal", mode: "light"`.
 
 Then release and check:
 
