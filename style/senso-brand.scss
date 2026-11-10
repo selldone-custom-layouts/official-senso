@@ -3838,3 +3838,11 @@ body {
 .t-how__hint {
   padding-inline-start: 15px;
 }
+
+/* Selldone's Compare / Save pills turn Vuetify's green when chosen: in
+   Senso a chosen state is the theme's colour. */
+.sn-pdp__acts .text-success,
+.k-quick .text-success,
+.v-overlay .s--product-section-extra-buttons .text-success {
+  color: var(--sn-link) !important;
+}

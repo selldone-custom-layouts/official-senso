@@ -67,7 +67,7 @@
 
         <section v-if="list.length" class="k-post__shop">
           <header>
-            <h2>{{ named ? "Shop this story" : "Today’s deals" }}</h2>
+            <h2>{{ named ? "Shop this story" : "Offers worth a closer look" }}</h2>
             <button
               v-if="addable.length > 1"
               :disabled="adding || allIn"

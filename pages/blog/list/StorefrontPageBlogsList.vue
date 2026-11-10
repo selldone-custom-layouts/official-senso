@@ -103,7 +103,7 @@
         </router-link>
       </nav>
     </div>
-    <senso-rail :filter="{ only_has_discount: true }" :limit="12" :more-to="dealsRoute" lazy more-label="All deals" title="Shop the guides" />
+    <senso-rail :filter="{ only_has_discount: true }" :limit="12" :more-to="dealsRoute" eyebrow="Deals" lazy more-label="All offers" title="Shop the offers" />
 
     <kalio-quick-buy v-model="sheet" :product="picked" />
   </div>

@@ -70,4 +70,8 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.1 (10 November 2026, deploy 479, release `01M72AABPDGFSJN47DFB3DJVKQ`, pinned on domain 1242), the first round of fixes.**
+  - The phone menu's family accordions and the header's family panels open by the family's key. A family is rebuilt as a new object each time, so the first build compared objects and nothing opened on a phone. Esc closes the phone menu too.
+  - Focus rings are drawn inside each control (never the browser's outline). Product pictures in "Often added" and the cart lines sit inside clipping boxes. The cart page's delivery hint lines up with its tiles' icons. The phone's filter sheet says "Filters" once. Packshots melt into their tiles.
+  - Checked on dev before the upload: the header check printed PROBLEMS 0 (teal light, 360–1440). The contrast audit printed TOTAL 0 (teal light and dark: home, category, deals, two products, compare, blog, FAQ, About, Contact, 404). The cart audit printed TOTAL 0 (light and dark). The ring sweep printed TOTAL 0 (light). The layout checks printed TOTAL 0, covering pictures in boxes and icon lists on one edge, with a filled local cart and the quick-buy sheet.
 - **1.0.0 (10 November 2026, deploy 477, release `01M728MC2556FBH0RQDZ7WS2BA`), the first Senso.** It created Layout 33 and was pinned on domain 1242, whose Home is the shop page. The saved block on https://senso.selldone.shop/ showed `senso-electronics` 1.0.0, and the phone screenshot showed the hero.

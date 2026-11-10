@@ -401,13 +401,13 @@
       <div v-else class="k-basket-empty sn-empty">
         <span aria-hidden="true" class="sn-empty__mark"><senso-icon name="shopping_cart" size="40" /></span>
         <h1 class="k-basket-empty__title">Your cart is empty</h1>
-        <p class="k-basket-empty__lede">Find something you like — today’s deals are a good place to start.</p>
+        <p class="k-basket-empty__lede">Find something you like — the offers are a good place to start.</p>
         <div class="sn-empty__acts">
-          <router-link :to="dealsTo" class="sn-btn">Shop today’s deals</router-link>
+          <router-link :to="dealsTo" class="sn-btn">See the offers</router-link>
           <router-link :to="{ name: window.$storefront.routes.SHOP_PAGE, query: { sort: 'newest' } }" class="sn-btn -line">Continue shopping</router-link>
         </div>
       </div>
-      <senso-rail v-if="!(basket && basket.items && basket.items.length)" :filter="{ only_has_discount: true }" :more-to="dealsTo" class="sn-empty__rail" lazy more-label="See all deals" title="Top deals" />
+      <senso-rail v-if="!(basket && basket.items && basket.items.length)" :filter="{ only_has_discount: true }" :more-to="dealsTo" class="sn-empty__rail" eyebrow="Deals" lazy more-label="All offers" title="Offers worth a closer look" />
 
       <div v-if="busy_shop" class="busy-overlay">
         <div class="text-h4 font-weight-thin">
