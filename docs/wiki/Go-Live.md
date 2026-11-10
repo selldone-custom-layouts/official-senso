@@ -17,9 +17,9 @@ An uploaded version changes nothing until it is **attached** to your shop.
 
 Pin the **exact** version, never `latest`, so an unverified upload never goes live. Read `api.shops.layout.options` before and after.
 
-## Two Layouts on one shop (how Digito runs)
+## Two Layouts on one shop (how Senso runs)
 
-A shop can show a different Layout on one of its domains. Digito lives only on `digito.selldone.shop` (with that domain's own Home set to the shop page, `selldone_shop_home_domain_set`), while the shop's default and its other domains keep their own Layouts:
+A shop can show a different Layout on one of its domains. Senso lives only on `senso.selldone.shop` (with that domain's own Home set to the shop page, `selldone_shop_home_domain_set`), while the shop's default and its other domains keep their own Layouts:
 
 ```json
 api.shops.domains.layout.set   path { "domain_key": "<the domain's id>" }

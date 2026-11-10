@@ -1,9 +1,9 @@
 {
-  "name": "Digito Electronics",
+  "name": "Senso Electronics",
   "shop": "Digini",
   "kind": "Electronics shop · deals hub · blue",
   "summary": "An electronics shop built like a big deals hub: a blue header with a category mega menu, a photo hero beside the Deal of the Day, two even rows of round categories, deal rails with an Add to cart that turns into − n +, doorbusters, a best-seller bento, category pages with a filter panel, a three-column product page with specs and Frequently bought together, and a receipt-first cart.",
-  "live": "https://digito.selldone.shop",
+  "live": "https://senso.selldone.shop",
   "cover": "docs/screenshots/cover.jpg",
   "screenshots": [
     "docs/screenshots/desktop-home.jpg",
@@ -22,7 +22,7 @@
     "big-box",
     "blue"
   ],
-  "package": "digito-electronics",
+  "package": "senso-electronics",
   "base": "selldone/storefront",
   "status": "live"
 }

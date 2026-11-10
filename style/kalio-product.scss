@@ -28,7 +28,7 @@
   text-align: start;
 
   a {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     text-decoration: none;
     font-weight: 500;
 
@@ -126,7 +126,7 @@
   }
 
   &__aisle {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 
   &__brand {
@@ -172,10 +172,10 @@
   }
 
   &__rating-link {
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-weight: 600;
     text-decoration: none;
-    border-bottom: 1px solid rgba(var(--dg-primary-rgb, 10, 75, 216), 0.3);
+    border-bottom: 1px solid rgba(var(--sn-primary-rgb, 10, 75, 216), 0.3);
 
     &:hover {
       border-bottom-color: var(--k-green);
@@ -238,7 +238,7 @@
 
       .discount-percent {
         padding: 5px 10px !important;
-        background: var(--dg-red-solid) !important;
+        background: var(--sn-red-solid) !important;
         color: #fff !important;
         font-size: 13px !important;
       }
@@ -729,7 +729,7 @@
     width: max-content;
     font-size: 13px;
     font-weight: 500;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     text-decoration: none;
 
     &:hover {
@@ -909,7 +909,7 @@
     .v-icon {
       flex: 0 0 auto;
       margin-top: 1px;
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     &.-cons {
@@ -1034,7 +1034,7 @@
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.03em;
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     span {
@@ -1156,7 +1156,7 @@
 
     .v-btn--variant-elevated {
       background: var(--k-green) !important;
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
       box-shadow: none !important;
     }
 
@@ -1211,11 +1211,11 @@
       gap: 8px;
       padding: 14px 18px !important;
       font-weight: 600;
-      color: var(--dg-link);
+      color: var(--sn-link);
       cursor: pointer;
 
       .v-icon {
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
     }
 
@@ -1238,7 +1238,7 @@
       .v-btn.bg-primary,
       .v-btn[class*="primary"] {
         background: var(--k-green) !important;
-        color: var(--dg-on-brand) !important;
+        color: var(--sn-on-brand) !important;
       }
     }
 
@@ -1306,7 +1306,7 @@
       margin: 0 !important;
       padding: 0 !important;
       background: none !important;
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
       font-size: 12.5px !important;
       font-weight: 600;
 
@@ -1372,7 +1372,7 @@
 
       > b {
         font-size: 13px;
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
 
       .v-avatar {
@@ -1382,7 +1382,7 @@
       }
 
       .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
 
       p.typo-body {
@@ -1618,7 +1618,7 @@
       place-items: center;
       height: 100%;
       border-radius: var(--k-pill);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
       cursor: pointer;
       transition: background-color 140ms ease;
 
@@ -1653,7 +1653,7 @@
     padding: 0 20px;
     border-radius: var(--k-pill);
     background: var(--k-green-deep);
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     font-size: 16.5px;
     font-weight: 700;
     text-decoration: none;
@@ -1670,7 +1670,7 @@
     }
 
     .u--price {
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
     }
   }
 

@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/selldone-custom-layouts/official-digito.git"
+    "url": "git+https://github.com/selldone-custom-layouts/official-senso.git"
   },
   "keywords": [
     "e-commerce",
@@ -24,7 +24,7 @@
   ],
   "author": "Mehrdad Pajuhaan <mehrdad@selldone.com> (https://pajuhaan.com)",
   "bugs": {
-    "url": "https://github.com/selldone-custom-layouts/official-digito/issues"
+    "url": "https://github.com/selldone-custom-layouts/official-senso/issues"
   },
   "homepage": "https://selldone.com",
   "dependencies": {

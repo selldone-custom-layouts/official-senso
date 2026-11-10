@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="docs/screenshots/cover.jpg" alt="Digito Electronics — a blue deals-hub storefront Layout for Selldone, on desktop and phone" width="100%">
+  <img src="docs/screenshots/cover.jpg" alt="Senso Electronics — a blue deals-hub storefront Layout for Selldone, on desktop and phone" width="100%">
 </p>
 
-<h1 align="center">Digito Electronics</h1>
+<h1 align="center">Senso Electronics</h1>
 
 <p align="center">
   <b>A deals-hub storefront for a Selldone electronics shop.</b><br>
@@ -10,18 +10,18 @@
 </p>
 
 <p align="center">
-  <a href="https://digito.selldone.shop"><img src="https://img.shields.io/badge/live%20shop-digito.selldone.shop-0A4BD8?style=flat-square" alt="Live shop"></a>
-  <a href="https://github.com/selldone-custom-layouts/official-digito/wiki"><img src="https://img.shields.io/badge/docs-wiki-6C3DF4?style=flat-square" alt="Wiki"></a>
-  <a href="https://github.com/selldone-custom-layouts/official-digito/wiki/Install-with-AI"><img src="https://img.shields.io/badge/set%20up-with%20AI-f39f37?style=flat-square" alt="Set up with AI"></a>
+  <a href="https://senso.selldone.shop"><img src="https://img.shields.io/badge/live%20shop-senso.selldone.shop-0A4BD8?style=flat-square" alt="Live shop"></a>
+  <a href="https://github.com/selldone-custom-layouts/official-senso/wiki"><img src="https://img.shields.io/badge/docs-wiki-6C3DF4?style=flat-square" alt="Wiki"></a>
+  <a href="https://github.com/selldone-custom-layouts/official-senso/wiki/Install-with-AI"><img src="https://img.shields.io/badge/set%20up-with%20AI-f39f37?style=flat-square" alt="Set up with AI"></a>
   <img src="https://img.shields.io/badge/Selldone-Layout-2B2F7A?style=flat-square" alt="Selldone Layout">
   <img src="https://img.shields.io/badge/Vue-3-1fc8a9?style=flat-square&logo=vuedotjs&logoColor=white" alt="Vue 3">
 </p>
 
 <p align="center">
-  <a href="https://digito.selldone.shop"><b>Open the live shop</b></a> ·
-  <a href="https://github.com/selldone-custom-layouts/official-digito/wiki/Install-with-AI">Set it up with AI</a> ·
-  <a href="https://github.com/selldone-custom-layouts/official-digito/wiki/Manual-Setup">Manual setup</a> ·
-  <a href="https://github.com/selldone-custom-layouts/official-digito/wiki/Shop-Requirements">What your shop needs</a> ·
+  <a href="https://senso.selldone.shop"><b>Open the live shop</b></a> ·
+  <a href="https://github.com/selldone-custom-layouts/official-senso/wiki/Install-with-AI">Set it up with AI</a> ·
+  <a href="https://github.com/selldone-custom-layouts/official-senso/wiki/Manual-Setup">Manual setup</a> ·
+  <a href="https://github.com/selldone-custom-layouts/official-senso/wiki/Shop-Requirements">What your shop needs</a> ·
   <a href="https://github.com/selldone-custom-layouts">All Selldone custom layouts</a>
 </p>
 
@@ -29,13 +29,13 @@
 
 ## What it is
 
-**Digito Electronics** dresses a single-seller electronics shop like a big deals hub:
+**Senso Electronics** dresses a single-seller electronics shop like a big deals hub:
 - a light grey floor with white rounded section cards;
 - one blue for every button, a yellow accent for the logo's dots, chips and the clock, a red "Save $X" for every saving;
 - Plus Jakarta Sans and Material Symbols Rounded;
 - the shop's own lifestyle photos in the hero and photo cards, and a collage of the category's products wherever a photo is missing.
 
-It runs on **[digito.selldone.shop](https://digito.selldone.shop)**, an address of the Selldone shop Digini. Selldone lets each domain of a shop carry its own Layout.
+It runs on **[senso.selldone.shop](https://senso.selldone.shop)**, an address of the Selldone shop Digini. Selldone lets each domain of a shop carry its own Layout.
 
 Selldone's own cart, checkout, payments and orders keep working underneath. Nothing about the shop is hard-coded: the name (one line in `kalio-brand.ts`), categories, products, prices, deals, tags and brands all come from the shop that runs it.
 
@@ -52,58 +52,58 @@ Selldone's own cart, checkout, payments and orders keep working underneath. Noth
 - **Compare:** side by side, picks pinned at the top, differing rows on a yellow ground, Only differences, a link to share.
 - **Cart drawer and cart page:** a receipt first (subtotal, You save, delivery, total, Checkout), compact rows with − n +, Often added; the cart page with Delivery method tiles, a map-first address sheet and an order summary that leads to whatever is missing.
 - **About, Contact, FAQ, Terms, Privacy, blog, 404:** all in the same dress; sample text on About, Terms and Privacy is marked as sample until the shop writes its own.
-- **Theme (showcase only):** on Digito's own showcase shop, a Theme button at the top right of the header offers five tested colour palettes, a free **Custom colour** (any colour, made readable automatically) and Light / Dark. See "The theme switcher" below.
+- **Theme (showcase only):** on Senso's own showcase shop, a Theme button at the top right of the header offers five tested colour palettes, a free **Custom colour** (any colour, made readable automatically) and Light / Dark. See "The theme switcher" below.
 - **Everywhere:** no "Added to cart" pop-ups, no phone bottom bar, no line under any word or icon, and no seller interface (one shop sells everything).
 
 ## Use it on your shop
 
 | You want to… | Read |
 | --- | --- |
-| Let an AI agent (Claude Code, Codex…) set it up for your shop | [Install with AI](https://github.com/selldone-custom-layouts/official-digito/wiki/Install-with-AI) |
-| Do it yourself, step by step | [Manual Setup](https://github.com/selldone-custom-layouts/official-digito/wiki/Manual-Setup) |
-| Know what data your shop needs for the design to look right | [Shop Requirements](https://github.com/selldone-custom-layouts/official-digito/wiki/Shop-Requirements) |
-| Build, upload and verify a release | [Build and Upload](https://github.com/selldone-custom-layouts/official-digito/wiki/Build-and-Upload) |
-| Put the Layout live on your shop, or on one domain of it | [Go Live](https://github.com/selldone-custom-layouts/official-digito/wiki/Go-Live) |
-| Change colours, fonts, photos, sections or pages | [Customize](https://github.com/selldone-custom-layouts/official-digito/wiki/Customize) |
-| Fix a blank page, a rejected upload or an old version showing | [Troubleshooting](https://github.com/selldone-custom-layouts/official-digito/wiki/Troubleshooting) |
+| Let an AI agent (Claude Code, Codex…) set it up for your shop | [Install with AI](https://github.com/selldone-custom-layouts/official-senso/wiki/Install-with-AI) |
+| Do it yourself, step by step | [Manual Setup](https://github.com/selldone-custom-layouts/official-senso/wiki/Manual-Setup) |
+| Know what data your shop needs for the design to look right | [Shop Requirements](https://github.com/selldone-custom-layouts/official-senso/wiki/Shop-Requirements) |
+| Build, upload and verify a release | [Build and Upload](https://github.com/selldone-custom-layouts/official-senso/wiki/Build-and-Upload) |
+| Put the Layout live on your shop, or on one domain of it | [Go Live](https://github.com/selldone-custom-layouts/official-senso/wiki/Go-Live) |
+| Change colours, fonts, photos, sections or pages | [Customize](https://github.com/selldone-custom-layouts/official-senso/wiki/Customize) |
+| Fix a blank page, a rejected upload or an old version showing | [Troubleshooting](https://github.com/selldone-custom-layouts/official-senso/wiki/Troubleshooting) |
 
 The wiki's source is also in [`docs/wiki/`](docs/wiki/).
 
 ### Theme and colours
 
-Choose Digito's colours in one file, `components/digito/digito-theme.settings.ts`:
+Choose Senso's colours in one file, `components/senso/senso-theme.settings.ts`:
 
 - `palette`: blue, emerald, violet, teal or orange;
 - or `brandColor`: any `#RRGGBB`, made readable automatically (`textOnBrand: "auto"` keeps a light brand such as yellow, with dark words);
 - `mode`: light or dark;
 - `themeSwitcher`: showcase, on or off.
 
-You can also tell your AI agent "use the yellow theme" or "make it dark": `AGENTS.md` (section "Theme") tells it what to change. Then build and upload. See the wiki page [Theme and colours](https://github.com/selldone-custom-layouts/official-digito/wiki/Theme-and-colours).
+You can also tell your AI agent "use the yellow theme" or "make it dark": `AGENTS.md` (section "Theme") tells it what to change. Then build and upload. See the wiki page [Theme and colours](https://github.com/selldone-custom-layouts/official-senso/wiki/Theme-and-colours).
 
-The header's Theme button (palettes, Custom colour, Light / Dark) is a showcase feature. It shows only on Digito's own showcase shop (Selldone shop 15549), so when you import Digito into your shop, your shoppers see Digito in its designed blue, with no Theme button. The Layout looks exactly as it does without the switcher, and any stored choice is ignored. To offer the switcher to your shoppers, set `themeSwitcher: "on"` in `components/digito/digito-theme.settings.ts`, then build and upload. `themeSwitcher: "off"` hides it everywhere.
+The header's Theme button (palettes, Custom colour, Light / Dark) is a showcase feature. It shows only on Senso's own showcase shop (Selldone shop 15549), so when you import Senso into your shop, your shoppers see Senso in its designed blue, with no Theme button. The Layout looks exactly as it does without the switcher, and any stored choice is ignored. To offer the switcher to your shoppers, set `themeSwitcher: "on"` in `components/senso/senso-theme.settings.ts`, then build and upload. `themeSwitcher: "off"` hides it everywhere.
 
 ## Quick start (developers)
 
 ```bash
-git clone https://github.com/selldone-custom-layouts/official-digito.git
-cd official-digito
+git clone https://github.com/selldone-custom-layouts/official-senso.git
+cd official-senso
 npm run setup            # Selldone's modules
 npm install --force
 npm run serve            # dev server on http://localhost:9130
 ```
 
-Point `.env` at your shop (`VITE_APP_SAMPLE_SHOP_NAME`). Releases: `bash scripts/release.sh <new-version> desk`. See [Build and Upload](https://github.com/selldone-custom-layouts/official-digito/wiki/Build-and-Upload).
+Point `.env` at your shop (`VITE_APP_SAMPLE_SHOP_NAME`). Releases: `bash scripts/release.sh <new-version> desk`. See [Build and Upload](https://github.com/selldone-custom-layouts/official-senso/wiki/Build-and-Upload).
 
 ## Where things are
 
 | Area | Files |
 | --- | --- |
-| The home page, card, rails, hero, mega menu, filter panel, product overview | [`components/digito/`](components/digito/) |
+| The home page, card, rails, hero, mega menu, filter panel, product overview | [`components/senso/`](components/senso/) |
 | The name and logo (one place) | [`components/kalio/kalio-brand.ts`](components/kalio/kalio-brand.ts), [`assets/brand/`](assets/brand/) |
-| Lifestyle photos, named `<shape>-<category name>.webp` | [`assets/digito/`](assets/digito/) |
+| Lifestyle photos, named `<shape>-<category name>.webp` | [`assets/senso/`](assets/senso/) |
 | Tokens: blue, red, navy, the grey floor, Plus Jakarta Sans | [`style/kalio-tokens.scss`](style/kalio-tokens.scss) |
-| Digito's dress | [`style/digito-skin.scss`](style/digito-skin.scss), [`style/digito-pages.scss`](style/digito-pages.scss) |
-| What Digito changed, and why | [`DIGITO.md`](DIGITO.md) |
+| Senso's dress | [`style/senso-skin.scss`](style/senso-skin.scss), [`style/senso-pages.scss`](style/senso-pages.scss) |
+| What Senso changed, and why | [`SENSO.md`](SENSO.md) |
 | The components and every behaviour it shares with Molino and Tario | [`components/kalio/`](components/kalio/), [`KALIO.md`](KALIO.md), [`TARIO.md`](TARIO.md) |
 | Release tooling | [`scripts/`](scripts/) |
 | Selldone storefront's original README | [`README.selldone.md`](README.selldone.md) |

@@ -4,7 +4,7 @@ Set the Layout up on your shop yourself. Follow these steps in order, or let an 
 
 ## 1. Get your own copy
 
-Fork **selldone-custom-layouts/official-digito** on GitHub, then clone your fork with its submodules:
+Fork **selldone-custom-layouts/official-senso** on GitHub, then clone your fork with its submodules:
 
 ```bash
 git clone --recurse-submodules https://github.com/<you>/<your-repo>.git
@@ -79,7 +79,7 @@ git fetch upstream main --tags --prune
 git merge --no-ff upstream/main
 ```
 
-Resolve conflicts by keeping Digito's templates and Selldone's logic. Then re-apply the patches if the submodules changed:
+Resolve conflicts by keeping Senso's templates and Selldone's logic. Then re-apply the patches if the submodules changed:
 
 ```bash
 git -C modules/components apply ../../patches/modules-components.kalio.patch

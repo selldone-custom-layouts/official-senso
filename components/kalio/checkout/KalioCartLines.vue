@@ -1,5 +1,5 @@
 <!--
-  Digito — the cart's lines on the cart page (one list: one shop sells all).
+  Senso — the cart's lines on the cart page (one list: one shop sells all).
 
   A card per seller (their mark, how many items, their subtotal), then the
   lines: packshot, name and size, a quantity stepper, the price with the
@@ -15,7 +15,7 @@
 <template>
   <div class="k-lines">
     <section v-for="group in groups" :key="group.key" class="k-lines__seller">
-      <!-- Digito: one shop sells everything, so the lines stand in one list
+      <!-- Senso: one shop sells everything, so the lines stand in one list
            with no seller heading. -->
 
       <div v-for="item in group.items" :key="item.id" class="k-lines__line">
@@ -25,7 +25,7 @@
         <div class="k-lines__text">
           <router-link :to="productRoute(item.product_id)" class="k-lines__title">{{ item.product?.title }}</router-link>
           <small class="k-lines__each">
-            <template v-if="item.variant?.color"><i :style="{ background: swatch(item.variant.color) }" class="dg-sw -xs"></i> </template
+            <template v-if="item.variant?.color"><i :style="{ background: swatch(item.variant.color) }" class="sn-sw -xs"></i> </template
             ><template v-if="size(item)">{{ item.variant?.volume ? "Capacity" : "Option" }}: {{ size(item) }} · </template
             ><template v-if="item.product?.unit && !/^(each|ea|piece|pc)$/i.test(item.product.unit)">per {{ item.product.unit }} · </template
             ><u-price :amount="item.price" :currency="item.currency" /> each

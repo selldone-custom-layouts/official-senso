@@ -125,7 +125,7 @@
       </aside>
     </div>
     <!-- Tario 1.2.0 (order page A): a row to start the next order. -->
-    <digito-rail :limit="12" class="dg-order-more" lazy sort="bestselling" title="Forgot something? It can join your next order" />
+    <senso-rail :limit="12" class="sn-order-more" lazy sort="bestselling" title="Forgot something? It can join your next order" />
   </div>
 </template>
 
@@ -136,7 +136,7 @@ import SShopCustomerOrderWithdraw from "@selldone/components-vue/storefront/orde
 import KalioOrderDelivery from "../../../../../components/kalio/order/KalioOrderDelivery.vue";
 import KalioOrderChat from "../../../../../components/kalio/order/KalioOrderChat.vue";
 import KalioOrderReceipt from "../../../../../components/kalio/order/KalioOrderReceipt.vue";
-import DigitoRail from "../../../../../components/digito/DigitoRail.vue";
+import SensoRail from "../../../../../components/senso/SensoRail.vue";
 
 import SShopShareOrderButton from "@selldone/components-vue/storefront/order/share-order/SShopShareOrderButton.vue";
 import { ProductType } from "@selldone/core-js/enums/product/ProductType";
@@ -154,7 +154,7 @@ function sizeOf(variant) {
 export default {
   name: "StorefrontPageBasketOrderPhysicalDashboard",
   components: {
-    DigitoRail,
+    SensoRail,
     SBasketVendorOrders: SBasketVendorOrders,
     SShopShareOrderButton,
     SShopRowCustomerPendingPayment,

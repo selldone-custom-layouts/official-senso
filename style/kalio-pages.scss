@@ -70,7 +70,7 @@
   padding: 0 10px;
   border-radius: var(--k-pill);
   background: var(--k-green-soft);
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
   font-size: 12.5px;
   font-weight: 700;
   text-decoration: none;
@@ -90,7 +90,7 @@
     height: 26px;
     border-radius: 50%;
     background: var(--k-green);
-    color: var(--dg-on-brand);
+    color: var(--sn-on-brand);
     font-size: 11px;
     font-style: normal;
     font-weight: 700;
@@ -116,7 +116,7 @@
 
   &:hover {
     border-color: var(--k-green);
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 
   .v-icon {
@@ -172,11 +172,11 @@
   }
 
   ul li::marker {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   a:not(.k-btn) {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     text-decoration: underline;
     text-underline-offset: 3px;
   }
@@ -204,7 +204,7 @@
     border-inline-start: 4px solid var(--k-leaf);
     border-radius: 0 18px 18px 0;
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   table {
@@ -271,7 +271,7 @@
     padding: 40px 44px;
     border-radius: 32px;
     background: var(--k-green-deep);
-    color: var(--dg-on-brand);
+    color: var(--sn-on-brand);
 
     h1 {
       margin: 8px 0 0;
@@ -280,7 +280,7 @@
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.02em;
-      color: var(--dg-on-brand);
+      color: var(--sn-on-brand);
     }
 
     p {
@@ -608,7 +608,7 @@
         font-family: var(--k-display);
         font-size: 22px;
         line-height: 1;
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
     }
 
@@ -678,7 +678,7 @@
     height: 36px;
     border-radius: 50%;
     background: #fff;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.45);
     cursor: pointer;
 
@@ -688,7 +688,7 @@
 
     &:hover {
       background: var(--k-green-hover);
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
     }
   }
 
@@ -1075,7 +1075,7 @@
       font-family: var(--k-display);
       font-size: 24px;
       font-weight: 600;
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     ul {
@@ -1093,11 +1093,11 @@
       gap: 8px;
       font-size: 15.5px;
       line-height: 1.5;
-      color: var(--dg-link);
+      color: var(--sn-link);
 
       .v-icon {
         margin-top: 2px;
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }
@@ -1153,7 +1153,7 @@
 
       &.-on {
         background: #fff;
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
         box-shadow: 0 6px 16px -12px rgba(0, 0, 0, 0.4);
       }
     }
@@ -1187,7 +1187,7 @@
 
       span {
         font-size: 18px;
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
     }
   }
@@ -1287,7 +1287,7 @@
     padding: 0 12px;
     border-radius: var(--k-pill);
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-size: 13px;
     font-weight: 700;
     white-space: nowrap;
@@ -1387,7 +1387,7 @@
       color: var(--k-ink);
 
       a {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }
@@ -1451,7 +1451,7 @@
         font-family: var(--k-display);
         font-size: 22px;
         font-style: normal;
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
     }
 
@@ -1483,7 +1483,7 @@
       font-family: var(--k-display);
       font-size: 20px;
       font-weight: 600;
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -1492,7 +1492,7 @@
     font-family: var(--k-display);
     font-size: 30px;
     font-style: italic;
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &__acts {

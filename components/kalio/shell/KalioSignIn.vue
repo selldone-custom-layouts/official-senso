@@ -33,7 +33,7 @@
       <button aria-label="Close" class="t-signin__x" type="button" @click="show = false">
         <v-icon>close</v-icon>
       </button>
-      <p class="t-signin__mark dg-signin-band"><digito-wordmark /></p>
+      <p class="t-signin__mark sn-signin-band"><senso-wordmark /></p>
       <h2 id="k-signin-title" class="t-signin__title">Sign in or create account</h2>
       <p class="t-signin__lede">
         Your account is made as you sign in. No password to remember.
@@ -63,7 +63,7 @@ import { throttle } from "lodash-es";
 import SShopLogin from "@selldone/components-vue/storefront/login/SShopLogin.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import { aisleImage, aisles, tintFor, vendors } from "../kalio-catalog";
-import DigitoWordmark from "../../digito/DigitoWordmark.vue";
+import SensoWordmark from "../../senso/SensoWordmark.vue";
 
 /* Selldone's words for the ways in ("Login with Google", "Login by
    Email") and for the email steps, as a shop says them now. English only;
@@ -84,7 +84,7 @@ const WORDS = {
 export default {
   name: "KalioSignIn",
   components: {
-    DigitoWordmark, SShopLogin },
+    SensoWordmark, SShopLogin },
   inject: ["$shop"],
 
   data() {

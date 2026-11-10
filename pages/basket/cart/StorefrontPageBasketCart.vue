@@ -396,18 +396,18 @@
       <!-- Kalio: an empty basket is a starting point, so it offers the way back
            to the aisles instead of only announcing itself. The heading keeps
            the translated platform string. -->
-      <!-- Digito: an empty cart is a starting point — the way back to the
+      <!-- Senso: an empty cart is a starting point — the way back to the
            deals and the catalogue, and a row of today's deals under it. -->
-      <div v-else class="k-basket-empty dg-empty">
-        <span aria-hidden="true" class="dg-empty__mark"><digito-icon name="shopping_cart" size="40" /></span>
+      <div v-else class="k-basket-empty sn-empty">
+        <span aria-hidden="true" class="sn-empty__mark"><senso-icon name="shopping_cart" size="40" /></span>
         <h1 class="k-basket-empty__title">Your cart is empty</h1>
         <p class="k-basket-empty__lede">Find something you like — today’s deals are a good place to start.</p>
-        <div class="dg-empty__acts">
-          <router-link :to="dealsTo" class="dg-btn">Shop today’s deals</router-link>
-          <router-link :to="{ name: window.$storefront.routes.SHOP_PAGE, query: { sort: 'newest' } }" class="dg-btn -line">Continue shopping</router-link>
+        <div class="sn-empty__acts">
+          <router-link :to="dealsTo" class="sn-btn">Shop today’s deals</router-link>
+          <router-link :to="{ name: window.$storefront.routes.SHOP_PAGE, query: { sort: 'newest' } }" class="sn-btn -line">Continue shopping</router-link>
         </div>
       </div>
-      <digito-rail v-if="!(basket && basket.items && basket.items.length)" :filter="{ only_has_discount: true }" :more-to="dealsTo" class="dg-empty__rail" lazy more-label="See all deals" title="Top deals" />
+      <senso-rail v-if="!(basket && basket.items && basket.items.length)" :filter="{ only_has_discount: true }" :more-to="dealsTo" class="sn-empty__rail" lazy more-label="See all deals" title="Top deals" />
 
       <div v-if="busy_shop" class="busy-overlay">
         <div class="text-h4 font-weight-thin">
@@ -487,9 +487,9 @@ import { TimeSpans } from "@selldone/core-js/enums/logistic/TimeSpans";
 import KalioCartLines from "../../../components/kalio/checkout/KalioCartLines.vue";
 import KalioOftenAdded from "../../../components/kalio/KalioOftenAdded.vue";
 import KalioAddressSheet from "../../../components/kalio/checkout/KalioAddressSheet.vue";
-import { freeShippingFrom, waysOf } from "../../../components/digito/digito-home";
-import DigitoRail from "../../../components/digito/DigitoRail.vue";
-import DigitoIcon from "../../../components/digito/DigitoIcon.vue";
+import { freeShippingFrom, waysOf } from "../../../components/senso/senso-home";
+import SensoRail from "../../../components/senso/SensoRail.vue";
+import SensoIcon from "../../../components/senso/SensoIcon.vue";
 import { dealsRoute } from "../../../components/kalio/kalio-catalog";
 
 export default {
@@ -505,8 +505,8 @@ export default {
   ],
 
   components: {
-    DigitoRail,
-    DigitoIcon,
+    SensoRail,
+    SensoIcon,
     KalioCartLines,
     KalioOftenAdded,
     KalioAddressSheet,

@@ -38,7 +38,7 @@ import "@fortawesome/fontawesome-free/css/all.css"; // Ensure your project is ca
 import "@selldone/components-vue/style/fonts/material-design-fonts/material-design-icons.scss"; // Ensure your project is capable of handling css files
 import "@selldone/components-vue/style/fonts/lang/fa/lang-fa-iransans.css";
 import { bootThemeSwitcher } from "./components/theme-switcher/theme-switcher";
-import { DIGITO_THEME } from "./components/digito/digito-theme";
+import { SENSO_THEME } from "./components/senso/senso-theme";
 import "./components/kalio/kalio-fonts"; // Kalio typefaces, loaded by the app so they reach production
 import { PageHyper } from "@selldone/page-builder/PageHyperService.ts";
 import {SetupPageBuilder} from "@selldone/page-builder/page-builder.ts";
@@ -46,16 +46,16 @@ import {SetupService} from "@selldone/core-js/server";
 import {Shop} from "@selldone/core-js/models";
 
 const vuetify = VuetifyInstance(i18n);
-// Digito's own light error red: Vuetify's #ff5252 is 3.3:1 on white.
+// Senso's own light error red: Vuetify's #ff5252 is 3.3:1 on white.
 try {
   vuetify.theme.themes.value.light.colors.error = "#c4122f";
 } catch (e) {
   /* keep Vuetify's */
 }
 // The shopper's palette and Light / Dark (the header's Theme button), painted
-// before the first paint so the default never flashes. Only on Digito's
-// showcase shop (DIGITO_THEME.mode): an imported copy never shows it.
-bootThemeSwitcher(DIGITO_THEME, vuetify);
+// before the first paint so the default never flashes. Only on Senso's
+// showcase shop (SENSO_THEME.mode): an imported copy never shows it.
+bootThemeSwitcher(SENSO_THEME, vuetify);
 
 //█████████████████████████████████████████████████████████████
 //―――――――――――――― Global Types ―――――――――――――――

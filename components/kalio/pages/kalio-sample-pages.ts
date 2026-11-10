@@ -1,5 +1,5 @@
 /*
- * Digito — the sample texts of the shop's own pages.
+ * Senso — the sample texts of the shop's own pages.
  *
  * About us, Terms of use and Privacy come from the shop's profiles in the
  * Selldone dashboard. Until the shop writes them, each page shows general

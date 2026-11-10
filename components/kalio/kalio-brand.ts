@@ -1,22 +1,22 @@
 /* ━━━━━━━━━━━━ The Layout's own name and logo ━━━━━━━━━━━━
-   Digito is the storefront name of the Selldone shop Digini, shown on its
-   own address (digito.selldone.shop). The shop's own title would put
+   Senso is the storefront name of the Selldone shop Digini, shown on its
+   own address (senso.selldone.shop). The shop's own title would put
    "Digini" in the header, footer, page titles and every line that names the
    shop, so the title is replaced here as soon as the shop is read, for this
    Layout only. The shop record on Selldone (its emails, dashboard, the SEO
    page Selldone serves to crawlers) keeps its own name.
 
-   To rename the Layout, change BRAND.name: the wordmark (DigitoWordmark,
+   To rename the Layout, change BRAND.name: the wordmark (SensoWordmark,
    every "i" with a yellow square dot), the tab title and every line that
    names the shop follow. Set it to null to show the shop's own title.
 
-   The mark (assets/brand/digito-mark.svg, 64x64) is the browser tab's icon,
+   The mark (assets/brand/senso-mark.svg, 64x64) is the browser tab's icon,
    the chat avatar on the order page and the compare page's badge. */
 
-import mark from "../../assets/brand/digito-mark.svg?url";
+import mark from "../../assets/brand/senso-mark.svg?url";
 
 export const BRAND: { name: string | null; mark: string } = {
-  name: "Digito",
+  name: "Senso",
   mark,
 };
 
@@ -30,7 +30,7 @@ export function applyBrand(shop: any): void {
   cartWords();
 }
 
-/* One word for it: Digito says "cart" everywhere, Selldone's own wording
+/* One word for it: Senso says "cart" everywhere, Selldone's own wording
    included ("In your basket", "others have this in their basket!", "Basket
    is empty"). English only: other languages keep Selldone's. Every English
    message that says basket is merged back saying cart, so a Selldone string
@@ -64,7 +64,7 @@ function cartWords(): void {
   try {
     const patch = walk(i18n.getLocaleMessage(locale)) || {};
     /* An electronics shop's "volume" variant is a capacity (64GB, 1TB), as
-       Digito's cards say ("Choose capacity"). A shop that names its
+       Senso's cards say ("Choose capacity"). A shop that names its
        variants itself (Selldone's custom variant names) keeps its names. */
     patch.global = { ...(patch.global || {}), variants: { ...(patch.global?.variants || {}), volume: "Capacity" } };
     i18n.mergeLocaleMessage(locale, patch);

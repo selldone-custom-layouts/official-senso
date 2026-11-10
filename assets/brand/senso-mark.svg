@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>senso</title>
+  <rect width="64" height="64" rx="16" fill="#0a4bd8"/>
+  <circle cx="27.5" cy="37" r="11.25" fill="none" stroke="#ffffff" stroke-width="7.5"/>
+  <rect x="35" y="11" width="7.5" height="37.75" rx="2" fill="#ffffff"/>
+  <rect x="47" y="41" width="8" height="8" rx="1.6" fill="#ffd91a"/>
+</svg>

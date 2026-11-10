@@ -19,7 +19,7 @@ state, read and follow [`AI_WORKFLOW.md`](AI_WORKFLOW.md) completely.
 
 ## Theme
 
-To change the theme (palette, brand colour, light or dark, the visitor switcher), edit only `components/digito/digito-theme.settings.ts`. The allowed values, worked examples and the checks to run are in the root `AGENTS.md`, section "Theme".
+To change the theme (palette, brand colour, light or dark, the visitor switcher), edit only `components/senso/senso-theme.settings.ts`. The allowed values, worked examples and the checks to run are in the root `AGENTS.md`, section "Theme".
 
 ## Non-negotiable rules
 

@@ -1,5 +1,5 @@
 <!--
-  Digito — the footer (Home A "Deals hub", 8 November 2026): white, under
+  Senso — the footer (Home A "Deals hub", 8 November 2026): white, under
   the page. A service row first (Track your order, Shipping & delivery,
   Returns & exchanges, Help center, Contact us); then link columns — Shop
   (the shop's categories and All products), Orders, the shop (the
@@ -12,52 +12,52 @@
   footer (the layout decides).
 -->
 <template>
-  <footer class="k-footer dg-footer">
-    <nav aria-label="Customer service" class="dg-footer__svc">
-      <router-link :to="ordersRoute"><digito-icon name="local_shipping" size="30" /><span>Track your order</span></router-link>
-      <router-link :to="termsRoute"><digito-icon name="package_2" size="30" /><span>Shipping &amp; delivery</span></router-link>
-      <router-link :to="termsRoute"><digito-icon name="assignment_return" size="30" /><span>Returns &amp; exchanges</span></router-link>
-      <router-link :to="faqRoute"><digito-icon name="support_agent" size="30" /><span>Help center</span></router-link>
-      <router-link :to="contactRoute"><digito-icon name="mail" size="30" /><span>Contact us</span></router-link>
+  <footer class="k-footer sn-footer">
+    <nav aria-label="Customer service" class="sn-footer__svc">
+      <router-link :to="ordersRoute"><senso-icon name="local_shipping" size="30" /><span>Track your order</span></router-link>
+      <router-link :to="termsRoute"><senso-icon name="package_2" size="30" /><span>Shipping &amp; delivery</span></router-link>
+      <router-link :to="termsRoute"><senso-icon name="assignment_return" size="30" /><span>Returns &amp; exchanges</span></router-link>
+      <router-link :to="faqRoute"><senso-icon name="support_agent" size="30" /><span>Help center</span></router-link>
+      <router-link :to="contactRoute"><senso-icon name="mail" size="30" /><span>Contact us</span></router-link>
     </nav>
 
-    <div class="dg-footer__grid">
-      <nav aria-labelledby="dg-f-shop" class="dg-footer__col">
-        <h3 id="dg-f-shop">Shop</h3>
+    <div class="sn-footer__grid">
+      <nav aria-labelledby="sn-f-shop" class="sn-footer__col">
+        <h3 id="sn-f-shop">Shop</h3>
         <router-link :to="dealsRoute">Today’s deals</router-link>
         <router-link v-for="aisle in aisleList.slice(0, 6)" :key="aisle.id" :to="aisleRoute(aisle)">{{ aisle.title || aisle.name }}</router-link>
         <router-link :to="catalogueRoute">All products</router-link>
       </nav>
-      <nav aria-labelledby="dg-f-orders" class="dg-footer__col">
-        <h3 id="dg-f-orders">Orders</h3>
+      <nav aria-labelledby="sn-f-orders" class="sn-footer__col">
+        <h3 id="sn-f-orders">Orders</h3>
         <router-link :to="ordersRoute">Track an order</router-link>
         <router-link :to="cartRoute">Your cart</router-link>
         <router-link v-if="user" :to="{ name: 'KalioAccountHome' }">Your account</router-link>
-        <button v-else class="dg-footer__textbtn" type="button" @click="signIn">Sign in</button>
+        <button v-else class="sn-footer__textbtn" type="button" @click="signIn">Sign in</button>
         <router-link v-if="user" :to="{ name: window.$storefront.routes.USER_FAVORITES_PAGE }">Saved items</router-link>
       </nav>
-      <nav aria-labelledby="dg-f-shopname" class="dg-footer__col">
-        <h3 id="dg-f-shopname">{{ shopTitle }}</h3>
+      <nav aria-labelledby="sn-f-shopname" class="sn-footer__col">
+        <h3 id="sn-f-shopname">{{ shopTitle }}</h3>
         <router-link v-for="(item, i) in shopLinks" :key="'l' + i" :to="item.to">{{ item.name }}</router-link>
       </nav>
-      <nav aria-labelledby="dg-f-policies" class="dg-footer__col">
-        <h3 id="dg-f-policies">Policies</h3>
+      <nav aria-labelledby="sn-f-policies" class="sn-footer__col">
+        <h3 id="sn-f-policies">Policies</h3>
         <router-link :to="termsRoute">Terms of service</router-link>
         <router-link :to="privacyRoute">Privacy policy</router-link>
         <router-link :to="faqRoute">FAQ</router-link>
       </nav>
 
-      <div class="dg-footer__news">
+      <div class="sn-footer__news">
         <h3>Get the latest deals</h3>
         <p>New arrivals and price drops, about once a week.</p>
-        <form v-if="!subscribed" class="dg-footer__form" @submit.prevent="subscribe">
+        <form v-if="!subscribed" class="sn-footer__form" @submit.prevent="subscribe">
           <input v-model="email" aria-label="Email address" autocomplete="email" placeholder="Email address" required type="email" />
-          <button :disabled="busy" class="dg-btn" type="submit">Sign up</button>
+          <button :disabled="busy" class="sn-btn" type="submit">Sign up</button>
         </form>
-        <p v-else class="dg-footer__ok"><digito-icon name="check_circle" size="20" />You’re on the list. Watch your inbox.</p>
-        <p v-if="error" class="dg-footer__err">{{ error }}</p>
-        <s-storefront-social-buttons class="dg-footer__social"></s-storefront-social-buttons>
-        <div v-if="hasPickers" class="dg-footer__pickers">
+        <p v-else class="sn-footer__ok"><senso-icon name="check_circle" size="20" />You’re on the list. Watch your inbox.</p>
+        <p v-if="error" class="sn-footer__err">{{ error }}</p>
+        <s-storefront-social-buttons class="sn-footer__social"></s-storefront-social-buttons>
+        <div v-if="hasPickers" class="sn-footer__pickers">
           <s-language-selector v-if="hasLanguages" hide-details variant="outlined"></s-language-selector>
           <u-currency-selector
             v-if="$shop.currencies && $shop.currencies.length > 1"
@@ -69,12 +69,12 @@
       </div>
     </div>
 
-    <div class="dg-footer__legal">
-      <span class="dg-footer__copy">© {{ year }} {{ shopTitle }}. Prices and offers can change.</span>
+    <div class="sn-footer__legal">
+      <span class="sn-footer__copy">© {{ year }} {{ shopTitle }}. Prices and offers can change.</span>
       <router-link :to="termsRoute">Terms</router-link>
       <router-link :to="privacyRoute">Privacy</router-link>
       <s-footer-section-gdpr></s-footer-section-gdpr>
-      <s-footer-section-selldone class="dg-footer__made"></s-footer-section-selldone>
+      <s-footer-section-selldone class="sn-footer__made"></s-footer-section-selldone>
     </div>
   </footer>
 </template>
@@ -86,12 +86,12 @@ import UCurrencySelector from "@selldone/components-vue/ui/currency/selector/UCu
 import SFooterSectionGdpr from "@selldone/components-vue/storefront/footer/section/gdpr/SFooterSectionGdpr.vue";
 import SFooterSectionSelldone from "@selldone/components-vue/storefront/footer/section/selldone/SFooterSectionSelldone.vue";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
-import DigitoIcon from "../../digito/DigitoIcon.vue";
+import SensoIcon from "../../senso/SensoIcon.vue";
 import { aisleRoute, aisles, catalogueRoute, dealsRoute } from "../kalio-catalog";
 
 export default {
   name: "KalioFooter",
-  components: { SStorefrontSocialButtons, SLanguageSelector, UCurrencySelector, SFooterSectionGdpr, SFooterSectionSelldone, DigitoIcon },
+  components: { SStorefrontSocialButtons, SLanguageSelector, UCurrencySelector, SFooterSectionGdpr, SFooterSectionSelldone, SensoIcon },
   inject: ["$shop"],
 
   data() {

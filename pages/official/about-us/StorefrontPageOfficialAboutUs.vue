@@ -12,7 +12,7 @@
   - Tread carefully, for you're treading on dreams.
   -->
 <!--
-  Digito — About us (design A of the page mockups, digini-design/about-a.html).
+  Senso — About us (design A of the page mockups, digini-design/about-a.html).
 
   A wide photo with the story on a white card, four values with icons, a
   blue band of service promises (no counts: the shop is the point, not its
@@ -21,47 +21,47 @@
   has one; until then a general sample under a clear "Sample text" note.
 -->
 <template>
-  <div class="dg-about dg-page">
-    <section class="dg-about__hero">
-      <digito-photo :products="packs" :src="hero" class="dg-about__photo" eager shape="wide" />
-      <div class="dg-about__card">
-        <span class="dg-eyebrow">About {{ shopTitle }}</span>
+  <div class="sn-about sn-page">
+    <section class="sn-about__hero">
+      <senso-photo :products="packs" :src="hero" class="sn-about__photo" eager shape="wide" />
+      <div class="sn-about__card">
+        <span class="sn-eyebrow">About {{ shopTitle }}</span>
         <h1>{{ missing || busy ? sample.title : `About ${shopTitle}` }}</h1>
         <p v-if="missing || busy">{{ sample.lead }}</p>
       </div>
     </section>
 
-    <section class="dg-sec dg-about__story">
+    <section class="sn-sec sn-about__story">
       <div v-if="busy" aria-hidden="true" class="k-legal__loading"><span></span><span></span><span></span></div>
       <template v-else-if="missing">
         <kalio-sample-note>This is general copy written to show the page; {{ shopTitle }} writes its own story here.</kalio-sample-note>
-        <p class="dg-about__text">{{ sample.text[0] }}</p>
-        <div class="dg-about__vals">
-          <div v-for="(value, i) in sample.values" :key="value.title" class="dg-about__val">
-            <span class="dg-about__ic"><digito-icon :name="ICONS[i] || 'check'" size="24" /></span>
+        <p class="sn-about__text">{{ sample.text[0] }}</p>
+        <div class="sn-about__vals">
+          <div v-for="(value, i) in sample.values" :key="value.title" class="sn-about__val">
+            <span class="sn-about__ic"><senso-icon :name="ICONS[i] || 'check'" size="24" /></span>
             <b>{{ value.title }}</b>
             <p>{{ value.text }}</p>
           </div>
         </div>
       </template>
-      <div v-else class="k-story__real k-prose dg-about__real" v-html="profile.body"></div>
+      <div v-else class="k-story__real k-prose sn-about__real" v-html="profile.body"></div>
     </section>
 
-    <section aria-label="Our promises" class="dg-about__band">
-      <div v-for="p in promises" :key="p.t"><digito-icon :name="p.i" size="28" /><span><b>{{ p.t }}</b><small>{{ p.s }}</small></span></div>
+    <section aria-label="Our promises" class="sn-about__band">
+      <div v-for="p in promises" :key="p.t"><senso-icon :name="p.i" size="28" /><span><b>{{ p.t }}</b><small>{{ p.s }}</small></span></div>
     </section>
 
-    <digito-categories />
+    <senso-categories />
 
-    <section id="contact" class="dg-sec dg-about__contact">
+    <section id="contact" class="sn-sec sn-about__contact">
       <div>
-        <span class="dg-eyebrow">Contact us</span>
+        <span class="sn-eyebrow">Contact us</span>
         <h2>We’re here to help</h2>
         <p>For an order, the fastest way is the message thread on the order page: it reaches the people who packed it. For anything else, write to us.</p>
       </div>
-      <div class="dg-about__acts">
-        <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="dg-btn">Write to us</router-link>
-        <router-link :to="catalogueRoute" class="dg-btn -line">Start shopping</router-link>
+      <div class="sn-about__acts">
+        <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-btn">Write to us</router-link>
+        <router-link :to="catalogueRoute" class="sn-btn -line">Start shopping</router-link>
       </div>
     </section>
   </div>
@@ -71,14 +71,14 @@
 import KalioSampleNote from "@app-storefront/components/kalio/pages/KalioSampleNote.vue";
 import { aboutSample, plainText } from "@app-storefront/components/kalio/pages/kalio-sample-pages";
 import { aisles, catalogueRoute } from "@app-storefront/components/kalio/kalio-catalog";
-import { allProducts, photoOf, waysOf } from "@app-storefront/components/digito/digito-home";
-import DigitoPhoto from "@app-storefront/components/digito/DigitoPhoto.vue";
-import DigitoIcon from "@app-storefront/components/digito/DigitoIcon.vue";
-import DigitoCategories from "@app-storefront/components/digito/DigitoCategories.vue";
+import { allProducts, photoOf, waysOf } from "@app-storefront/components/senso/senso-home";
+import SensoPhoto from "@app-storefront/components/senso/SensoPhoto.vue";
+import SensoIcon from "@app-storefront/components/senso/SensoIcon.vue";
+import SensoCategories from "@app-storefront/components/senso/SensoCategories.vue";
 
 export default {
   name: "StorefrontPageOfficialAboutUs",
-  components: { KalioSampleNote, DigitoPhoto, DigitoIcon, DigitoCategories },
+  components: { KalioSampleNote, SensoPhoto, SensoIcon, SensoCategories },
   inject: ["$shop"],
 
   data: () => ({

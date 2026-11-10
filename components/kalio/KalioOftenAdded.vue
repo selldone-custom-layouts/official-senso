@@ -41,9 +41,9 @@
 import CurrencyMixin from "@selldone/components-vue/mixin/currency/CurrencyMixin.ts";
 import { addColour, colourLine, pendingLine, quickAdd } from "./kalio-basket";
 import { priceOf, productImage, productSrcset, dropSrcset } from "./kalio-catalog";
-import { allProducts, savingOf } from "../digito/digito-home";
+import { allProducts, savingOf } from "../senso/senso-home";
 
-/* Digito: every product comes in colours or capacities. One with
+/* Senso: every product comes in colours or capacities. One with
    capacities needs its capacity picked (each has its own price), so it is
    not offered here; one with colours goes in, in its first colour. */
 const capacities = (p) => (p.product_variants || p.variants || []).some((v) => v.volume);

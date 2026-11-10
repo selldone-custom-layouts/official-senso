@@ -1,13 +1,13 @@
 # Shop Requirements
 
-The Layout reads everything from your shop. Nothing about Digini is hard-coded except the Layout's own name (one line in `components/kalio/kalio-brand.ts`) and the lifestyle photos, which are matched to categories by their names. Here is what your shop's data needs so that each part looks as it does on [digito.selldone.shop](https://digito.selldone.shop).
+The Layout reads everything from your shop. Nothing about Digini is hard-coded except the Layout's own name (one line in `components/kalio/kalio-brand.ts`) and the lifestyle photos, which are matched to categories by their names. Here is what your shop's data needs so that each part looks as it does on [senso.selldone.shop](https://senso.selldone.shop).
 
 ## Shop settings
 
 | Setting | What to set | Where it shows |
 | --- | --- | --- |
 | **Home** (of the shop, or of the domain that carries the Layout) | The **Shop** page, not a Page Builder landing page | `/` shows the Layout's home. With a landing page as Home, `/` shows that page and the Layout's home is only at `/shop`. A domain can have its own Home (`selldone_shop_home_domain_set`). |
-| **Business model** | A normal (single-seller) shop | The Layout shows no seller interface. On a marketplace, Kalio's seller parts are still in the code but Digito does not draw seller pages. |
+| **Business model** | A normal (single-seller) shop | The Layout shows no seller interface. On a marketplace, Kalio's seller parts are still in the code but Senso does not draw seller pages. |
 | **Guest checkout** | Your choice | When guests may buy, "Add to cart" works signed out; otherwise it asks the shopper to sign in first, as Selldone's own button does. |
 | **Payment methods** | At least one, for your currency | Without one, the cart says the shop is not taking payments yet, and Pay does not open an empty window. |
 | **Shipping methods / pickup** | What you offer | The product page's buy card lists them ("Delivery", "Pickup — Free"); the cart shows them as Delivery method tiles. |
@@ -24,7 +24,7 @@ The Layout reads everything from your shop. Nothing about Digini is hard-coded e
 
 ## Lifestyle photos (optional)
 
-Put them in `assets/digito/` as `<shape>-<category name>.webp`:
+Put them in `assets/senso/` as `<shape>-<category name>.webp`:
 
 | Shape | Size | Where | Rule |
 | --- | --- | --- | --- |
@@ -49,7 +49,7 @@ No text, logos or faces in the photos. A category without a photo gets a collage
 - **best-seller** (or bestseller, best-sellers, top-seller) fills the **Best sellers** bento. No tagged product, no section.
 - **new-arrival** (or new-arrivals, new, just-in) fills **New arrivals**; without it the row shows the newest products.
 - **Any other tag** gets its own row titled "<Tag> Items" ("4k" → "4K Items"). A tag with no products shows nothing.
-- Selldone's storefront has no list of a shop's tags. The Layout asks for a vocabulary of common merchandising tags in one request and also picks up every other tag those products carry. A tag that no such product carries is not found: add one of the common tags to at least one of its products, or add the tag to `VOCABULARY` in `components/digito/digito-home.ts`.
+- Selldone's storefront has no list of a shop's tags. The Layout asks for a vocabulary of common merchandising tags in one request and also picks up every other tag those products carry. A tag that no such product carries is not found: add one of the common tags to at least one of its products, or add the tag to `VOCABULARY` in `components/senso/senso-home.ts`.
 
 ## Ratings and reviews
 

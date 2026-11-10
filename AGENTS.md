@@ -22,14 +22,14 @@ the owner's controlled clone, fork, or release branch.
 
 ## Theme (palette, brand colour, light or dark, the visitor switcher)
 
-When a merchant asks for a theme ("use the yellow theme", "my brand colour is #F5C400", "make it dark"), edit **one file only**: `components/digito/digito-theme.settings.ts`. Nothing else needs to change, and the colours are made readable automatically (buttons, links, header, dark mode).
+When a merchant asks for a theme ("use the yellow theme", "my brand colour is #F5C400", "make it dark"), edit **one file only**: `components/senso/senso-theme.settings.ts`. Nothing else needs to change, and the colours are made readable automatically (buttons, links, header, dark mode).
 
 | Setting | Allowed values |
 | --- | --- |
-| `palette` | `"blue"` (Digito blue, the default), `"emerald"`, `"violet"`, `"teal"`, `"orange"` |
+| `palette` | `"blue"` (Senso blue, the default), `"emerald"`, `"violet"`, `"teal"`, `"orange"` |
 | `brandColor` | any `"#RRGGBB"`; when set it replaces `palette` |
 | `mode` | `"light"` or `"dark"` |
-| `themeSwitcher` | `"showcase"` (the visitor switcher shows only on Digito's own showcase shop; the default), `"on"` (the merchant's visitors get a Theme button in the header), `"off"` |
+| `themeSwitcher` | `"showcase"` (the visitor switcher shows only on Senso's own showcase shop; the default), `"on"` (the merchant's visitors get a Theme button in the header), `"off"` |
 | `textOnBrand` | only with `brandColor`: `"auto"` (a light brand such as yellow keeps its colour, with dark words on it) or `"white"` (white words; a light colour is darkened) |
 
 Worked examples (change only these lines; leave the rest of the file as it is):
@@ -39,7 +39,7 @@ Worked examples (change only these lines; leave the rest of the file as it is):
 - **"Make it dark"**: `mode: "dark"`.
 - **"Let visitors switch themes"**: `themeSwitcher: "on"`.
 - **"Remove the switcher"**: `themeSwitcher: "off"`. On a merchant's own shop it is already hidden with `"showcase"`.
-- **"Go back to Digito's blue"**: remove `brandColor` and set `palette: "blue", mode: "light"`.
+- **"Go back to Senso's blue"**: remove `brandColor` and set `palette: "blue", mode: "light"`.
 
 Then release and check:
 

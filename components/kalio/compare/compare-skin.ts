@@ -1,6 +1,6 @@
-/* The compare page's words and choices in Digito (9 November 2026).
+/* The compare page's words and choices in Senso (9 November 2026).
    KalioCompare.vue is the same page in every Layout built from Molino; this
-   file and the Digito dress at the end of style/digito-pages.scss make it
+   file and the Senso dress at the end of style/senso-pages.scss make it
    this Layout's own: picks pinned at the top as white cards, differing rows
    on a light yellow ground in bold, one Only differences switch, a blue
    share card. */

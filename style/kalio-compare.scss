@@ -49,7 +49,7 @@
   --c-ok: #16a34a;
   --c-diff-bg: var(--k-green-soft);
   --c-diff-ink: var(--k-ink);
-  --c-off-bg: var(--dg-red-solid);
+  --c-off-bg: var(--sn-red-solid);
   --c-off-ink: #fff;
   --c-r-lg: 24px;
   --c-r: 14px;
@@ -123,7 +123,7 @@
 
     &.-soft {
       background: var(--c-soft);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
 
       &:hover {
         background: var(--c-line);
@@ -138,7 +138,7 @@
   &__eyebrow {
     display: block;
     margin-bottom: 6px;
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -159,7 +159,7 @@
     font-weight: 600;
 
     .v-progress-circular {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -441,7 +441,7 @@
     -webkit-box-orient: vertical;
 
     &:hover {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -527,7 +527,7 @@
     background: var(--c-soft);
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -643,12 +643,12 @@
     font-weight: 600;
 
     a {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
   &__stars .v-icon {
-    color: var(--dg-soft) !important; /* an empty star: 3:1 or more in both themes */
+    color: var(--sn-soft) !important; /* an empty star: 3:1 or more in both themes */
 
     &.-on {
       color: var(--c-star) !important;
@@ -872,7 +872,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-family: var(--c-head, var(--k-display));
     font-size: 16px;
     font-weight: 700;
@@ -965,7 +965,7 @@
       }
 
       > .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }

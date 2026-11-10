@@ -1,6 +1,6 @@
 # Theme and colours
 
-Digito's colours are chosen in **one file**: `components/digito/digito-theme.settings.ts`. You can edit it by hand, or ask your AI agent: "use the yellow theme", "my brand colour is #F5C400", "make it dark". The agent instructions are in `AGENTS.md`, section "Theme".
+Senso's colours are chosen in **one file**: `components/senso/senso-theme.settings.ts`. You can edit it by hand, or ask your AI agent: "use the yellow theme", "my brand colour is #F5C400", "make it dark". The agent instructions are in `AGENTS.md`, section "Theme".
 
 ```ts
 export const THEME_SETTINGS: ThemeSettings = {
@@ -15,12 +15,12 @@ export const THEME_SETTINGS: ThemeSettings = {
 ## What each setting does
 
 - **`palette`**: one of the five tested palettes. Each keeps white words on its buttons and header at 6.3:1 or more, in light and dark.
-- **`brandColor`**: any colour. Digito makes a whole palette from it: buttons, hover, tints, links, the header, and the dark mode. It keeps the colour's hue and changes only its lightness until every word reads, at 4.5:1 or more (6.5:1 on the header).
+- **`brandColor`**: any colour. Senso makes a whole palette from it: buttons, hover, tints, links, the header, and the dark mode. It keeps the colour's hue and changes only its lightness until every word reads, at 4.5:1 or more (6.5:1 on the header).
   - With **`textOnBrand: "auto"`**, a light brand such as yellow keeps its colour, and its buttons and header get dark words. Links on white use a darker shade of it.
   - With **`textOnBrand: "white"`**, the colour is darkened until white words read.
-- **`mode`**: light or dark. Dark uses Digito's dark surfaces. Product photos stay on light tiles.
+- **`mode`**: light or dark. Dark uses Senso's dark surfaces. Product photos stay on light tiles.
 - **`themeSwitcher`**: the Theme button that lets **visitors** pick a palette, a custom colour and Light / Dark.
-  - `"showcase"` (default): only on Digito's own showcase shop (Selldone shop 15549), so your shop shows your settings and no button.
+  - `"showcase"` (default): only on Senso's own showcase shop (Selldone shop 15549), so your shop shows your settings and no button.
   - `"on"`: your visitors get the button; your settings are its default.
   - `"off"`: never shown.
 

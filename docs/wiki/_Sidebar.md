@@ -1,4 +1,4 @@
-**[Digito Electronics](Home)**
+**[Senso Electronics](Home)**
 
 - [Install with AI](Install-with-AI)
 - [Manual Setup](Manual-Setup)
@@ -11,6 +11,6 @@
 
 ---
 
-- [Live shop](https://digito.selldone.shop)
-- [Repository](https://github.com/selldone-custom-layouts/official-digito)
+- [Live shop](https://senso.selldone.shop)
+- [Repository](https://github.com/selldone-custom-layouts/official-senso)
 - [All custom Layouts](https://github.com/selldone-custom-layouts)

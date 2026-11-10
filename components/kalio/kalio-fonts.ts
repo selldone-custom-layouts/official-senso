@@ -1,16 +1,16 @@
 /*
- * Digito — typefaces.
+ * Senso — typefaces.
  *
- * Plus Jakarta Sans sets everything; Material Symbols Rounded draws Digito's
- * own icons (DigitoIcon, the `.dg-ms` class). They are requested from the
+ * Plus Jakarta Sans sets everything; Material Symbols Rounded draws Senso's
+ * own icons (SensoIcon, the `.sn-ms` class). They are requested from the
  * app at start-up rather than from index.html: in production the Layout runs
  * inside the HTML Selldone renders for the shop, and index.html never
  * reaches the visitor. Selldone's own parts keep the Material Icons font
  * they ship with (v-icon).
  *
- * The icon font is asked for only the icons Digito draws (Google's
+ * The icon font is asked for only the icons Senso draws (Google's
  * `icon_names`), a few kilobytes instead of the whole set. A new icon in a
- * Digito component must be added to ICONS, or it shows as its name.
+ * Senso component must be added to ICONS, or it shows as its name.
  */
 
 export const ICONS = [

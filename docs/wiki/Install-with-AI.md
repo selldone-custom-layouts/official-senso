@@ -24,16 +24,16 @@ An AI coding agent (for example **Claude Code** or **OpenAI Codex**) can set thi
 Fill in the four values in braces first.
 
 ```text
-Set up the Selldone custom Layout "Digito Electronics" on my Selldone shop.
+Set up the Selldone custom Layout "Senso Electronics" on my Selldone shop.
 
 My shop handle: {SHOP_HANDLE}        (as in {SHOP_HANDLE}.myselldone.com)
 My shop id: {SHOP_ID}
 My GitHub account: {GITHUB_USER}
 New Layout package name (lowercase, permanent, unique to me): {PACKAGE}   e.g. mybrand-market
 
-Source: https://github.com/selldone-custom-layouts/official-digito
+Source: https://github.com/selldone-custom-layouts/official-senso
 
-Before you change anything, read completely: README.md, DIGITO.md, KALIO.md, every file in
+Before you change anything, read completely: README.md, SENSO.md, KALIO.md, every file in
 docs/wiki/, and .ai-agent/AGENTS.md, .ai-agent/SKILL.md, .ai-agent/AI_WORKFLOW.md.
 
 Then:
@@ -44,7 +44,7 @@ Then:
    a product page and the cart against my shop. Tell me what my shop's data is missing
    (see docs/wiki/Shop-Requirements.md) instead of hard-coding anything. Put my shop's
    name in BRAND.name (components/kalio/kalio-brand.ts), or null to use the shop's title.
-   Replace or remove the photos in assets/digito/ (named <shape>-<category name>.webp).
+   Replace or remove the photos in assets/senso/ (named <shape>-<category name>.webp).
 3. In manifest.json set "package" to {PACKAGE}, "name" to my shop's name plus "Electronics"
    (at least 8 characters), and "version" to 1.0.0. The package name is permanent after
    the first upload.

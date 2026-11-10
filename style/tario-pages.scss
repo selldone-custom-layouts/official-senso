@@ -19,7 +19,7 @@ $t-tablet: 1100px;
   &.-red {
     border: 0;
     background: var(--k-green);
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
 
     &:hover {
       background: var(--k-green-hover);
@@ -56,7 +56,7 @@ $t-tablet: 1100px;
   color: var(--k-muted);
 
   a {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     text-decoration: none;
 
     &:hover {
@@ -101,7 +101,7 @@ $t-tablet: 1100px;
 
   input:checked + &__box {
     border-color: var(--k-ink);
-    background: var(--dg-ink-bg);
+    background: var(--sn-ink-bg);
 
     .v-icon {
       opacity: 1;
@@ -454,8 +454,8 @@ $t-tablet: 1100px;
 
   &.-all {
     border-color: var(--k-ink);
-    background: var(--dg-ink-bg);
-    color: var(--dg-on-ink-bg);
+    background: var(--sn-ink-bg);
+    color: var(--sn-on-ink-bg);
   }
 
   &__n {
@@ -466,7 +466,7 @@ $t-tablet: 1100px;
     padding: 0 6px;
     border-radius: 10px;
     background: var(--k-green);
-    color: var(--dg-on-brand);
+    color: var(--sn-on-brand);
     font-size: 12px;
     font-weight: 800;
   }
@@ -696,8 +696,8 @@ $t-tablet: 1100px;
 
   &.-on {
     border-color: var(--k-ink);
-    background: var(--dg-ink-bg);
-    color: var(--dg-on-ink-bg);
+    background: var(--sn-ink-bg);
+    color: var(--sn-on-ink-bg);
   }
 }
 
@@ -842,7 +842,7 @@ $t-tablet: 1100px;
 
 .t-pdp__brand {
   width: max-content;
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
   font-size: 14.5px;
   font-weight: 700;
   text-decoration: none;
@@ -879,7 +879,7 @@ $t-tablet: 1100px;
 }
 
 .t-pdp__ratelink {
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
 }
 
 .t-pdp__norate {
@@ -961,7 +961,7 @@ $t-tablet: 1100px;
     color: var(--k-ink-2);
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 }
@@ -1050,7 +1050,7 @@ $t-tablet: 1100px;
   color: var(--k-ink-2);
 
   .v-icon {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 }
 
@@ -1134,7 +1134,7 @@ $t-tablet: 1100px;
 
   input:checked + &__cbx {
     border-color: var(--k-ink);
-    background: var(--dg-ink-bg);
+    background: var(--sn-ink-bg);
 
     .v-icon {
       opacity: 1;
@@ -1151,7 +1151,7 @@ $t-tablet: 1100px;
     font-weight: 800;
 
     &.-sale {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -1302,7 +1302,7 @@ $t-tablet: 1100px;
     }
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 }
@@ -1355,7 +1355,7 @@ $t-tablet: 1100px;
   font-size: 15.5px;
 
   > .v-icon {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &__t {
@@ -1363,10 +1363,10 @@ $t-tablet: 1100px;
     min-width: 0;
 
     b {
-      color: var(--dg-link);
+      color: var(--sn-link);
 
       &:first-child {
-        color: var(--dg-link);
+        color: var(--sn-link);
       }
     }
   }
@@ -1475,7 +1475,7 @@ $t-tablet: 1100px;
 
 .k-lines__visit {
   margin-inline-start: auto;
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
   font-size: 14.5px;
   font-weight: 700;
   text-decoration: none;
@@ -1504,7 +1504,7 @@ $t-tablet: 1100px;
   cursor: pointer;
 
   &:hover {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 }
 
@@ -1513,7 +1513,7 @@ $t-tablet: 1100px;
   border-radius: 8px !important;
 
   button {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 }
 
@@ -1632,7 +1632,7 @@ $t-tablet: 1100px;
   }
 
   > .v-icon {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   > span {
@@ -1674,11 +1674,11 @@ $t-tablet: 1100px;
 /* The summary's button is always red: it takes the shopper to what is missing. */
 .k-cart .k-cart__go.-off {
   background: var(--k-green) !important;
-  color: var(--dg-on-brand) !important;
+  color: var(--sn-on-brand) !important;
   opacity: 1 !important;
 
   * {
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     opacity: 1 !important;
   }
 }
@@ -1769,7 +1769,7 @@ $t-tablet: 1100px;
     border-radius: 8px !important;
 
     button {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -1779,7 +1779,7 @@ $t-tablet: 1100px;
     gap: 2px;
 
     .-sale {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     s {
@@ -1811,7 +1811,7 @@ $t-tablet: 1100px;
     font-size: 15px;
 
     &.-save {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     &.-tot {
@@ -1841,7 +1841,7 @@ $t-tablet: 1100px;
   font-size: 14.5px;
 
   b {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   .t-meter__bar {
@@ -1919,7 +1919,7 @@ $t-tablet: 1100px;
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.05em;
-  color: var(--dg-link);
+  color: var(--sn-link);
 
   i {
     width: 12px;
@@ -1965,7 +1965,7 @@ $t-tablet: 1100px;
   }
 
   .v-icon {
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 }
 
@@ -1976,7 +1976,7 @@ $t-tablet: 1100px;
   line-height: 1.5;
 
   a {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 }
 
@@ -2019,7 +2019,7 @@ $t-tablet: 1100px;
     border: 5px solid #fff;
     border-radius: 50%;
     background: #fff;
-    color: var(--dg-link);
+    color: var(--sn-link);
     overflow: hidden;
 
     img {
@@ -2224,7 +2224,7 @@ $t-tablet: 1100px;
 
   &__eyebrow {
     margin: 0;
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-size: 12.5px;
     font-weight: 800;
     letter-spacing: 0.14em;
@@ -2248,9 +2248,9 @@ $t-tablet: 1100px;
       text-decoration: none;
 
       &.-on {
-        background: var(--dg-ink-bg);
+        background: var(--sn-ink-bg);
         border-color: var(--k-ink);
-        color: var(--dg-on-ink-bg);
+        color: var(--sn-on-ink-bg);
       }
     }
   }
@@ -2427,7 +2427,7 @@ $t-tablet: 1100px;
 
   &__eyebrow {
     margin: 0 !important;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-size: 12.5px !important;
     font-weight: 800;
     letter-spacing: 0.14em;
@@ -2441,7 +2441,7 @@ $t-tablet: 1100px;
     margin-top: 26px;
     border-radius: 14px;
     background: var(--k-green);
-    color: var(--dg-on-brand);
+    color: var(--sn-on-brand);
     text-align: center;
 
     div {
@@ -2484,7 +2484,7 @@ $t-tablet: 1100px;
     }
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     b {
@@ -2539,7 +2539,7 @@ $t-tablet: 1100px;
 
     em {
       margin-inline-start: auto;
-      color: var(--dg-link);
+      color: var(--sn-link);
       font-style: normal;
       font-weight: 700;
     }
@@ -2588,7 +2588,7 @@ $t-tablet: 1100px;
     }
 
     li .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -2672,7 +2672,7 @@ $t-tablet: 1100px;
     height: 120px;
     border-radius: 50%;
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &__code {
@@ -2717,7 +2717,7 @@ $t-tablet: 1100px;
       border: 0;
       border-radius: 50%;
       background: var(--k-green);
-      color: var(--dg-on-brand);
+      color: var(--sn-on-brand);
       cursor: pointer;
     }
   }

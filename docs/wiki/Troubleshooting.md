@@ -43,11 +43,11 @@ A discount counts only between its start and end dates, as Selldone's own price 
 
 ## A tag has no row on the home
 
-A tag with no products shows nothing. Selldone has no list of a shop's tags, so the Layout finds tags through a vocabulary of common ones (`VOCABULARY` in `components/digito/digito-home.ts`) and every other tag those products carry. Add the tag to that list, or put one of the common tags on one of its products.
+A tag with no products shows nothing. Selldone has no list of a shop's tags, so the Layout finds tags through a vocabulary of common ones (`VOCABULARY` in `components/senso/senso-home.ts`) and every other tag those products carry. Add the tag to that list, or put one of the common tags on one of its products.
 
 ## A category has no photo
 
-The slot shows a collage of the category's own products. Add `assets/digito/<shape>-<category name>.webp` (see Shop Requirements).
+The slot shows a collage of the category's own products. Add `assets/senso/<shape>-<category name>.webp` (see Shop Requirements).
 
 ## The map is grey or 0 px tall
 

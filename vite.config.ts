@@ -102,17 +102,17 @@ export default ({mode}: any) => {
     ],
     /* Dark mode for every fixed colour in the Layout's styles and Selldone's
        components: each light literal becomes var(--tsd-…, literal), with the
-       dark values under html.dg-dark (the footer's Theme row sets the class).
+       dark values under html.sn-dark (the footer's Theme row sets the class).
        Light mode computes exactly as before. Vuetify follows its own theme. */
     css: {
       postcss: {
         plugins: [
           darkTokens({
-            darkSelector: "html.dg-dark",
+            darkSelector: "html.sn-dark",
             include: [/\/style\//, /\/StorefrontApp\.vue/, /\/components\//, /\/pages\//, /\/layouts\//],
             exclude: [/\/node_modules\//, /\/modules\/pagebuilder\//, /\/theme-switcher\//],
-            lightVars: ["--dg-yellow", "--k-well", "--k-tint"],
-            keepLightExtra: /dg-bill__nav/, // the hero arrows: white circles on a photo
+            lightVars: ["--sn-yellow", "--k-well", "--k-tint"],
+            keepLightExtra: /sn-bill__nav/, // the hero arrows: white circles on a photo
           }),
         ],
       },

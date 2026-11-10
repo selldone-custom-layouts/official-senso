@@ -13,7 +13,7 @@
  */
 
 import { PriceHelper } from "@selldone/core-js";
-import { productIndex } from "../digito/digito-home";
+import { productIndex } from "../senso/senso-home";
 
 declare const window: any;
 
@@ -297,7 +297,7 @@ export function countProducts(dir: string | null, options: Record<string, any> =
     .catch(() => null);
 }
 
-/* Digito: a picture from anywhere (an article cover the shop keeps on its
+/* Senso: a picture from anywhere (an article cover the shop keeps on its
    own host) at the size it is shown. Selldone's CDN goes through the shop's
    resizer as above; any other host through wsrv.nl, a public image proxy
    (WebP, cached). An image that fails drops the srcset (dropSrcset) and the

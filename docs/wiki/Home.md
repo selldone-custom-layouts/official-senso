@@ -1,8 +1,8 @@
-# Digito Electronics
+# Senso Electronics
 
-![Digito Electronics on desktop and phone](https://raw.githubusercontent.com/selldone-custom-layouts/official-digito/main/docs/screenshots/cover.jpg)
+![Senso Electronics on desktop and phone](https://raw.githubusercontent.com/selldone-custom-layouts/official-senso/main/docs/screenshots/cover.jpg)
 
-**Digito Electronics** is a custom storefront **Layout** for Selldone shops: a single-seller electronics shop built like a big deals hub — a blue header with a category mega menu, a photo hero beside the Deal of the Day, two even rows of round categories, deal rails with an Add to cart that turns into − n +, doorbusters, a best-seller bento, category pages with a filter panel, a three-column product page, a side-by-side compare page and a receipt-first cart. It runs on **[digito.selldone.shop](https://digito.selldone.shop)**, an address of the shop Digini that carries its own Layout (see [Go Live](Go-Live)). It is built on the official [selldone/storefront](https://github.com/selldone/storefront), so Selldone's cart, checkout, payments and orders keep working underneath a completely new design.
+**Senso Electronics** is a custom storefront **Layout** for Selldone shops: a single-seller electronics shop built like a big deals hub — a blue header with a category mega menu, a photo hero beside the Deal of the Day, two even rows of round categories, deal rails with an Add to cart that turns into − n +, doorbusters, a best-seller bento, category pages with a filter panel, a three-column product page, a side-by-side compare page and a receipt-first cart. It runs on **[senso.selldone.shop](https://senso.selldone.shop)**, an address of the shop Digini that carries its own Layout (see [Go Live](Go-Live)). It is built on the official [selldone/storefront](https://github.com/selldone/storefront), so Selldone's cart, checkout, payments and orders keep working underneath a completely new design.
 
 ## Start here
 
@@ -36,8 +36,8 @@
 
 ## Links
 
-- Live shop: <https://digito.selldone.shop>
-- Repository: <https://github.com/selldone-custom-layouts/official-digito>
-- What Digito changed and its release log: [`DIGITO.md`](https://github.com/selldone-custom-layouts/official-digito/blob/main/DIGITO.md); every shared behaviour: [`KALIO.md`](https://github.com/selldone-custom-layouts/official-digito/blob/main/KALIO.md)
+- Live shop: <https://senso.selldone.shop>
+- Repository: <https://github.com/selldone-custom-layouts/official-senso>
+- What Senso changed and its release log: [`SENSO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/SENSO.md); every shared behaviour: [`KALIO.md`](https://github.com/selldone-custom-layouts/official-senso/blob/main/KALIO.md)
 - All official custom Layouts: <https://github.com/selldone-custom-layouts>
 - Selldone: <https://selldone.com>

@@ -266,7 +266,7 @@ export async function reorder(vm: any, items: any[]): Promise<{ added: number; f
   return { added, failed };
 }
 
-/* ━━━━━━━━━━━━ Digito: a colour picked on the card ━━━━━━━━━━━━
+/* ━━━━━━━━━━━━ Senso: a colour picked on the card ━━━━━━━━━━━━
    Every Digini product comes in colours or capacities. A card shows its
    colours as swatches; the one picked goes straight into the cart with
    "Add to cart" (a capacity still opens the quick-buy sheet, since each

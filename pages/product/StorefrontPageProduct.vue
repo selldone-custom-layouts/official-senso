@@ -31,10 +31,10 @@
         <slot name="header" :center="true"></slot>
 
         <!-- ⬬⬬⬬⬬ Breadcrumb: the category's path, then the product ⬬⬬⬬⬬ -->
-        <nav aria-label="Breadcrumb" class="dg-crumbs dg-page">
+        <nav aria-label="Breadcrumb" class="sn-crumbs sn-page">
           <router-link :to="{ path: '/' }">Home</router-link>
           <template v-if="product && product.category">
-            <span aria-hidden="true" class="dg-ms">chevron_right</span>
+            <span aria-hidden="true" class="sn-ms">chevron_right</span>
             <router-link
               :to="{
                 name: window.$storefront.routes.SHOP_CATEGORY_PAGE,
@@ -44,16 +44,16 @@
             >
           </template>
           <template v-if="product">
-            <span aria-hidden="true" class="dg-ms">chevron_right</span>
+            <span aria-hidden="true" class="sn-ms">chevron_right</span>
             <span aria-current="page">{{ product.title }}</span>
           </template>
-          <span class="dg-crumbs__tools">
+          <span class="sn-crumbs__tools">
             <s-product-admin-button v-if="$vuetify.display.mdAndUp"></s-product-admin-button>
           </span>
         </nav>
 
-        <div class="dg-page">
-          <digito-product-overview v-if="product" can-buy show-cover />
+        <div class="sn-page">
+          <senso-product-overview v-if="product" can-buy show-cover />
           <s-product-overview-loading v-else />
         </div>
         <u-loading-progress v-if="busy"></u-loading-progress>
@@ -61,15 +61,15 @@
     </div>
 
     <template v-if="product">
-      <div class="dg-page dg-pdp-more">
+      <div class="sn-page sn-pdp-more">
         <!-- The merchant's own cross-sells and offers, as Selldone keeps them. -->
         <s-product-cross-sells class="s--product-section k-pdp-block"></s-product-cross-sells>
         <s-product-offers class="s--product-section k-pdp-block"></s-product-offers>
 
-        <section v-if="has_spec" id="dg-specs" aria-labelledby="dg-spec-h" class="dg-sec dg-specs">
-          <header class="dg-head"><h2 id="dg-spec-h">Specifications</h2></header>
-          <div class="dg-specs__groups">
-            <div v-for="g in spec_groups" :key="g.title" class="dg-specs__g">
+        <section v-if="has_spec" id="sn-specs" aria-labelledby="sn-spec-h" class="sn-sec sn-specs">
+          <header class="sn-head"><h2 id="sn-spec-h">Specifications</h2></header>
+          <div class="sn-specs__groups">
+            <div v-for="g in spec_groups" :key="g.title" class="sn-specs__g">
               <h3>{{ g.title }}</h3>
               <dl>
                 <template v-for="row in g.rows" :key="row.key">
@@ -81,19 +81,19 @@
           </div>
         </section>
 
-        <section v-if="article" aria-label="About this product" class="dg-sec dg-about">
-          <header class="dg-head"><h2>About this product</h2></header>
+        <section v-if="article" aria-label="About this product" class="sn-sec sn-about">
+          <header class="sn-head"><h2>About this product</h2></header>
           <s-product-article hide-title></s-product-article>
         </section>
 
-        <section id="k-reviews" aria-labelledby="dg-rev-h" class="dg-sec dg-reviews">
-          <header class="dg-head"><h2 id="dg-rev-h">Reviews</h2></header>
+        <section id="k-reviews" aria-labelledby="sn-rev-h" class="sn-sec sn-reviews">
+          <header class="sn-head"><h2 id="sn-rev-h">Reviews</h2></header>
           <kalio-reviews></kalio-reviews>
         </section>
 
-        <digito-fbt :product="product" />
+        <senso-fbt :product="product" />
 
-        <section v-if="has_extra" aria-label="Delivery and care" class="dg-sec dg-care">
+        <section v-if="has_extra" aria-label="Delivery and care" class="sn-sec sn-care">
           <s-product-includes class="k-pdp-block"></s-product-includes>
           <s-product-shipping class="k-pdp-block"></s-product-shipping>
           <s-product-warranty class="k-pdp-block"></s-product-warranty>
@@ -104,7 +104,7 @@
 
         <s-product-landing></s-product-landing>
 
-        <digito-rail
+        <senso-rail
           v-if="product.category"
           :key="'more-' + product.category.id"
           :dir="product.category.name"
@@ -126,10 +126,10 @@
 <script lang="ts">
 import NotificationService from "@selldone/components-vue/plugins/notification/NotificationService.ts";
 
-import DigitoProductOverview from "../../components/digito/DigitoProductOverview.vue";
-import DigitoRail from "../../components/digito/DigitoRail.vue";
-import DigitoFbt from "../../components/digito/DigitoFbt.vue";
-import { waysOf } from "../../components/digito/digito-home";
+import SensoProductOverview from "../../components/senso/SensoProductOverview.vue";
+import SensoRail from "../../components/senso/SensoRail.vue";
+import SensoFbt from "../../components/senso/SensoFbt.vue";
+import { waysOf } from "../../components/senso/senso-home";
 import { specGroups, specValue } from "../../components/kalio/compare/kalio-compare";
 import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import SProductOverviewLoading from "@selldone/components-vue/storefront/product/overview/loading/SProductOverviewLoading.vue";
@@ -180,9 +180,9 @@ export default {
     SProductIncludes,
 
     SProductOverviewLoading,
-    DigitoProductOverview,
-    DigitoRail,
-    DigitoFbt,
+    SensoProductOverview,
+    SensoRail,
+    SensoFbt,
 
   },
 

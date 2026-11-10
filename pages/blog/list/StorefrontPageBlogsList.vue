@@ -103,7 +103,7 @@
         </router-link>
       </nav>
     </div>
-    <digito-rail :filter="{ only_has_discount: true }" :limit="12" :more-to="dealsRoute" lazy more-label="All deals" title="Shop the guides" />
+    <senso-rail :filter="{ only_has_discount: true }" :limit="12" :more-to="dealsRoute" lazy more-label="All deals" title="Shop the guides" />
 
     <kalio-quick-buy v-model="sheet" :product="picked" />
   </div>
@@ -113,7 +113,7 @@
 import KalioSampleNote from "@app-storefront/components/kalio/pages/KalioSampleNote.vue";
 import KalioMiniProduct from "@app-storefront/components/kalio/pages/KalioMiniProduct.vue";
 import KalioQuickBuy from "@app-storefront/components/kalio/KalioQuickBuy.vue";
-import DigitoRail from "@app-storefront/components/digito/DigitoRail.vue";
+import SensoRail from "@app-storefront/components/senso/SensoRail.vue";
 import { dealsRoute } from "@app-storefront/components/kalio/kalio-catalog";
 import {
   dateParts,
@@ -130,7 +130,7 @@ const PER_PAGE = 8;
 
 export default {
   name: "StorefrontPageBlogsList",
-  components: { KalioSampleNote, KalioMiniProduct, KalioQuickBuy, DigitoRail },
+  components: { KalioSampleNote, KalioMiniProduct, KalioQuickBuy, SensoRail },
   inject: ["$shop"],
 
   data: () => ({

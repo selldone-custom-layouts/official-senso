@@ -1,6 +1,6 @@
 <!--
-  Digito — the cart drawer (design C, the owner's pick in Molino, in
-  Digito's dress).
+  Senso — the cart drawer (design C, the owner's pick in Molino, in
+  Senso's dress).
 
   A receipt first: Subtotal, what the shopper saves (red), delivery
   "calculated at checkout", the total, and a blue Checkout (not stretched
@@ -15,41 +15,41 @@
   receipt.
 -->
 <template>
-  <div class="k-bdrawer dg-cdrawer">
-    <section v-for="group in groups" :key="group.type" class="dg-cdrawer__group">
-      <p v-if="groups.length > 1" class="dg-cdrawer__type">{{ typeName(group.type) }}</p>
+  <div class="k-bdrawer sn-cdrawer">
+    <section v-for="group in groups" :key="group.type" class="sn-cdrawer__group">
+      <p v-if="groups.length > 1" class="sn-cdrawer__type">{{ typeName(group.type) }}</p>
 
-      <div :class="{ '-settling': group.settling }" class="dg-receipt">
-        <p class="dg-receipt__row"><span>Subtotal ({{ group.units }} {{ group.units === 1 ? "item" : "items" }})</span><u-price :amount="group.total + group.saved" :currency="group.currency" /></p>
-        <p v-if="group.saved >= 0.01" class="dg-receipt__row -save"><span>You save</span><span>−<u-price :amount="group.saved" :currency="group.currency" /></span></p>
-        <p class="dg-receipt__row -muted"><span>Delivery</span><span>Calculated at checkout</span></p>
-        <p class="dg-receipt__row -tot"><span>Total</span><u-price :amount="group.total" :currency="group.currency" /></p>
-        <div class="dg-receipt__btns">
-          <router-link :to="checkoutRoute(group.type)" class="dg-btn" @click="$emit('close')">
+      <div :class="{ '-settling': group.settling }" class="sn-receipt">
+        <p class="sn-receipt__row"><span>Subtotal ({{ group.units }} {{ group.units === 1 ? "item" : "items" }})</span><u-price :amount="group.total + group.saved" :currency="group.currency" /></p>
+        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>You save</span><span>−<u-price :amount="group.saved" :currency="group.currency" /></span></p>
+        <p class="sn-receipt__row -muted"><span>Delivery</span><span>Calculated at checkout</span></p>
+        <p class="sn-receipt__row -tot"><span>Total</span><u-price :amount="group.total" :currency="group.currency" /></p>
+        <div class="sn-receipt__btns">
+          <router-link :to="checkoutRoute(group.type)" class="sn-btn" @click="$emit('close')">
             <v-icon size="18">lock_outline</v-icon>Checkout
           </router-link>
-          <router-link :to="checkoutRoute(group.type)" class="dg-btn -line" @click="$emit('close')">View cart</router-link>
+          <router-link :to="checkoutRoute(group.type)" class="sn-btn -line" @click="$emit('close')">View cart</router-link>
         </div>
       </div>
 
-      <ul class="dg-cdrawer__rows">
-        <li v-for="item in group.items" :key="item.id" class="dg-crow">
-          <router-link :to="productRoute(item.product_id)" class="dg-crow__pic" @click="$emit('close')">
+      <ul class="sn-cdrawer__rows">
+        <li v-for="item in group.items" :key="item.id" class="sn-crow">
+          <router-link :to="productRoute(item.product_id)" class="sn-crow__pic" @click="$emit('close')">
             <img v-if="image(item)" :src="image(item)" alt="" height="56" loading="lazy" width="56" />
           </router-link>
-          <div class="dg-crow__mid">
-            <router-link :to="productRoute(item.product_id)" class="dg-crow__name" @click="$emit('close')">{{ item.product?.title }}</router-link>
-            <span v-if="item.variant" class="dg-crow__var">
-              <i v-if="item.variant.color" :style="{ background: swatch(item.variant.color) }" class="dg-sw -xs"></i>
+          <div class="sn-crow__mid">
+            <router-link :to="productRoute(item.product_id)" class="sn-crow__name" @click="$emit('close')">{{ item.product?.title }}</router-link>
+            <span v-if="item.variant" class="sn-crow__var">
+              <i v-if="item.variant.color" :style="{ background: swatch(item.variant.color) }" class="sn-sw -xs"></i>
               {{ size(item) }}
             </span>
-            <span class="dg-crow__price">
+            <span class="sn-crow__price">
               <u-price :amount="item.price * shown(item)" :class="{ '-sale': item.dis > 0 }" :currency="item.currency" />
               <s v-if="item.dis > 0"><u-price :amount="(item.price + item.dis) * shown(item)" :currency="item.currency" /></s>
             </span>
           </div>
-          <div class="dg-crow__side">
-            <div :aria-label="`Quantity of ${item.product?.title || 'this item'}`" :class="{ '-busy': settling(item.product, item) }" class="dg-qty" role="group">
+          <div class="sn-crow__side">
+            <div :aria-label="`Quantity of ${item.product?.title || 'this item'}`" :class="{ '-busy': settling(item.product, item) }" class="sn-qty" role="group">
               <button :disabled="shown(item) <= 1" aria-label="One fewer" type="button" @click="step(item, -1)">
                 <v-icon size="16">remove</v-icon>
               </button>
@@ -58,7 +58,7 @@
                 <v-icon size="16">add</v-icon>
               </button>
             </div>
-            <button :aria-label="`Remove ${item.product?.title || 'this item'}`" class="dg-crow__rm" type="button" @click="remove(item)">
+            <button :aria-label="`Remove ${item.product?.title || 'this item'}`" class="sn-crow__rm" type="button" @click="remove(item)">
               <v-icon size="18">delete_outline</v-icon>
             </button>
           </div>

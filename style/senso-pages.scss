@@ -1,0 +1,1638 @@
+/* ▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Senso — every page after the home ▆▆▆▆▆▆▆▆▆▆▆▆▆▆
+
+   The product page (three columns like a big electronics store), and the
+   Kalio pages that Senso keeps (cart, checkout, order, account, sign-in,
+   content pages) in the deals-hub dress: grey floor, white cards, one blue.
+   Loaded after senso-skin.scss. */
+
+/* ━━━━━━━━━━━━ Product page ━━━━━━━━━━━━ */
+.sn-crumbs__tools {
+  margin-inline-start: auto;
+}
+
+.sn-pdp {
+  margin-top: 10px;
+  text-align: start;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr) 340px;
+    gap: 16px;
+    align-items: start;
+  }
+
+  &__gallery,
+  &__info,
+  &__buy {
+    background: #fff;
+    border-radius: var(--sn-r);
+    padding: 20px;
+    min-width: 0;
+  }
+
+  &__gallery,
+  &__buy {
+    position: sticky;
+    top: 16px;
+  }
+
+  &__title {
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    line-height: 1.22 !important;
+    margin: 0;
+    color: var(--sn-ink);
+    letter-spacing: -0.02em;
+  }
+
+  &__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: var(--sn-muted);
+
+    a {
+      color: var(--sn-link) !important;
+      font-weight: 700;
+
+      &:hover {
+        color: var(--sn-link-d) !important;
+      }
+    }
+
+    i {
+      font-style: normal;
+      color: var(--sn-soft);
+      font-size: 10px;
+    }
+  }
+
+  &__rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--sn-muted);
+
+    .k-stars {
+      --k-star: 14px;
+    }
+
+    a {
+      color: var(--sn-link) !important;
+      font-weight: 700;
+    }
+  }
+
+  &__warn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--sn-red);
+    font-size: 13px;
+    margin: 10px 0 0;
+  }
+
+  &__options {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sn-line);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__specs,
+  &__hl {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid var(--sn-line);
+
+    h2 {
+      font-size: 15px !important;
+      font-weight: 800 !important;
+      margin: 0 0 8px;
+    }
+  }
+
+  &__specs {
+    dl {
+      display: grid;
+      grid-template-columns: minmax(110px, 0.8fr) minmax(0, 1.2fr);
+      margin: 0;
+    }
+
+    dt,
+    dd {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--sn-line);
+      font-size: 13.5px;
+      margin: 0;
+    }
+
+    dt {
+      color: var(--sn-muted);
+      padding-inline-end: 12px;
+    }
+
+    dd {
+      font-weight: 600;
+    }
+
+    .sn-more {
+      margin-top: 10px;
+    }
+  }
+
+  &__hl {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 13.5px;
+
+      > span:last-child {
+        display: flex;
+        flex-direction: column;
+      }
+
+      small {
+        color: var(--sn-muted);
+        font-size: 12.5px;
+      }
+    }
+  }
+
+  &__tick {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--sn-blue-l);
+    color: var(--sn-link);
+    display: grid;
+    place-items: center;
+    flex: none;
+  }
+
+  &__now {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+
+    > b {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+
+    .sn-save {
+      font-size: 13px;
+      padding: 3px 8px;
+    }
+  }
+
+  &__was {
+    margin: 4px 0 0;
+    color: var(--sn-muted);
+    font-size: 13.5px;
+  }
+
+  &__lines {
+    list-style: none;
+    padding: 14px 0 0;
+    margin: 14px 0 0;
+    border-top: 1px solid var(--sn-line);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+
+      > .sn-ms {
+        color: var(--sn-ink);
+        margin-top: 1px;
+      }
+
+      > span {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+      }
+
+      b {
+        font-size: 14px;
+      }
+
+      small {
+        font-size: 12.5px;
+        color: var(--sn-muted);
+      }
+    }
+
+    li:first-child > .sn-ms,
+    li:first-child b {
+      color: var(--sn-green);
+    }
+
+    li.-out > .sn-ms,
+    li.-out b {
+      color: var(--sn-red);
+    }
+  }
+
+  &__basket {
+    margin-top: 16px;
+  }
+
+  &__acts {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  &__share {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 0;
+    background: none;
+    color: var(--sn-muted);
+    font: 600 13px var(--sn-font);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--sn-link);
+    }
+  }
+
+  /* Selldone's own buttons inside the buy card. */
+  .v-btn {
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    font-family: var(--sn-font) !important;
+  }
+}
+
+.sn-pdp-more {
+  padding-bottom: 8px;
+}
+
+.sn-specs {
+  &__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px 40px;
+    align-items: start;
+  }
+
+  &__g {
+    h3 {
+      font-size: 14.5px !important;
+      font-weight: 800 !important;
+      margin: 8px 0 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--sn-ink);
+    }
+
+    dl {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.8fr) minmax(0, 1.2fr);
+      margin: 0;
+    }
+
+    dt,
+    dd {
+      margin: 0;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--sn-line);
+      font-size: 13.5px;
+    }
+
+    dt {
+      color: var(--sn-muted);
+      padding-inline-end: 12px;
+    }
+
+    dd {
+      font-weight: 600;
+    }
+  }
+}
+
+.sn-fbt {
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  &__plus {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--sn-page);
+    display: grid;
+    place-items: center;
+    flex: none;
+    color: var(--sn-muted);
+  }
+
+  &__item {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: inset 0 0 0 1px var(--sn-line);
+
+    &.-off {
+      opacity: 0.55;
+    }
+  }
+
+  &__img {
+    width: 72px;
+    height: 72px;
+    background: var(--k-well);
+    flex: none;
+    border-radius: 8px;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+
+    img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+  }
+
+  &__txt {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+
+    small {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--sn-muted);
+    }
+
+    .sn-check {
+      min-height: 24px;
+      font-size: 12.5px;
+    }
+  }
+
+  &__t {
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--sn-ink) !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &:hover {
+      color: var(--sn-link) !important;
+    }
+  }
+
+  &__p {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+
+    b {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .sn-save {
+      font-style: normal;
+    }
+  }
+
+  &__sum {
+    flex: none;
+    width: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    small {
+      font-size: 12.5px;
+      color: var(--sn-muted);
+    }
+
+    > b {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .sn-btn {
+      margin-top: 8px;
+    }
+  }
+}
+
+@media (max-width: 1279px) {
+  .sn-pdp__grid {
+    grid-template-columns: minmax(0, 1fr) 340px;
+
+    .sn-pdp__gallery {
+      position: static;
+    }
+
+    .sn-pdp__info {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .sn-pdp__buy {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+  }
+}
+
+@media (max-width: 959px) {
+  .sn-pdp__grid {
+    grid-template-columns: minmax(0, 1fr);
+
+    .sn-pdp__gallery,
+    .sn-pdp__info,
+    .sn-pdp__buy {
+      grid-column: 1;
+      grid-row: auto;
+      position: static;
+      padding: 16px;
+    }
+  }
+
+  .sn-pdp__title {
+    font-size: 20px !important;
+  }
+
+  .sn-specs__groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sn-fbt {
+    &__row {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    &__plus {
+      align-self: center;
+    }
+
+    &__sum {
+      width: auto;
+    }
+  }
+}
+
+/* ━━━━━━━━━━━━ Sticky columns ━━━━━━━━━━━━
+   Vuetify's wrapper has overflow: hidden, which stops anything inside it
+   from sticking. On the pages with a sticky column it clips instead. */
+.v-application.v-layout:has(.sn-shop__side, .sn-pdp__buy, .sn-cmp-head) {
+  overflow: clip !important;
+}
+
+/* Product photos frame the product at about 70% of their square: drawn a
+   little larger, the product fills the white well as big shops show it. */
+.sn-card__img img {
+  padding: 3%;
+  transform: scale(1.12);
+}
+
+/* A short row's photo tile. */
+.sn-rail__tile {
+  position: relative;
+  display: block;
+  border-radius: 14px;
+  overflow: hidden;
+  color: #fff !important;
+  min-height: 100%;
+
+  .sn-photo {
+    position: absolute;
+    inset: 0;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 45% 0 0;
+    background: linear-gradient(180deg, rgba(7, 22, 52, 0), rgba(7, 22, 52, 0.86));
+    pointer-events: none;
+  }
+
+  > span {
+    position: absolute;
+    z-index: 1;
+    inset-inline: 16px;
+    bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+
+    small {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--sn-navy);
+      background: var(--sn-yellow);
+      border-radius: 5px;
+      padding: 2px 7px;
+    }
+
+    b {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    em {
+      font-style: normal;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13.5px;
+      font-weight: 700;
+    }
+  }
+
+  &:hover em {
+    color: var(--sn-yellow);
+  }
+}
+
+@media (max-width: 959px) {
+  .sn-rail__tile {
+    grid-column: span 1 !important;
+    min-height: 260px;
+  }
+}
+
+/* ━━━━━━━━━━━━ About us ━━━━━━━━━━━━ */
+.sn-about {
+  text-align: start;
+
+  &__hero {
+    position: relative;
+    margin-top: 16px;
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  &__photo {
+    position: absolute !important;
+    inset: 0;
+
+    .sn-photo__img {
+      object-position: 70% 50%;
+    }
+  }
+
+  &__card {
+    position: relative;
+    z-index: 1;
+    max-width: 560px;
+    margin: 32px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 26px;
+
+    h1 {
+      font-size: 32px !important;
+      font-weight: 800 !important;
+      line-height: 1.12 !important;
+      margin: 12px 0 10px;
+      color: var(--sn-ink);
+    }
+
+    p {
+      margin: 0;
+      color: var(--sn-muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+  }
+
+  &__text {
+    font-size: 15.5px;
+    line-height: 1.6;
+    max-width: 75ch;
+    margin: 0 0 18px;
+  }
+
+  &__vals {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  &__val {
+    background: var(--sn-page);
+    border-radius: 12px;
+    padding: 18px;
+
+    b {
+      display: block;
+      font-size: 15px;
+      margin: 12px 0 4px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13.5px;
+      color: var(--sn-muted);
+      line-height: 1.5;
+    }
+  }
+
+  &__ic {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--sn-blue);
+    color: var(--sn-on-brand);
+    display: grid;
+    place-items: center;
+  }
+
+  &__band {
+    margin-top: 16px;
+    background: var(--sn-blue);
+    color: var(--sn-on-brand);
+    border-radius: var(--sn-r);
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+
+      > .sn-ms {
+        color: var(--sn-yellow);
+      }
+
+      > span {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.3;
+      }
+
+      b {
+        font-size: 15px;
+      }
+
+      small {
+        font-size: 12.5px;
+        opacity: 0.85;
+      }
+    }
+  }
+
+  &__contact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    h2 {
+      font-size: 22px !important;
+      font-weight: 800 !important;
+      margin: 10px 0 6px;
+    }
+
+    p {
+      margin: 0;
+      color: var(--sn-muted);
+      max-width: 60ch;
+    }
+  }
+
+  &__acts {
+    display: flex;
+    gap: 10px;
+    flex: none;
+  }
+}
+
+/* ━━━━━━━━━━━━ Contact us ━━━━━━━━━━━━ */
+.sn-contact {
+  text-align: start;
+
+  &__head {
+    margin-top: 10px !important;
+
+    h1 {
+      font-size: 28px !important;
+      font-weight: 800 !important;
+      margin: 0;
+    }
+
+    p {
+      margin: 6px 0 0;
+      color: var(--sn-muted);
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+
+    > .sn-sec,
+    > aside > .sn-sec:first-child {
+      margin-top: 16px;
+    }
+  }
+
+  h2 {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    margin: 0 0 14px;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  &__me {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+
+    img {
+      border-radius: 50%;
+    }
+
+    span {
+      display: flex;
+      flex-direction: column;
+    }
+
+    small {
+      color: var(--sn-muted);
+    }
+  }
+
+  &__err {
+    color: var(--sn-red);
+    margin: 0 0 10px;
+  }
+
+  &__done {
+    text-align: center;
+    padding: 30px 10px;
+
+    p {
+      color: var(--sn-muted);
+      max-width: 46ch;
+      margin: 0 auto 18px;
+    }
+  }
+
+  &__ok {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #e5f5ec;
+    color: var(--sn-green);
+    display: inline-grid;
+    place-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__ways {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    li {
+      display: flex;
+      gap: 12px;
+
+      > span {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--sn-blue-l);
+        color: var(--sn-link);
+        display: grid;
+        place-items: center;
+        flex: none;
+      }
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+      }
+
+      small {
+        color: var(--sn-muted);
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+.sn-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sn-ink);
+
+  small {
+    font-weight: 500;
+    color: var(--sn-muted);
+  }
+
+  input,
+  textarea {
+    width: 100%;
+    border: 1px solid #c9d0da;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font: 500 14.5px var(--sn-font);
+    color: var(--sn-ink);
+    background: #fff;
+    outline: 0;
+    resize: vertical;
+
+    &:focus {
+      border-color: var(--sn-blue);
+      box-shadow: 0 0 0 3px var(--sn-blue-l);
+    }
+  }
+
+  input {
+    height: 44px;
+  }
+}
+
+/* ━━━━━━━━━━━━ 404 and empty states ━━━━━━━━━━━━ */
+.sn-404-page {
+  background: var(--sn-page);
+  min-height: 100vh;
+}
+
+.sn-404 {
+  text-align: start;
+
+  &__top {
+    text-align: center;
+    padding: 44px 24px 40px !important;
+  }
+
+  &__mark {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: var(--sn-blue-l);
+    color: var(--sn-link);
+    display: inline-grid;
+    place-items: center;
+  }
+
+  &__code {
+    margin: 14px 0 8px; /* a stacked block always has gaps (the owner, 9 November 2026) */
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--sn-muted);
+  }
+
+  h1 {
+    font-size: 34px !important;
+    font-weight: 800 !important;
+    margin: 0;
+  }
+
+  &__lede {
+    color: var(--sn-muted);
+    margin: 8px auto 20px;
+    max-width: 52ch;
+  }
+
+  &__search {
+    display: flex;
+    gap: 8px;
+    max-width: 520px;
+    margin: 0 auto 16px;
+
+    input {
+      flex: 1;
+      min-width: 0;
+      height: 46px;
+      border-radius: 23px;
+      border: 1px solid #c9d0da;
+      padding: 0 18px;
+      font: 500 15px var(--sn-font);
+      outline: 0;
+
+      &:focus {
+        border-color: var(--sn-blue);
+      }
+    }
+
+    .sn-btn {
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border-radius: 50%;
+    }
+  }
+
+  &__acts {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+.sn-empty {
+  background: #fff;
+  border-radius: var(--sn-r);
+  padding: 44px 24px 40px;
+  margin-top: 16px;
+  text-align: center;
+
+  &__mark {
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: var(--sn-blue-l);
+    color: var(--sn-link);
+    display: inline-grid;
+    place-items: center;
+    margin-bottom: 12px;
+  }
+
+  &__acts {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  .k-basket-empty__title {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+  }
+}
+
+.sn-empty__rail {
+  margin-bottom: 8px;
+}
+
+/* The FAQ's empty state: one calm card with a clear vertical rhythm (the
+   owner, 9 November 2026: "these three lines are glued together"): the icon
+   in a 56px tinted circle, 14px, the heading, 8px, the sentence (1.55 line
+   height, 520px at most, centred), 20px, the button. No piece of a stacked
+   block touches the next. */
+.k-official__missing {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  background: #fff !important;
+  border-radius: var(--sn-r) !important;
+  border: 0 !important;
+  padding: 36px 28px !important;
+  text-align: center;
+
+  > .v-icon {
+    flex: none;
+    width: 56px !important;
+    height: 56px !important;
+    margin: 0 0 14px !important;
+    border-radius: 50%;
+    background: var(--sn-blue-l);
+    color: var(--sn-link) !important;
+  }
+
+  > h2 {
+    margin: 0 !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    line-height: 1.3 !important;
+  }
+
+  > p {
+    max-width: 520px;
+    margin: 8px auto 0 !important;
+    line-height: 1.55 !important;
+    color: var(--sn-muted);
+  }
+
+  .k-official__missingacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px !important;
+  }
+
+  .k-btn {
+    background: var(--sn-blue) !important;
+  }
+}
+
+@media (max-width: 959px) {
+  .sn-about {
+    &__hero {
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 0;
+    }
+
+    &__photo {
+      position: relative !important;
+      aspect-ratio: 16 / 9;
+    }
+
+    &__card {
+      margin: 0;
+      border-radius: 0;
+      padding: 18px;
+
+      h1 {
+        font-size: 24px !important;
+      }
+    }
+
+    &__vals,
+    &__band {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &__contact {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .sn-contact__grid,
+  .sn-contact__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sn-404 h1 {
+    font-size: 26px !important;
+  }
+}
+
+@media (max-width: 599px) {
+  .sn-about__vals,
+  .sn-about__band {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sn-about__acts {
+    width: 100%;
+
+    .sn-btn {
+      flex: 1;
+    }
+  }
+}
+
+/* ━━━━━━━━━━━━ Prices: one size for the cents ━━━━━━━━━━━━
+   Selldone's price writes the cents smaller; Senso's cards and product
+   page write a price whole ("$714.50"), so every price on the site reads
+   the same way. */
+body .u--price .small,
+.v-application .u--price .small {
+  font-size: 1em !important;
+  vertical-align: baseline !important;
+  opacity: 1 !important;
+}
+
+/* ━━━━━━━━━━━━ Compare page: Senso's dress ━━━━━━━━━━━━ */
+.v-application .k-cmp {
+  --c-accent: var(--sn-blue);
+  --c-accent-deep: var(--sn-blue-d);
+  --c-soft: var(--sn-blue-l);
+  --c-ink: var(--sn-ink);
+  --c-muted: var(--sn-muted);
+  --c-line: var(--sn-line);
+  --c-row-line: var(--sn-line);
+  --c-card: #fff;
+  --c-paper: var(--sn-page);
+  --c-well: #fff;
+  --c-sale: var(--sn-red);
+  --c-diff-bg: transparent;
+  --c-diff-ink: var(--sn-ink);
+  --c-off-bg: var(--sn-red-solid);
+  --c-r-lg: 14px;
+  --c-r: 12px;
+  --c-r-btn: 8px;
+  --c-head: var(--sn-font);
+  --c-head-w: 800;
+  --c-head-track: -0.02em;
+  --c-h1: 30px;
+  --c-share-bg: var(--sn-head);
+  --c-share-ink: rgba(var(--sn-on-brand-rgb), 0.88);
+  --c-share-head: var(--sn-on-brand);
+  --c-on-accent: var(--sn-on-brand);
+  --c-star: #e5a100;
+  font-family: var(--sn-font);
+
+  /* The share card is the header's colour with white words (Tario's dress
+     under it painted it white, which left its white words unreadable). */
+  .k-cmp__share {
+    background: var(--c-share-bg);
+    box-shadow: none;
+  }
+
+  .k-cmp__row:nth-child(even) {
+    background: transparent;
+  }
+
+  /* The picks' 1px edge is drawn inside each card, so the phone's sideways
+     scroller cannot cut it (the ring rule, 9 November 2026). */
+  .k-cmp__cp {
+    box-shadow: inset 0 0 0 1px var(--c-line);
+  }
+
+  /* Electronics have no price per kilo: the line read "$355.35 / kg". */
+  .k-cmp__per {
+    display: none !important;
+  }
+
+  /* Rows that differ: no yellow fill (the owner, 9 November 2026: it looked
+     poor and its top edge seemed cut under the sticky picks). The blue dot
+     before the name and the bolder values mark them. */
+  .k-cmp__row.-diff {
+    background: transparent;
+  }
+
+  .k-cmp__row.-diff .k-cmp__c {
+    padding: 0;
+    box-shadow: none;
+    font-weight: 700;
+  }
+}
+
+/* ━━━━━━━━━━━━ Quick-buy sheet, sign-in, account, order: the blue ━━━━━━━━━━━━ */
+.k-qb,
+.k-signin,
+.k-account,
+.k-order,
+.k-cart {
+  font-family: var(--sn-font);
+}
+
+/* ━━━━━━━━━━━━ Sign-in card: the wordmark on a blue band ━━━━━━━━━━━━ */
+.t-signin__card .sn-signin-band {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  margin: -30px -30px 18px !important;
+  padding: 22px 16px 18px;
+
+  @media (max-width: 599px) {
+    margin: -26px -20px 16px !important;
+  }
+  background: var(--sn-head);
+  border-radius: 16px 16px 0 0;
+
+  .sn-logo {
+    font-size: 34px;
+  }
+
+  i {
+    display: none !important;
+  }
+}
+
+.t-signin__card {
+  font-family: var(--sn-font);
+}
+
+.t-signin__x {
+  z-index: 2;
+  color: var(--sn-on-brand) !important;
+  background: rgba(var(--sn-on-brand-rgb), 0.16) !important;
+}
+
+.t-signin__perks .v-icon {
+  color: var(--sn-link) !important;
+}
+
+/* ━━━━━━━━━━━━ Selldone's buy button: Senso's blue, flat, 8px ━━━━━━━━━━━━ */
+.v-application .s--shop-buy-button {
+  background-color: var(--sn-blue) !important;
+  border-radius: 8px !important;
+  font-family: var(--sn-font) !important;
+  font-weight: 700 !important;
+
+  &:hover {
+    background-color: var(--sn-blue-d) !important;
+  }
+}
+
+.v-application .k-pdp .s--shop-buy-button,
+.v-application .sn-pdp .s--shop-buy-button {
+  min-height: 48px !important;
+  font-size: 15px !important;
+  border-radius: 8px !important;
+}
+
+/* Kalio's in-cart line on the product page and in the sheet: "− n +" in blue. */
+.k-basket-line,
+.k-pdp__basket {
+  font-family: var(--sn-font);
+}
+
+/* ━━━━━━━━━━━━ Mega menu: full width of its content, words from the start ━━━━━━━━━━━━ */
+.sn-mega-pop {
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+.sn-mega,
+.sn-mega * {
+  text-align: start;
+}
+
+.sn-mega__name small {
+  white-space: nowrap;
+}
+
+/* The heart's word goes on a narrow card, never the heart itself (the icon
+   is a span too). */
+@container (max-width: 172px) {
+  .sn-heart span:not(.sn-ms) {
+    display: none;
+  }
+
+  .sn-heart span.sn-ms {
+    display: inline-flex !important;
+  }
+}
+
+/* Phone: the service row as a list, so no row is left half empty. */
+@media (max-width: 599px) {
+  .sn-footer__svc {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+    a {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 14px;
+      text-align: start;
+
+      .sn-ms {
+        font-size: 24px !important;
+      }
+    }
+  }
+}
+
+/* Doorbusters: where a tile is narrow, "Shop now" takes its own line under
+   the prices instead of squeezing beside them. */
+@container (max-width: 300px) {
+  .sn-door__row {
+    flex-wrap: wrap;
+
+    .sn-btn {
+      margin-inline-start: 0;
+      flex-basis: 100%;
+    }
+  }
+}
+
+.sn-door__t {
+  container-type: inline-size;
+}
+
+/* The blog cards: the title turns blue on hover, never underlined. */
+.t-post h3,
+.t-post:hover h3,
+.k-journal a:hover h3,
+.k-journal a:hover h2 {
+  text-decoration: none !important;
+}
+
+.t-post:hover h3 {
+  color: var(--sn-link) !important;
+}
+
+/* Every button is blue, the account's "Pay" too (it was the sale red). */
+.k-btn.-pay {
+  background: var(--sn-blue) !important;
+
+  &:hover {
+    background: var(--sn-blue-d) !important;
+  }
+}
+
+/* Buttons inside an article's text area are buttons, not text links: no line. */
+.v-application .k-prose a.k-btn,
+.v-application .k-prose a.sn-btn,
+.v-application .k-prose a.k-btn:hover,
+.v-application .k-prose a.sn-btn:hover {
+  text-decoration: none !important;
+}
+
+/* Tablet: the five service links on one row (three and two left a hole). */
+@media (min-width: 600px) and (max-width: 959px) {
+  .sn-footer__svc {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+
+    a {
+      font-size: 12px;
+    }
+  }
+}
+
+/* (Selldone's own rule for the cents is scoped and !important: a heavier selector.) */
+body .u--price.u--price .small.small {
+  font-size: 1em !important;
+  font-weight: inherit;
+  vertical-align: baseline !important;
+}
+
+/* The product page fills its column from the first paint (its flex row
+   sized to the gallery's pictures while they loaded) and uses the same
+   1440px column as every other page. */
+.s--product.k-product > div {
+  width: 100%;
+  min-width: 0;
+}
+
+.s--product .s--product-section-info {
+  max-width: none !important;
+}
+
+/* ━━━━━━━━━━━━ 1.0.6: deal timers, hero arrows, swatch rings ━━━━━━━━━━━━ */
+
+/* A card's deal timer: one quiet line under "Was", reserved on every card
+   so the feet of a row stay level. */
+.sn-ends {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 18px;
+  margin-top: 2px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--sn-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+
+  b {
+    font-weight: 800;
+    color: var(--sn-ink);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sn-ms {
+    color: var(--sn-red);
+  }
+}
+
+@container (max-width: 150px) {
+  .sn-ends {
+    font-size: 10.5px;
+    gap: 3px;
+
+    .sn-ms {
+      display: none;
+    }
+  }
+}
+
+/* The product page's deal timer, under the price. */
+.sn-pdp__ends {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 5px 10px;
+  border-radius: 14px;
+  background: var(--sn-yellow);
+  color: var(--sn-navy);
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+
+  b {
+    font-weight: 800;
+  }
+}
+
+.sn-clock b {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Hero arrows: a solid white circle with a dark navy chevron, both always
+   shown, readable on any photo (the chevron took the slide's white). */
+.v-application .sn-bill__nav,
+.sn-bill .sn-bill__nav {
+  display: grid !important;
+  width: 44px;
+  height: 44px;
+  background: #fff !important;
+  color: var(--sn-navy) !important;
+  opacity: 1 !important;
+  box-shadow: 0 2px 10px rgba(7, 22, 52, 0.35);
+
+  .sn-ms {
+    color: var(--sn-navy) !important;
+    font-size: 26px !important;
+    font-variation-settings: "FILL" 0, "wght" 700, "GRAD" 0, "opsz" 24;
+  }
+
+  &:hover {
+    background: var(--sn-yellow) !important;
+  }
+}
+
+@media (max-width: 959px) {
+  .v-application .sn-bill__nav,
+  .sn-bill .sn-bill__nav {
+    display: none !important;
+  }
+}
+
+/* Swatch rows: the ring sits inside each swatch (see .sn-sw), so the row needs
+   no room outside itself; 1.0.6's negative margin only moved the cut to the
+   rail's scroll edge. */
+.sn-swrow {
+  height: 28px;
+  padding: 0;
+  margin: 6px 0 2px;
+  gap: 2px;
+}
+
+.sn-caps {
+  height: 22px;
+  margin: 9px 0 5px;
+}
+
+/* Gallery (the owner, 9 November 2026: a product with many pictures made a
+   column of thumbnails far taller than the picture). The picture takes the
+   card's width and the thumbnails are one row under it. The row shows a whole
+   number of thumbnails (7 on a wide card, 5 on a phone), sized from the row's
+   own width, and any more scroll in from behind Selldone's fade: no thumbnail
+   is ever cut at the edge and the card is as tall as the picture plus one row. */
+.sn-pdp__gallery {
+  .s--product-images {
+    display: flex !important;
+    flex-direction: column-reverse !important;
+    gap: 12px;
+  }
+
+  .gallery-thumbs {
+    margin: 0 !important;
+    max-height: none !important;
+    width: 100% !important;
+    height: auto !important;
+
+    > .--scroll {
+      container-type: inline-size;
+    }
+
+    .gallery-thumbs-wrap {
+      --per-row: 7;
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: flex-start;
+      gap: 8px;
+      width: max-content !important;
+      height: auto !important;
+
+      > div {
+        flex: none;
+        width: calc((100cqw - (var(--per-row) - 1) * 8px) / var(--per-row)) !important;
+        height: auto !important;
+        aspect-ratio: 1;
+        margin: 0 !important;
+        border-radius: 10px;
+        overflow: hidden;
+
+        > .-slide {
+          width: 100% !important;
+          height: 100% !important;
+          margin: 0 !important;
+          border-radius: 10px !important;
+          transform: none !important;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 599px) {
+  .sn-pdp__gallery .gallery-thumbs .gallery-thumbs-wrap {
+    --per-row: 5;
+  }
+}
+
+/* ━━━━━━━━━━━━ Dark mode (the footer's Theme row) ━━━━━━━━━━━━
+   Most of dark mode is tokens (components/senso/senso-theme.ts) and the
+   build's dark-token step (every fixed colour, vite.config.ts). These are
+   the few places that need a word of their own. */
+/* Selldone's footer credit and GDPR link are "plain" buttons (62% opacity,
+   2.7:1 and 2:1): the footer's muted grey at full strength, in both themes. */
+.sn-footer__legal .v-btn {
+  color: var(--sn-muted) !important;
+  opacity: 1 !important;
+
+  * {
+    opacity: 1 !important;
+  }
+}
+
+/* Selldone's red notes ("[Invalid]" beside a phone or address) use Vuetify's
+   .text-red (#f44336, 3.7:1 on white): Senso's sale red, light or dark. */
+.v-application .text-red {
+  color: var(--sn-red) !important;
+}
+
+/* Captions under pictures in a product's description and a post (Selldone's
+   article plugin writes #ccc, 1.6:1). */
+:is(.medium-insert-images-safe, .medium-insert-images, .medium-insert-embeds) figure figcaption {
+  color: var(--sn-muted) !important;
+}
+
+html.sn-dark {
+  /* Variant buttons that show a packshot: a white tile, so the photo's
+     white ground has no edge (the chosen one keeps its inset ring). */
+  .s-product-variants__options .var-sel:has(.-var-image) {
+    background: var(--k-well) !important;
+  }
+
+  /* The black Apple mark on the sign-in sheet's dark button. */
+  img[src*="apple-b"] {
+    filter: invert(1);
+  }
+}

@@ -178,8 +178,8 @@
     <!-- ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Listing Compare Bar ▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆▆ -->
     <s-storefront-listing-compare-bar />
 
-    <!-- Digito: the one quick-buy sheet every card opens (digito-quick.ts). -->
-    <digito-quick-host />
+    <!-- Senso: the one quick-buy sheet every card opens (senso-quick.ts). -->
+    <senso-quick-host />
 
   </div>
 </template>
@@ -187,7 +187,7 @@
 <script lang="ts">
 import KalioHeader from "../components/kalio/shell/KalioHeader.vue";
 import KalioFooter from "../components/kalio/shell/KalioFooter.vue";
-import DigitoQuickHost from "../components/digito/DigitoQuickHost.vue";
+import SensoQuickHost from "../components/senso/SensoQuickHost.vue";
 import SStorefrontTopMenu from "@selldone/components-vue/storefront/menu/header/SStorefrontTopMenu.vue";
 import SHeaderSection from "@selldone/components-vue/storefront/header/section/SHeaderSection.vue";
 import TemplateMixin from "@selldone/components-vue/mixin/template/TemplateMixin.ts";
@@ -198,7 +198,7 @@ import { delay } from "lodash-es";
 export default {
   name: "StorefrontLayout",
   components: {
-    DigitoQuickHost,
+    SensoQuickHost,
     SContactsPopup: defineAsyncComponent(
       () =>
         import(

@@ -60,17 +60,17 @@
         filter, sort, "All products") asks for the catalogue itself.
       -->
 
-      <!-- ▆▆▆▆▆▆▆▆ The home (Digito Home A) ▆▆▆▆▆▆▆▆ -->
+      <!-- ▆▆▆▆▆▆▆▆ The home (Senso Home A) ▆▆▆▆▆▆▆▆ -->
       <!-- On the bare shop page only: any query (a search, a filter, a sort,
            "All products") shows the listing instead. -->
-      <digito-home v-if="show_home" />
+      <senso-home v-if="show_home" />
 
       <!-- ▆▆▆▆▆▆▆▆ A category, the catalogue, a search, the deals ▆▆▆▆▆▆▆▆ -->
-      <!-- Digito: a short head, the filter panel beside the grid on a
+      <!-- Senso: a short head, the filter panel beside the grid on a
            computer (a sheet on a phone), the sort menu; Selldone's listing
-           does the fetching and draws Digito's card (digito-card.ts). -->
-      <div v-else class="dg-shop dg-page">
-        <digito-shop-top
+           does the fetching and draws Senso's card (senso-card.ts). -->
+      <div v-else class="sn-shop sn-page">
+        <senso-shop-top
           :aisle="listing_parent"
           :filter="t_filter"
           :mode="shop_mode"
@@ -81,15 +81,15 @@
           @update:sort="setSort"
         >
           <template #panel>
-            <digito-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
+            <senso-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
           </template>
-        </digito-shop-top>
+        </senso-shop-top>
 
-        <div class="dg-shop__body">
-          <aside aria-label="Filters" class="dg-shop__side">
-            <digito-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
+        <div class="sn-shop__body">
+          <aside aria-label="Filters" class="sn-shop__side">
+            <senso-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
           </aside>
-          <div class="dg-shop__main">
+          <div class="sn-shop__main">
             <s-products-listing
               ref="listing"
               :key="$route.path"
@@ -97,7 +97,7 @@
               :has-breadcrumb="false"
               :has-filter="false"
               :vendor-id="vendor_id"
-              class="dg-listing"
+              class="sn-listing"
               load-more
               route-mode
               update-route
@@ -106,11 +106,11 @@
           </div>
         </div>
 
-        <digito-rail v-if="catalogue && search_query" :limit="12" lazy sort="bestselling" title="Popular right now" />
-        <section v-if="more_aisles.length" class="dg-sec dg-keep">
+        <senso-rail v-if="catalogue && search_query" :limit="12" lazy sort="bestselling" title="Popular right now" />
+        <section v-if="more_aisles.length" class="sn-sec sn-keep">
           <h2>More categories</h2>
-          <div class="dg-keep__list">
-            <router-link v-for="a in more_aisles" :key="a.id" :to="aisleTo(a)" class="dg-chip">
+          <div class="sn-keep__list">
+            <router-link v-for="a in more_aisles" :key="a.id" :to="aisleTo(a)" class="sn-chip">
               <img v-if="a.icon" :src="aisleIcon(a)" alt="" />{{ a.title || a.name }}
             </router-link>
           </div>
@@ -124,26 +124,26 @@
 <script lang="ts">
 import SProductsListing from "@selldone/components-vue/storefront/products/listing/SProductsListing.vue";
 import TemplateMixin from "@selldone/components-vue/mixin/template/TemplateMixin.ts";
-import DigitoHome from "../../components/digito/DigitoHome.vue";
-import DigitoShopTop from "../../components/digito/DigitoShopTop.vue";
-import DigitoFilterPanel from "../../components/digito/DigitoFilterPanel.vue";
-import DigitoRail from "../../components/digito/DigitoRail.vue";
+import SensoHome from "../../components/senso/SensoHome.vue";
+import SensoShopTop from "../../components/senso/SensoShopTop.vue";
+import SensoFilterPanel from "../../components/senso/SensoFilterPanel.vue";
+import SensoRail from "../../components/senso/SensoRail.vue";
 import { fromRoute, clone } from "../../components/tario/shop/tario-filters";
 import { aisleImage, aisleRoute, aisles } from "../../components/kalio/kalio-catalog";
 import {StorefrontSeo} from "../../helpers/StorefrontSeo";
 import { hostQuickBuy } from "../../components/kalio/kalio-listing-quick-buy";
 import { quickAdd } from "../../components/kalio/kalio-basket";
-import { openQuickBuy } from "../../components/digito/digito-quick";
-import "../../components/digito/digito-card"; // every listing draws Digito's card
+import { openQuickBuy } from "../../components/senso/senso-quick";
+import "../../components/senso/senso-card"; // every listing draws Senso's card
 
 export default {
   name: "StorefrontPageProducts",
   components: {
     SProductsListing,
-    DigitoHome,
-    DigitoShopTop,
-    DigitoFilterPanel,
-    DigitoRail,
+    SensoHome,
+    SensoShopTop,
+    SensoFilterPanel,
+    SensoRail,
   },
   mixins: [TemplateMixin],
 

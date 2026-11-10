@@ -1,13 +1,13 @@
-/* ▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Digito — tokens, type and shared pieces ▆▆▆▆▆▆▆▆▆▆▆▆▆▆
+/* ▆▆▆▆▆▆▆▆▆▆▆▆▆▆ Senso — tokens, type and shared pieces ▆▆▆▆▆▆▆▆▆▆▆▆▆▆
 
-   Digito (9 November 2026): an electronics shop dressed as a deals hub —
+   Senso (9 November 2026): an electronics shop dressed as a deals hub —
    a light grey floor (#f0f2f5, --k-paper) with white rounded section cards,
    blue #0a4bd8 for every button and action (--k-green keeps its Kalio name),
    sale red #c4122f for a saving (--k-coral), yellow #ffd91a only as an
    accent, navy #071634, Plus Jakarta Sans. Product photos sit on white.
-   digito-skin.scss (loaded last) holds the structural differences.
+   senso-skin.scss (loaded last) holds the structural differences.
 
-   Tario, which Digito started from:
+   Tario, which Senso started from:
 
    Tario (7 November 2026) is Molino Market Hall re-dressed as a bright
    big-box store: red for every commerce action and every saving, near-black
@@ -90,8 +90,8 @@
 :root,
 .v-theme--light,
 .v-theme--dark {
-  --v-theme-primary: var(--dg-primary-rgb, 10, 75, 216) !important;
-  --v-theme-on-primary: var(--dg-on-brand-rgb, 255, 255, 255) !important;
+  --v-theme-primary: var(--sn-primary-rgb, 10, 75, 216) !important;
+  --v-theme-on-primary: var(--sn-on-brand-rgb, 255, 255, 255) !important;
   --v-theme-secondary: 7, 22, 52 !important;
   --v-theme-on-secondary: 255, 255, 255 !important;
 }
@@ -181,7 +181,7 @@ s:has(> .u--price) {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--dg-link);
+  color: var(--sn-link);
   margin: 0 0 8px;
 }
 
@@ -208,7 +208,7 @@ s:has(> .u--price) {
 
 .k-btn--solid {
   background: var(--k-green-deep);
-  color: var(--dg-on-brand) !important;
+  color: var(--sn-on-brand) !important;
 
   &:hover {
     background: var(--k-green-hover);
@@ -231,14 +231,14 @@ s:has(> .u--price) {
 
   &:hover {
     border-color: var(--k-green);
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 }
 
 /* On the deep-green board: a white button and an outlined one. */
 .k-btn--light {
   background: #fff;
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
 
   &:hover {
     background: #fdf1f1;
@@ -265,7 +265,7 @@ s:has(> .u--price) {
   font-family: var(--k-body);
   font-size: 15px;
   font-weight: 600;
-  color: var(--dg-link) !important;
+  color: var(--sn-link) !important;
   text-decoration: none;
 
   &:hover {
@@ -289,7 +289,7 @@ s:has(> .u--price) {
 
   &:hover {
     border-color: var(--k-green);
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &:disabled {

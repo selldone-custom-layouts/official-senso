@@ -39,7 +39,7 @@ $k-header-strip: 46px;
     line-height: 1;
     letter-spacing: -0.02em;
     text-transform: lowercase;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     text-decoration: none;
 
     i {
@@ -89,7 +89,7 @@ $k-header-strip: 46px;
     padding: 0 12px 0 14px;
     border-radius: var(--k-pill);
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
@@ -129,7 +129,7 @@ $k-header-strip: 46px;
     }
 
     .v-field--focused .v-field__outline {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
 
     &.-below {
@@ -154,7 +154,7 @@ $k-header-strip: 46px;
     cursor: text;
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -206,7 +206,7 @@ $k-header-strip: 46px;
     background: var(--k-green);
     /* !important: Selldone's base reset [type=button] { color: inherit } has
        the same weight and loads after this sheet. */
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     font-size: 15px;
     font-weight: 600;
     cursor: pointer;
@@ -224,7 +224,7 @@ $k-header-strip: 46px;
       padding: 0 6px;
       border-radius: var(--k-pill);
       background: #fff;
-      color: var(--dg-link);
+      color: var(--sn-link);
       font-style: normal;
       font-size: 12.5px;
       font-weight: 700;
@@ -303,7 +303,7 @@ $k-header-strip: 46px;
 
     &:hover,
     &.-on {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
 
       &::after {
         transform: scaleX(1);
@@ -319,7 +319,7 @@ $k-header-strip: 46px;
       font-weight: 600;
 
       &::after {
-        background: var(--dg-red-solid);
+        background: var(--sn-red-solid);
       }
     }
   }
@@ -413,7 +413,7 @@ $k-header-strip: 46px;
 
     &:hover {
       background: var(--k-wash);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -488,7 +488,7 @@ $k-header-strip: 46px;
     height: 76px;
     border-radius: 50%;
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &__empty-title {
@@ -556,7 +556,7 @@ $k-header-strip: 46px;
     }
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
 
     &.-deals {
@@ -700,7 +700,7 @@ $k-header-strip: 46px;
     margin-top: 14px;
     border-radius: var(--k-pill);
     background: var(--k-green-deep);
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     font-size: 16.5px;
     font-weight: 700;
     text-decoration: none;
@@ -711,7 +711,7 @@ $k-header-strip: 46px;
     }
 
     .v-icon {
-      color: var(--dg-on-brand);
+      color: var(--sn-on-brand);
     }
   }
 
@@ -789,7 +789,7 @@ $k-header-strip: 46px;
       place-items: center;
       height: 28px;
       border-radius: var(--k-pill);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
 
       &:hover:not(:disabled) {
         background: var(--k-wash);
@@ -887,7 +887,7 @@ $k-header-strip: 46px;
       font-weight: 600;
       line-height: 1;
       letter-spacing: -0.02em;
-      color: var(--dg-link);
+      color: var(--sn-link);
       font-variant-numeric: lining-nums;
     }
 
@@ -1183,7 +1183,7 @@ $k-header-strip: 46px;
       &.v-btn--active {
         border-color: var(--k-green) !important;
         background: var(--k-green-soft) !important;
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
 
@@ -1214,7 +1214,7 @@ $k-header-strip: 46px;
       .v-btn--active,
       .v-btn.bg-primary {
         background: var(--k-green-deep) !important;
-        color: var(--dg-on-brand) !important;
+        color: var(--sn-on-brand) !important;
       }
     }
 
@@ -1531,7 +1531,7 @@ $k-filter-gap: 36px;
 
     &.s--smart-toggle--checked .mnh > .flex-grow-0 > div {
       border-color: var(--k-ink);
-      background: var(--dg-ink-bg) !important;
+      background: var(--sn-ink-bg) !important;
       box-shadow: inset 0 0 0 3px #fff;
     }
   }
@@ -1586,7 +1586,7 @@ $k-filter-gap: 36px;
   }
 
   .v-slider-track__fill {
-    background: var(--dg-ink-bg) !important;
+    background: var(--sn-ink-bg) !important;
   }
 
   .v-slider-thumb {
@@ -1606,11 +1606,11 @@ $k-filter-gap: 36px;
 
   .v-slider-thumb__label {
     background: var(--k-green-deep) !important;
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     font-size: 12px;
 
     &::before {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -1680,8 +1680,8 @@ $k-filter-gap: 36px;
 
   .v-chip--selected {
     border-color: var(--k-ink) !important;
-    background: var(--dg-ink-bg) !important;
-    color: var(--dg-on-ink-bg) !important;
+    background: var(--sn-ink-bg) !important;
+    color: var(--sn-on-ink-bg) !important;
 
     .v-chip__filter {
       color: #fff !important;
@@ -1987,7 +1987,7 @@ $k-filter-gap: 36px;
     margin: 0 !important;
 
     .v-btn {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
       text-transform: none !important;
       letter-spacing: 0 !important;
     }
@@ -2061,7 +2061,7 @@ $k-filter-gap: 36px;
       }
 
       .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
 
@@ -2075,7 +2075,7 @@ $k-filter-gap: 36px;
   .widget-buttons .v-btn {
     border-radius: var(--k-pill) !important;
     background: var(--k-green-deep) !important;
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     text-transform: none !important;
     letter-spacing: 0 !important;
   }
@@ -2088,7 +2088,7 @@ $k-filter-gap: 36px;
   color: var(--k-muted);
 
   a {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-weight: 600;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -2196,7 +2196,7 @@ $k-filter-gap: 36px;
     letter-spacing: -0.01em;
 
     .v-icon {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 
@@ -2221,7 +2221,7 @@ $k-filter-gap: 36px;
   }
 
   .v-field--focused .v-field__outline {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 
   .text-h4 {
@@ -2255,7 +2255,7 @@ $k-filter-gap: 36px;
     .v-btn--variant-elevated {
       padding: 0 28px !important;
       background: var(--k-green-deep) !important;
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
     }
 
     .v-btn--variant-text {
@@ -2277,7 +2277,7 @@ $k-filter-gap: 36px;
   border-radius: var(--k-radius) !important;
   background: var(--k-green-deep) !important;
   box-shadow: 0 18px 40px -18px rgba(20, 20, 20, 0.6) !important;
-  color: var(--dg-on-brand) !important;
+  color: var(--sn-on-brand) !important;
   font-family: var(--k-body);
 
   .v-snackbar__content {
@@ -2301,7 +2301,7 @@ $k-filter-gap: 36px;
     padding: 0 18px !important;
     border-radius: var(--k-pill) !important;
     background: #fff !important;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-weight: 700;
     letter-spacing: 0 !important;
     text-transform: none !important;

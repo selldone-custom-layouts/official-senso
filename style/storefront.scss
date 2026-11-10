@@ -29,8 +29,8 @@
 @use "tario-home"; // Tario design A (kept: shared pieces of the shop pages use its tokens)
 @use "tario-pages"; // Tario 1.2.0: every page after the home (the chosen mockups)
 @use "kalio-compare"; // the compare page (design 1, 8 November 2026)
-@use "digito-skin"; // Digito: the deals-hub dress over all of the above
-@use "digito-pages"; // Digito: the product page and every page after the home (loaded last)
+@use "senso-skin"; // Senso: the deals-hub dress over all of the above
+@use "senso-pages"; // Senso: the product page and every page after the home (loaded last)
 
 // --------------------------------------------------------
 .add-marginal-side-menu-open {

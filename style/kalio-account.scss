@@ -31,7 +31,7 @@
 
     &.-main {
       background: var(--k-green);
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
 
       &:hover {
         background: var(--k-green-hover);
@@ -45,12 +45,12 @@
 
       &:hover {
         border-color: var(--k-green);
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
 
     &.-pay {
-      background: var(--dg-red-solid);
+      background: var(--sn-red-solid);
       color: #fff !important;
 
       &:hover {
@@ -82,7 +82,7 @@
   height: 20px;
   padding: 0 6px;
   border-radius: var(--k-pill);
-  background: var(--dg-red-solid);
+  background: var(--sn-red-solid);
   color: #fff;
   font-size: 11.5px;
   font-weight: 700;
@@ -107,7 +107,7 @@
 
   &.-ok {
     background: var(--k-green-soft);
-    color: var(--dg-link);
+    color: var(--sn-link);
   }
 
   &.-go {
@@ -176,7 +176,7 @@
   overflow: hidden;
   border-radius: 50%;
   background: var(--k-green);
-  color: var(--dg-on-brand);
+  color: var(--sn-on-brand);
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -189,7 +189,7 @@
 
   // a guest: a person outline, white on the green (was an empty disc)
   .v-icon {
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
   }
 
   &.-lg {
@@ -221,18 +221,18 @@
 
   &:hover {
     border-color: var(--k-green);
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 }
 
 .k-acct__in {
   border-color: var(--k-green);
   background: var(--k-green);
-  color: var(--dg-on-brand) !important;
+  color: var(--sn-on-brand) !important;
 
   &:hover {
     background: var(--k-green-hover);
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
   }
 }
 
@@ -312,15 +312,15 @@
     }
 
     &:hover {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
 
     &.-on {
       border-color: var(--k-green);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
 
       .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }
@@ -399,7 +399,7 @@
   text-decoration: none;
 
   .v-icon {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 
   em {
@@ -417,10 +417,10 @@
   &.-on {
     background: #fff;
     box-shadow: 0 1px 3px rgba(20, 20, 20, 0.08), inset 3px 0 0 var(--k-green);
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
 
     em {
-      color: var(--dg-link);
+      color: var(--sn-link);
     }
   }
 }
@@ -493,7 +493,7 @@
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-size: 14.5px;
     font-weight: 700;
     text-decoration: none;
@@ -573,7 +573,7 @@
       &.-on {
         background: #fff;
         box-shadow: 0 1px 4px rgba(20, 20, 20, 0.14);
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }
@@ -602,7 +602,7 @@
     text-align: center;
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
 
     p {
@@ -714,9 +714,9 @@
       height: 20px;
       padding: 0 5px;
       border-radius: var(--k-pill);
-      background: var(--dg-ink-bg);
+      background: var(--sn-ink-bg);
       box-shadow: 0 0 0 2px #fff;
-      color: var(--dg-on-ink-bg);
+      color: var(--sn-on-ink-bg);
       font-size: 10.5px;
       font-style: normal;
       font-weight: 700;
@@ -782,7 +782,7 @@
     justify-content: center;
     gap: 2px;
     margin-top: 12px;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-size: 14.5px;
     font-weight: 700;
     text-decoration: none;
@@ -823,7 +823,7 @@
     text-decoration: none;
 
     &:hover {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -923,12 +923,12 @@
     }
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
   &__trail li.-now {
-    color: var(--dg-link);
+    color: var(--sn-link);
 
     .k-ocardx__seg {
       background: linear-gradient(90deg, var(--k-green) 50%, var(--k-line) 50%);
@@ -939,7 +939,7 @@
     }
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -961,7 +961,7 @@
     justify-content: center;
     gap: 8px;
     height: 30px;
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-size: 14px;
     font-weight: 700;
     text-decoration: none;
@@ -989,7 +989,7 @@
   cursor: pointer;
 
   .v-icon {
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
   }
 
   &__chev {
@@ -1022,7 +1022,7 @@
       text-decoration: none;
 
       .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
 
       em {
@@ -1039,7 +1039,7 @@
 
       &.-on {
         background: var(--k-green-soft);
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
     }
   }
@@ -1087,7 +1087,7 @@
       text-align: center;
 
       .v-icon {
-        color: var(--dg-link) !important;
+        color: var(--sn-link) !important;
       }
 
       h2 {
@@ -1191,7 +1191,7 @@
         background: var(--k-green);
 
         .v-icon {
-          color: var(--dg-on-brand) !important;
+          color: var(--sn-on-brand) !important;
         }
       }
 
@@ -1359,7 +1359,7 @@
     background: #fff;
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -1457,7 +1457,7 @@
     color: var(--k-ink);
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -1478,7 +1478,7 @@
     border-style: dashed;
     border-color: var(--k-line-strong);
     background: var(--k-plain);
-    color: var(--dg-link) !important;
+    color: var(--sn-link) !important;
     font-weight: 700;
 
     .v-icon {
@@ -1533,7 +1533,7 @@
     padding: 3px 9px;
     border-radius: var(--k-pill);
     background: var(--k-green);
-    color: var(--dg-on-brand);
+    color: var(--sn-on-brand);
     font-size: 11.5px;
     font-weight: 700;
   }
@@ -1550,11 +1550,11 @@
     border-radius: 50%;
     background: var(--k-green);
     box-shadow: 0 6px 14px -6px rgba(20, 20, 20, 0.6);
-    color: var(--dg-on-brand) !important;
+    color: var(--sn-on-brand) !important;
     cursor: pointer;
 
     .v-icon {
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
     }
 
     &:hover {
@@ -1669,11 +1669,11 @@
       &.-on {
         background: var(--k-green);
         box-shadow: none;
-        color: var(--dg-on-brand) !important;
+        color: var(--sn-on-brand) !important;
 
         .v-icon,
         em {
-          color: var(--dg-on-brand) !important;
+          color: var(--sn-on-brand) !important;
         }
       }
     }
@@ -1952,7 +1952,7 @@
     .v-btn.v-btn--active,
     .v-application & .v-btn.dark-flat {
       background: var(--k-green) !important;
-      color: var(--dg-on-brand) !important;
+      color: var(--sn-on-brand) !important;
     }
   }
 
@@ -2005,7 +2005,7 @@
     background: var(--k-green-soft);
 
     .v-icon {
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
   }
 
@@ -2161,7 +2161,7 @@
 
     &:hover:not(:disabled) {
       border-color: var(--k-green);
-      color: var(--dg-link) !important;
+      color: var(--sn-link) !important;
     }
 
     &.-icon {
@@ -2177,7 +2177,7 @@
 
     &.-danger {
       border-color: var(--k-coral);
-      background: var(--dg-red-solid);
+      background: var(--sn-red-solid);
       color: #fff !important;
 
       &:hover:not(:disabled) {
