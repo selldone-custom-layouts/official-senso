@@ -39,7 +39,7 @@
 
     <div v-if="capacities.length" :aria-label="t('senso.card.capacities', 'Capacities')" class="sn-caps">
       <span v-for="c in capacities.slice(0, 4)" :key="c">{{ c }}</span>
-      <em v-if="capacities.length > 4">+{{ capacities.length - 4 }}</em>
+      <em v-if="capacities.length > 4" class="k-signed">+{{ capacities.length - 4 }}</em>
     </div>
     <div v-else :aria-label="colours.length ? t('senso.card.colours', 'Colours') : null" :role="colours.length ? 'radiogroup' : null" class="sn-swrow">
       <button
@@ -54,7 +54,7 @@
         type="button"
         @click.prevent.stop="picked = i"
       ></button>
-      <em v-if="colours.length > maxSwatches">+{{ colours.length - maxSwatches }}</em>
+      <em v-if="colours.length > maxSwatches" class="k-signed">+{{ colours.length - maxSwatches }}</em>
     </div>
 
     <router-link :to="to" class="sn-card__t">{{ product.title }}</router-link>

@@ -21,7 +21,7 @@
 
       <div :class="{ '-settling': group.settling }" class="sn-receipt">
         <p class="sn-receipt__row"><span>{{ t("senso.cart.subtotalCount", { one: "Subtotal ({n} item)", other: "Subtotal ({n} items)" }, { n: group.units }) }}</span><span class="u--price">{{ money(group.total + group.saved, group.currency) }}</span></p>
-        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>{{ t("senso.cart.youSave", "You save") }}</span><span>−<span class="u--price">{{ money(group.saved, group.currency) }}</span></span></p>
+        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>{{ t("senso.cart.youSave", "You save") }}</span><span class="k-signed">−<span class="u--price">{{ money(group.saved, group.currency) }}</span></span></p>
         <p class="sn-receipt__row -muted"><span>{{ t("senso.cart.delivery", "Delivery") }}</span><span>{{ t("senso.cart.deliveryLater", "Calculated at checkout") }}</span></p>
         <p class="sn-receipt__row -tot"><span>{{ t("senso.cart.total", "Total") }}</span><span class="u--price">{{ money(group.total, group.currency) }}</span></p>
         <div class="sn-receipt__btns">

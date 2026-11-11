@@ -4070,3 +4070,12 @@ html[dir="rtl"] {
     unicode-bidi: plaintext;
   }
 }
+
+/* Signed numbers ("−$280.00", "+3", "-20%") read left to right in every
+   language: on an Arabic page the sign would otherwise land after the number
+   ("$280.00−", "3+"). The order board's "+N" thumbs too. */
+.k-signed,
+.k-board__thumb.-more {
+  direction: ltr;
+  unicode-bidi: isolate;
+}

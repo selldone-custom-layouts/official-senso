@@ -70,6 +70,10 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.12 (11 November 2026): merchant text keeps its own direction on an Arabic page.** On an Arabic page, the merchant's English category title showed as ".TVs" and its description's full stop sat at the start.
+  - Every element that shows merchant data now takes its direction from its own text (`unicode-bidi: plaintext`). That covers the hero and band lines, card, FBT and similar titles, the product title, spec headings, keys and values, cart lines, blog titles, mega-panel and tile names, chips, kinds, crumbs and the pedestal.
+  - Blocks stay right-aligned with the page. The product article's paragraphs read and align in their own direction.
+  - The hero and category titles wrap the merchant's name in `<bdi>`, so "TVs." reads correctly above Senso's Arabic line.
 - **1.0.11 (11 November 2026, deploy 546, release `01M743ADFXZ1V5G33GSGN2VN6M`, pinned on domain 1242): the support band's photo is drawn as its background.** In the FAQ/Contact band, the photo now has `z-index: -1` inside its slot, which isolates it. It looks the same; box-check had counted the photo as covering the words over it.
   - **Live checks on 1.0.10/1.0.11:**
     - **`i18n-check`** (the kit's, picking each language through the pill or the sheet): TOTAL 0 for ar, hi and da at 1440 and 390. It covers home, footer, a category, a product, the cart drawer empty and filled, the phone menu, sign-in, FAQ and 404. Selldone's own "Warranty" heading is ignored.
