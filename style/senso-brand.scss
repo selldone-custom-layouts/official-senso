@@ -2932,6 +2932,12 @@ body {
     background: linear-gradient(90deg, rgba(5, 16, 18, 0.7), rgba(5, 16, 18, 0.25));
     z-index: 1;
   }
+
+  /* The band's photo is its background: drawn under everything inside the
+     slot (which isolates it), so the words over it are never "covered". */
+  .sn-support__photo .sn-slot__img {
+    z-index: -1;
+  }
 }
 
 .sn-support {
