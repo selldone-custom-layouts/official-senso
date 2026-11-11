@@ -70,6 +70,10 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.13 (11 November 2026): signed numbers read left to right; prices are one left-to-right piece on RTL pages.**
+  - **Signed numbers:** "−$280.00" (the savings rows of the receipts) and "+3" (the card's more colours or capacities, the orders board) put the sign after the number on an Arabic page. These spans are `.k-signed` now (`direction: ltr; unicode-bidi: isolate`).
+  - **The region package** is copied from the kit again. Its `formatMoney` wraps an amount in LRI…PDI in a right-to-left language, so Arabic prices no longer read "$US 200". Its `t()` redraws when a language's words arrive.
+  - **An Arabic page-error sweep** (`senso-pageerrors.cjs`: Arabic picked through the pill) opens home, a category, a product, the filled cart page and checkout up to sign-in, FAQ, About, Contact, Terms, Privacy, compare, the blog and a post, and 404. On 1.0.12 at 1440 it found no page error and no console error, apart from Selldone's own `<svg width="auto">` warning in the footer. At 390, while Selldone was overloaded, some page chunks failed to download; those were network failures, not code errors.
 - **1.0.12 (11 November 2026): merchant text keeps its own direction on an Arabic page.** On an Arabic page, the merchant's English category title showed as ".TVs" and its description's full stop sat at the start.
   - Every element that shows merchant data now takes its direction from its own text (`unicode-bidi: plaintext`). That covers the hero and band lines, card, FBT and similar titles, the product title, spec headings, keys and values, cart lines, blog titles, mega-panel and tile names, chips, kinds, crumbs and the pedestal.
   - Blocks stay right-aligned with the page. The product article's paragraphs read and align in their own direction.
