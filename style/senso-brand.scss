@@ -4013,8 +4013,10 @@ html[dir="rtl"] {
     transform: scaleX(-1);
   }
 
-  /* The price range reads low to high, left to right, as numbers do. */
-  .sn-price-range {
+  /* The price range follows the page: min on the start (right) side, max on
+     the left, sliders mirrored with it; inside each box the sign and the
+     number stay left to right ("$ 764"). */
+  .sn-price-range__boxes label {
     direction: ltr;
   }
 }
@@ -4060,6 +4062,8 @@ html[dir="rtl"] {
       .sn-shelf__tile span,
       .sn-kind span,
       .sn-pedestal b,
+      .sn-check > span,
+      .sn-fgroup__h > span,
       .sn-hl b,
       .sn-crumbs a,
       .sn-crumbs span,

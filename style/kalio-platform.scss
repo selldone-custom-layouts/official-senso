@@ -267,7 +267,8 @@
 /* ▆▆▆▆▆▆▆▆ Category menu ▆▆▆▆▆▆▆▆
 
    The merchant's own menu, when they set one: a quiet row of words on
-   white, the current one underlined in green. */
+   white, the current one a tinted pill in the link colour (the owner's
+   no-underline rule: never a bar under the word). */
 
 .s--storefront-top-menu {
   background: var(--k-paper) !important;
@@ -287,13 +288,25 @@
 
   .v-tab--selected,
   .v-btn--active {
+    border-radius: 999px !important;
+    background: var(--sn-brand-l) !important;
     color: var(--sn-link) !important;
+    font-weight: 700 !important;
   }
+}
 
-  .v-tab__slider {
-    background: var(--k-green) !important;
-    height: 3px !important;
-  }
+/* Vuetify's tabs draw a bar under the active tab: hidden everywhere (the
+   owner's no-underline rule). A selected tab is a tinted pill instead. */
+.v-tab__slider,
+.v-tabs .v-tab__slider {
+  display: none !important;
+}
+
+.v-tab.v-tab--selected {
+  border-radius: 999px;
+  background: var(--sn-brand-l);
+  color: var(--sn-link) !important;
+  font-weight: 700;
 }
 
 .s--storefront-top-menu-submenu,

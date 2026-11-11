@@ -1114,9 +1114,11 @@ html.sn-locked {
       background: #dfe4ec;
     }
 
+    /* Logical: in a right-to-left language the range runs from the right
+       (min) to the left (max), as the native sliders do. */
     &::after {
-      left: calc(9px + (100% - 18px) * var(--a));
-      right: calc(9px + (100% - 18px) * (1 - var(--b)));
+      inset-inline-start: calc(9px + (100% - 18px) * var(--a));
+      inset-inline-end: calc(9px + (100% - 18px) * (1 - var(--b)));
       background: var(--sn-brand);
     }
 

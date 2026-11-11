@@ -272,12 +272,14 @@
   }
 }
 
+/* The owner's no-underline rule covers the active tab too: it is a tinted
+   pill with the link colour and a heavier weight, never a bar under it. */
 .k-acct__tabs {
   display: flex;
-  gap: 2px;
+  gap: 6px;
   margin-top: 26px;
+  padding: 2px 0;
   overflow-x: auto;
-  border-bottom: 1px solid var(--k-line);
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -287,10 +289,11 @@
   a {
     display: inline-flex;
     align-items: center;
+    flex: none;
     gap: 8px;
-    height: 52px;
+    height: 44px;
     padding: 0 16px;
-    border-bottom: 3px solid transparent;
+    border-radius: 999px;
     color: var(--k-ink-2) !important;
     font-size: 15px;
     font-weight: 600;
@@ -312,12 +315,14 @@
     }
 
     &:hover {
+      background: var(--sn-brand-l);
       color: var(--sn-link) !important;
     }
 
     &.-on {
-      border-color: var(--k-green);
+      background: var(--sn-brand-l);
       color: var(--sn-link) !important;
+      font-weight: 700;
 
       .v-icon {
         color: var(--sn-link) !important;
@@ -415,9 +420,12 @@
   }
 
   &.-on {
+    /* A white pill on the rail's wash, the link colour and a heavier
+       weight: no stripe beside or bar under the word. */
     background: #fff;
-    box-shadow: 0 1px 3px rgba(20, 20, 20, 0.08), inset 3px 0 0 var(--k-green);
+    box-shadow: 0 1px 3px rgba(20, 20, 20, 0.08);
     color: var(--sn-link) !important;
+    font-weight: 700;
 
     em {
       color: var(--sn-link);
@@ -1793,10 +1801,10 @@
 
   .k-acct__tabs {
     margin: 18px calc(var(--k-gutter) * -1) 0;
-    padding: 0 calc(var(--k-gutter) - 4px);
+    padding: 2px calc(var(--k-gutter) - 4px);
 
     a {
-      height: 48px;
+      height: 40px;
       padding: 0 12px;
       font-size: 14.5px;
     }
