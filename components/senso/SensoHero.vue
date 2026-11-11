@@ -46,7 +46,7 @@
       <div class="sn-hero__txt">
         <p class="sn-hero__fam">{{ famTitle(s) }}</p>
         <h2 class="sn-hero__h">
-          {{ s.title }}.<br />{{ famLine(s) }}
+          <bdi>{{ s.title }}.</bdi><br />{{ famLine(s) }}
         </h2>
         <p v-if="s.sub" class="sn-hero__sub">{{ s.sub }}</p>
         <router-link :tabindex="i === at ? null : -1" :to="s.to" class="sn-btn -glass -lg">{{ t("senso.hero.shopNow", "Shop now") }}</router-link>

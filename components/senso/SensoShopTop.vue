@@ -35,7 +35,7 @@
           </nav>
           <p class="sn-eyebrow">{{ eyebrow }}</p>
           <h1 class="sn-band__h">
-            <template v-if="mode === 'aisle' && aisle">{{ aisle.title || aisle.name }}.<br />{{ family ? family.line : "" }}</template>
+            <template v-if="mode === 'aisle' && aisle"><bdi>{{ aisle.title || aisle.name }}.</bdi><br />{{ family ? family.line : "" }}</template>
             <template v-else>{{ title }}</template>
           </h1>
           <p v-if="line" class="sn-band__p">{{ line }}</p>

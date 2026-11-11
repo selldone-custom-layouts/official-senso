@@ -4018,3 +4018,55 @@ html[dir="rtl"] {
     direction: ltr;
   }
 }
+
+/* ━━━━━━━━━━━━ Merchant text keeps its own direction ━━━━━━━━━━━━
+   On an Arabic page, English merchant data (category and product names,
+   descriptions, brands, banner lines, spec values, cart lines) would take the
+   page's direction and show its full stop at the wrong end (".TVs"). Each such
+   element sets its direction from its own first strong letter (plaintext);
+   blocks stay aligned with the page (right in RTL), so only the letters' order
+   changes. Senso's own Arabic words are untouched. The hero and category titles
+   wrap the merchant's name in <bdi>. */
+html[dir="rtl"] {
+  :is(
+      .sn-hero__sub,
+      .sn-band__p,
+      .sn-card__t,
+      .sn-fbt__t,
+      .sn-sim__t,
+      .sn-pdp__title,
+      .sn-blog h3,
+      .sn-specs__g h3,
+      .sn-specs__row dt,
+      .sn-specs__row dd,
+      .k-lines__title,
+      .sn-crow__name
+    ) {
+    unicode-bidi: plaintext;
+    text-align: right;
+  }
+
+  /* Long merchant text (the product's article): each paragraph reads in its
+     own direction and aligns to its own start. */
+  .review-style :is(p, li, h1, h2, h3, h4, td, th) {
+    unicode-bidi: plaintext;
+    text-align: start;
+  }
+
+  :is(
+      .sn-mega__name b,
+      .sn-mega__pick b,
+      .sn-tile__name,
+      .sn-shelf__tile span,
+      .sn-kind span,
+      .sn-pedestal b,
+      .sn-hl b,
+      .sn-crumbs a,
+      .sn-crumbs span,
+      .sn-pillchip,
+      .sn-acc__link b,
+      .sn-pdp .sn-eyebrow a
+    ) {
+    unicode-bidi: plaintext;
+  }
+}
