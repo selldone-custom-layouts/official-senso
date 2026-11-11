@@ -90,7 +90,7 @@
         </senso-shop-top>
 
         <div class="sn-page sn-shop__body">
-          <aside aria-label="Filters" class="sn-shop__side">
+          <aside :aria-label="t('senso.listing.filters', 'Filters')" class="sn-shop__side">
             <senso-filter-panel :filters="filters_def" :model-value="t_filter" @update:model-value="setFilter" />
           </aside>
           <!-- Loading, Senso's way: the first read shows skeleton cards in
@@ -101,7 +101,7 @@
           <div :class="{ '-busy': loading === 'refresh', '-arrived': arrived }" class="sn-shop__main">
             <transition name="sn-fade">
               <div v-if="loading === 'refresh'" aria-live="polite" class="sn-updating" role="status">
-                <span class="sn-updating__pill"><i aria-hidden="true" class="sn-spin"></i>Updating results…</span>
+                <span class="sn-updating__pill"><i aria-hidden="true" class="sn-spin"></i>{{ t("senso.listing.updating", "Updating results…") }}</span>
               </div>
             </transition>
             <div v-if="loading === 'first'" aria-hidden="true" class="sn-skelgrid">
@@ -128,10 +128,10 @@
         </div>
 
         <div class="sn-page">
-          <senso-rail v-if="catalogue && search_query" :limit="12" eyebrow="Popular" lazy sort="bestselling" title="Popular right now" />
+          <senso-rail v-if="catalogue && search_query" :eyebrow="t('senso.listing.popularEyebrow', 'Popular')" :limit="12" :title="t('senso.listing.popularTitle', 'Popular right now')" lazy sort="bestselling" />
           <section v-if="more_aisles.length" class="sn-sec sn-keep">
-            <p class="sn-eyebrow">Keep exploring</p>
-            <h2>More categories</h2>
+            <p class="sn-eyebrow">{{ t("senso.listing.keepExploring", "Keep exploring") }}</p>
+            <h2>{{ t("senso.listing.moreCategories", "More categories") }}</h2>
             <div class="sn-keep__list">
               <router-link v-for="a in more_aisles" :key="a.id" :to="aisleTo(a)" class="sn-pillchip">
                 <senso-category-icon :category="a" size="22" />{{ a.title || a.name }}

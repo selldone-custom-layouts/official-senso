@@ -19,6 +19,7 @@
  */
 import { reactive } from "vue";
 import { baseCurrency, money as regionMoney } from "../region-switcher/region";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 
 declare const window: any;
@@ -152,7 +153,9 @@ export function categoryLine(category: any, list: any[], money: (n: number) => s
   const ps = list.filter((p) => p.category_id === category?.id);
   if (!ps.length) return "";
   const best = Math.max(0, ...ps.map(savingOf));
-  return best ? `Up to ${money(best)} off` : `From ${money(Math.min(...ps.map(finalOf)))}`;
+  return best
+    ? t("senso.home.categoryUpTo", "Up to {amount} off", { amount: money(best) })
+    : t("senso.home.categoryFrom", "From {amount}", { amount: money(Math.min(...ps.map(finalOf))) });
 }
 
 /* ━━━━━━━━━━━━ Price bands: "Shop by budget" ━━━━━━━━━━━━
@@ -196,8 +199,8 @@ const VOCABULARY = [
   "noise-cancelling", "waterproof", "creator", "streaming", "office", "travel", "home-office", "student",
 ];
 
-export const isBestSellerTag = (t: string) => /^(best|top)[\s_-]?sell(er|ers|ing)?$/i.test(t);
-export const isNewTag = (t: string) => /^(new|new[\s_-]?arrivals?|just[\s_-]?in)$/i.test(t);
+export const isBestSellerTag = (tag: string) => /^(best|top)[\s_-]?sell(er|ers|ing)?$/i.test(tag);
+export const isNewTag = (tag: string) => /^(new|new[\s_-]?arrivals?|just[\s_-]?in)$/i.test(tag);
 
 /** A tag as a heading: "4k" → "4K", "new-arrival" → "New Arrival". */
 export function tagTitle(tag: string): string {
@@ -221,10 +224,10 @@ export function tagIndex(): Promise<TagIndex> {
     tagsRead = listProducts(null, 250, { tags: VOCABULARY, sort: "bestselling" }).then((list) => {
       const byTag = new Map<string, any[]>();
       for (const p of list) {
-        for (const t of p.tags || []) {
-          if (!t) continue;
-          if (!byTag.has(t)) byTag.set(t, []);
-          byTag.get(t)!.push(p);
+        for (const tag of p.tags || []) {
+          if (!tag) continue;
+          if (!byTag.has(tag)) byTag.set(tag, []);
+          byTag.get(tag)!.push(p);
         }
       }
       return { byTag };
@@ -234,12 +237,64 @@ export function tagIndex(): Promise<TagIndex> {
 }
 
 /* ━━━━━━━━━━━━ Ways to get it ━━━━━━━━━━━━ */
-const WAYS: { types: string[]; word: string; icon: string; line: string }[] = [
-  { types: ["Pickup"], word: "Pickup", icon: "storefront", line: "Order online, collect at the shop" },
-  { types: ["Motorbike", "Bicycle"], word: "Delivery", icon: "two_wheeler", line: "A courier brings it to your door" },
-  { types: ["CargoSmall", "Cargo", "Truck"], word: "Shipping", icon: "local_shipping", line: "Shipped to your address" },
-  { types: ["Post", "PostFast"], word: "By post", icon: "local_post_office", line: "Sent to your address by post" },
-  { types: ["Airplane", "Global"], word: "Worldwide", icon: "public", line: "Shipped wherever you are" },
+/* `id` is the way's fixed name (the cards' key, never translated); `word`
+   and `line` are getters, so they follow a language change. */
+const WAYS: { id: string; types: string[]; word: string; icon: string; line: string }[] = [
+  {
+    id: "Pickup",
+    types: ["Pickup"],
+    icon: "storefront",
+    get word() {
+      return t("senso.way.pickup", "Pickup");
+    },
+    get line() {
+      return t("senso.way.pickup.line", "Order online, collect at the shop");
+    },
+  },
+  {
+    id: "Delivery",
+    types: ["Motorbike", "Bicycle"],
+    icon: "two_wheeler",
+    get word() {
+      return t("senso.way.delivery", "Delivery");
+    },
+    get line() {
+      return t("senso.way.delivery.line", "A courier brings it to your door");
+    },
+  },
+  {
+    id: "Shipping",
+    types: ["CargoSmall", "Cargo", "Truck"],
+    icon: "local_shipping",
+    get word() {
+      return t("senso.way.shipping", "Shipping");
+    },
+    get line() {
+      return t("senso.way.shipping.line", "Shipped to your address");
+    },
+  },
+  {
+    id: "By post",
+    types: ["Post", "PostFast"],
+    icon: "local_post_office",
+    get word() {
+      return t("senso.way.post", "By post");
+    },
+    get line() {
+      return t("senso.way.post.line", "Sent to your address by post");
+    },
+  },
+  {
+    id: "Worldwide",
+    types: ["Airplane", "Global"],
+    icon: "public",
+    get word() {
+      return t("senso.way.worldwide", "Worldwide");
+    },
+    get line() {
+      return t("senso.way.worldwide.line", "Shipped wherever you are");
+    },
+  },
 ];
 
 export interface Way {
@@ -255,11 +310,11 @@ export interface Way {
 /** The shop's enabled delivery methods, one card per kind. */
 export function waysOf(shop: any): Way[] {
   const out: Way[] = [];
-  for (const t of (shop?.transportations || []).filter((t: any) => t && t.enable)) {
-    const kind = WAYS.find((w) => w.types.includes(t.type));
-    const key = kind ? kind.word : t.type;
-    const free = !!t.free_shipping && !(Number(t.free_shipping_limit) > 0);
-    const freeOver = t.free_shipping && Number(t.free_shipping_limit) > 0 ? Number(t.free_shipping_limit) : null;
+  for (const way of (shop?.transportations || []).filter((x: any) => x && x.enable)) {
+    const kind = WAYS.find((w) => w.types.includes(way.type));
+    const key = kind ? kind.id : way.type;
+    const free = !!way.free_shipping && !(Number(way.free_shipping_limit) > 0);
+    const freeOver = way.free_shipping && Number(way.free_shipping_limit) > 0 ? Number(way.free_shipping_limit) : null;
     const known = out.find((w) => w.key === key);
     if (known) {
       known.free = known.free || free;
@@ -268,16 +323,16 @@ export function waysOf(shop: any): Way[] {
     }
     out.push({
       key,
-      word: t.title || (kind ? kind.word : "Delivery"),
+      word: way.title || (kind ? kind.word : t("senso.way.delivery", "Delivery")),
       icon: kind ? kind.icon : "local_shipping",
-      line: kind ? kind.line : "Brought to your address",
+      line: kind ? kind.line : t("senso.way.other.line", "Brought to your address"),
       free,
       freeOver,
-      currency: t.currency || baseCurrency() || null,
+      currency: way.currency || baseCurrency() || null,
     });
   }
-  const rank = (way: Way) => {
-    const at = WAYS.findIndex((w) => w.word === way.key);
+  const rank = (w: Way) => {
+    const at = WAYS.findIndex((x) => x.id === w.key);
     return at === -1 ? WAYS.length : at;
   };
   return out.sort((a, b) => rank(a) - rank(b));
@@ -286,7 +341,7 @@ export function waysOf(shop: any): Way[] {
 /** The lowest basket total that ships for free. */
 export function freeShippingFrom(shop: any): { amount: number; currency: string } | null {
   const paid = (shop?.transportations || []).filter(
-    (t: any) => t && t.enable && t.type !== "Pickup" && t.free_shipping && Number(t.free_shipping_limit) > 0,
+    (x: any) => x && x.enable && x.type !== "Pickup" && x.free_shipping && Number(x.free_shipping_limit) > 0,
   );
   if (!paid.length) return null;
   const best = paid.reduce((a: any, b: any) => (Number(b.free_shipping_limit) < Number(a.free_shipping_limit) ? b : a));

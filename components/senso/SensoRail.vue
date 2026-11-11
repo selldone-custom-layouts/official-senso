@@ -17,11 +17,11 @@
         <h2 :id="headingId">{{ title }}</h2>
       </div>
       <div class="sn-head__end">
-        <router-link v-if="moreTo" :to="moreTo" class="sn-more">{{ moreLabel }}<senso-icon name="arrow_forward" size="18" /></router-link>
-        <button :disabled="at_start" aria-label="Scroll back" class="sn-arrowbtn" type="button" @click="scrollBy(-1)">
+        <router-link v-if="moreTo" :to="moreTo" class="sn-more">{{ moreLabel || t("common.seeAll", "See all") }}<senso-icon name="arrow_forward" size="18" /></router-link>
+        <button :aria-label="t('rail.scrollBack', 'Scroll back')" :disabled="at_start" class="sn-arrowbtn" type="button" @click="scrollBy(-1)">
           <senso-icon name="chevron_left" size="22" />
         </button>
-        <button :disabled="at_end" aria-label="Scroll forward" class="sn-arrowbtn" type="button" @click="scrollBy(1)">
+        <button :aria-label="t('rail.scrollForward', 'Scroll forward')" :disabled="at_end" class="sn-arrowbtn" type="button" @click="scrollBy(1)">
           <senso-icon name="chevron_right" size="22" />
         </button>
       </div>
@@ -66,7 +66,8 @@ export default {
     tags: { type: Array, default: null },
     limit: { type: Number, default: 12 },
     moreTo: { type: Object, default: null },
-    moreLabel: { type: String, default: "See all" },
+    /** The link's words; "See all" (translated) when not given. */
+    moreLabel: { type: String, default: "" },
     lazy: Boolean,
     /** Deal the products out category by category. */
     spread: Boolean,

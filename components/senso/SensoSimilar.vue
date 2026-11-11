@@ -10,11 +10,11 @@
   <section v-if="others.length" id="sn-similar" aria-labelledby="sn-sim-h" class="sn-sec sn-sim">
     <header class="sn-head">
       <div>
-        <p class="sn-eyebrow">Compare</p>
-        <h2 id="sn-sim-h">Compare with similar</h2>
+        <p class="sn-eyebrow">{{ t("senso.card.compare", "Compare") }}</p>
+        <h2 id="sn-sim-h">{{ t("senso.similar.title", "Compare with similar") }}</h2>
       </div>
       <div class="sn-head__end">
-        <router-link :to="compareTo" class="sn-more">Compare in detail<senso-icon name="arrow_forward" size="18" /></router-link>
+        <router-link :to="compareTo" class="sn-more">{{ t("senso.similar.inDetail", "Compare in detail") }}<senso-icon name="arrow_forward" size="18" /></router-link>
       </div>
     </header>
     <div class="sn-sim__scroll">
@@ -23,10 +23,10 @@
           <tr>
             <th aria-hidden="true" class="sn-sim__corner"></th>
             <th v-for="(p, i) in cols" :key="p.id" :class="{ '-this': i === 0 }" scope="col">
-              <p class="sn-sim__tag">{{ i === 0 ? "This product" : " " }}</p>
+              <p class="sn-sim__tag">{{ i === 0 ? t("senso.similar.thisProduct", "This product") : " " }}</p>
               <router-link :to="route(p)" class="sn-sim__img sn-tile"><img :alt="p.title" :src="image(p)" loading="lazy" /></router-link>
               <router-link :to="route(p)" class="sn-sim__t">{{ p.title }}</router-link>
-              <span class="sn-sim__p"><b>{{ fmt(finalOf(p)) }}</b><em v-if="savingOf(p) > 0" class="sn-save">Save {{ fmt(savingOf(p), true) }}</em></span>
+              <span class="sn-sim__p"><b>{{ fmt(finalOf(p)) }}</b><em v-if="savingOf(p) > 0" class="sn-save">{{ t("senso.price.save", "Save {amount}", { amount: fmt(savingOf(p), true) }) }}</em></span>
             </th>
           </tr>
         </thead>
@@ -38,8 +38,8 @@
           <tr class="sn-sim__acts">
             <th aria-hidden="true"></th>
             <td v-for="(p, i) in cols" :key="p.id" :class="{ '-this': i === 0 }">
-              <span v-if="i === 0" class="sn-sim__here"><senso-icon name="check" size="16" />You’re viewing</span>
-              <router-link v-else :to="route(p)" class="sn-btn -line -sm">Learn more</router-link>
+              <span v-if="i === 0" class="sn-sim__here"><senso-icon name="check" size="16" />{{ t("senso.similar.viewing", "You’re viewing") }}</span>
+              <router-link v-else :to="route(p)" class="sn-btn -line -sm">{{ t("senso.card.learnMore", "Learn more") }}</router-link>
             </td>
           </tr>
         </tbody>

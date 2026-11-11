@@ -8,30 +8,35 @@
 -->
 <template>
   <section v-if="items.length > 1" aria-labelledby="sn-fbt-h" class="sn-sec sn-fbt">
-    <header class="sn-head"><div><p class="sn-eyebrow">Complete the setup</p><h2 id="sn-fbt-h">Frequently bought together</h2></div></header>
+    <header class="sn-head">
+      <div>
+        <p class="sn-eyebrow">{{ t("senso.fbt.eyebrow", "Complete the setup") }}</p>
+        <h2 id="sn-fbt-h">{{ t("senso.fbt.title", "Frequently bought together") }}</h2>
+      </div>
+    </header>
     <div class="sn-fbt__row">
       <template v-for="(it, i) in items" :key="it.p.id">
         <span v-if="i" aria-hidden="true" class="sn-fbt__plus"><senso-icon name="add" size="20" /></span>
         <div :class="{ '-off': !it.on }" class="sn-fbt__item">
           <router-link :to="route(it.p)" class="sn-fbt__img"><img :src="image(it.p)" alt="" loading="lazy" /></router-link>
           <div class="sn-fbt__txt">
-            <small>{{ i === 0 ? "This item" : catName(it.p) }}</small>
+            <small>{{ i === 0 ? t("senso.fbt.thisItem", "This item") : catName(it.p) }}</small>
             <router-link :to="route(it.p)" class="sn-fbt__t">{{ it.p.title }}</router-link>
-            <span class="sn-fbt__p"><b>{{ fmt(finalOf(it.p)) }}</b><em v-if="savingOf(it.p) > 0" class="sn-save">Save {{ fmt(savingOf(it.p), true) }}</em></span>
+            <span class="sn-fbt__p"><b>{{ fmt(finalOf(it.p)) }}</b><em v-if="savingOf(it.p) > 0" class="sn-save">{{ t("senso.price.save", "Save {amount}", { amount: fmt(savingOf(it.p), true) }) }}</em></span>
             <label class="sn-check">
               <input v-model="it.on" type="checkbox" />
               <i><senso-icon name="check" size="15" /></i>
-              <span>Include</span>
+              <span>{{ t("senso.fbt.include", "Include") }}</span>
             </label>
           </div>
         </div>
       </template>
       <div class="sn-fbt__sum">
-        <small>Price for {{ picked.length === items.length ? "all " + words[items.length] : picked.length + " selected" }}</small>
+        <small>{{ sumLabel }}</small>
         <b>{{ fmt(total) }}</b>
-        <span v-if="saved > 0" class="sn-save">Save {{ fmt(saved, true) }}</span>
+        <span v-if="saved > 0" class="sn-save">{{ t("senso.price.save", "Save {amount}", { amount: fmt(saved, true) }) }}</span>
         <button :disabled="!picked.length || busy" class="sn-btn -block" type="button" @click="addAll">
-          <senso-icon name="add_shopping_cart" size="19" />{{ done ? "Added — see your cart" : picked.length === items.length ? "Add all " + words[items.length] : "Add selected" }}
+          <senso-icon name="add_shopping_cart" size="19" />{{ addLabel }}
         </button>
       </div>
     </div>
@@ -44,6 +49,7 @@ import { aisleIndex, aisles, productImage } from "../kalio/kalio-catalog";
 import { addColour, quickAdd } from "../kalio/kalio-basket";
 import { allProducts, finalOf, money, savingOf } from "./senso-home";
 import { openQuickBuy } from "./senso-quick";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 const hasCapacity = (p) => (p.variants || p.product_variants || []).some((v) => v.volume);
 const firstColour = (p) => (p.variants || p.product_variants || []).find((v) => v.color)?.color || null;
@@ -53,7 +59,7 @@ export default {
   components: { SensoIcon },
   inject: { $shop: { default: null } },
   props: { product: { type: Object, required: true } },
-  data: () => ({ items: [], cats: new Map(), busy: false, done: false, words: ["", "one", "two", "three"] }),
+  data: () => ({ items: [], cats: new Map(), busy: false, done: false }),
   computed: {
     picked() {
       return this.items.filter((it) => it.on);
@@ -63,6 +69,16 @@ export default {
     },
     saved() {
       return this.picked.reduce((s, it) => s + savingOf(it.p), 0);
+    },
+    /** "Price for both" / "Price for all three" / "Price for 1 selected". */
+    sumLabel() {
+      if (this.picked.length !== this.items.length) return t("senso.fbt.priceForSelected", { one: "Price for {n} selected", other: "Price for {n} selected" }, { n: this.picked.length });
+      return this.items.length === 2 ? t("senso.fbt.priceForBoth", "Price for both") : t("senso.fbt.priceForAllThree", "Price for all three");
+    },
+    addLabel() {
+      if (this.done) return t("senso.fbt.added", "Added — see your cart");
+      if (this.picked.length !== this.items.length) return t("senso.fbt.addSelected", "Add selected");
+      return this.items.length === 2 ? t("senso.fbt.addBoth", "Add both") : t("senso.fbt.addAllThree", "Add all three");
     },
   },
   watch: {

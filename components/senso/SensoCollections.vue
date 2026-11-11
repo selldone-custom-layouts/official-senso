@@ -10,18 +10,18 @@
   <section v-if="tabs.length" aria-labelledby="sn-col-h" class="sn-sec sn-railsec sn-cols">
     <header class="sn-head">
       <div>
-        <p class="sn-eyebrow">Collections</p>
-        <h2 id="sn-col-h">Picked for how you use it</h2>
+        <p class="sn-eyebrow">{{ t("senso.home.collections", "Collections") }}</p>
+        <h2 id="sn-col-h">{{ t("senso.home.collectionsTitle", "Picked for how you use it") }}</h2>
       </div>
       <div class="sn-head__end">
-        <button :disabled="at_start" aria-label="Scroll back" class="sn-arrowbtn" type="button" @click="scrollBy(-1)"><senso-icon name="chevron_left" size="22" /></button>
-        <button :disabled="at_end" aria-label="Scroll forward" class="sn-arrowbtn" type="button" @click="scrollBy(1)"><senso-icon name="chevron_right" size="22" /></button>
+        <button :aria-label="t('rail.scrollBack', 'Scroll back')" :disabled="at_start" class="sn-arrowbtn" type="button" @click="scrollBy(-1)"><senso-icon name="chevron_left" size="22" /></button>
+        <button :aria-label="t('rail.scrollForward', 'Scroll forward')" :disabled="at_end" class="sn-arrowbtn" type="button" @click="scrollBy(1)"><senso-icon name="chevron_right" size="22" /></button>
       </div>
     </header>
-    <div aria-label="Collections" class="sn-tabs" role="tablist" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
+    <div :aria-label="t('senso.home.collections', 'Collections')" class="sn-tabs" role="tablist" @keydown.left.prevent="move(-1)" @keydown.right.prevent="move(1)">
       <button
-        v-for="(t, i) in tabs"
-        :key="t.tag"
+        v-for="(tab, i) in tabs"
+        :key="tab.tag"
         :aria-selected="i === at"
         :class="{ '-on': i === at }"
         :tabindex="i === at ? 0 : -1"
@@ -30,7 +30,7 @@
         type="button"
         @click="pick(i)"
       >
-        {{ t.label }}
+        {{ tab.label }}
       </button>
     </div>
     <div :aria-label="current.title" class="sn-rail" role="tabpanel">
@@ -45,6 +45,7 @@
 import SensoCard from "./SensoCard.vue";
 import SensoIcon from "./SensoIcon.vue";
 import { isBestSellerTag, isNewTag, mix, tagIndex, tagTitle } from "./senso-home";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 export default {
   name: "SensoCollections",
@@ -60,7 +61,9 @@ export default {
       for (const [tag, list] of this.byTag) {
         if (isNewTag(tag) || !list.length) continue;
         const best = isBestSellerTag(tag);
-        out.push({ tag, best, label: best ? "Best sellers" : tagTitle(tag), title: best ? "Best sellers" : `${tagTitle(tag)} Items`, products: mix(list, 12) });
+        const name = tagTitle(tag);
+        const bestWord = t("senso.home.bestSellers", "Best sellers");
+        out.push({ tag, best, label: best ? bestWord : name, title: best ? bestWord : t("senso.home.tagItems", "{tag} Items", { tag: name }), products: mix(list, 12) });
       }
       return out.sort((a, b) => Number(b.best) - Number(a.best) || b.products.length - a.products.length);
     },

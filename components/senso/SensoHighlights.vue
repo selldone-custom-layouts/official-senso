@@ -15,7 +15,7 @@
   <section v-if="product" id="sn-highlights" aria-labelledby="sn-hl-h" class="sn-sec sn-hl">
     <header class="sn-head">
       <div>
-        <p class="sn-eyebrow">Highlights</p>
+        <p class="sn-eyebrow">{{ t("pdp.highlights", "Highlights") }}</p>
         <h2 id="sn-hl-h">{{ lead }}</h2>
       </div>
     </header>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div v-if="glance.length" class="sn-hl__glance">
-        <p class="sn-eyebrow">At a glance</p>
+        <p class="sn-eyebrow">{{ t("senso.pdp.atAGlance", "At a glance") }}</p>
         <dl>
           <div v-for="row in glance" :key="row.key">
             <dt>{{ row.key }}</dt>
@@ -58,6 +58,7 @@ import SnSlot from "./SensoSlot.vue";
 import { specGroups, specValue } from "../kalio/compare/kalio-compare";
 import { familiesOf, familyOf } from "./senso-families";
 import { aisles } from "../kalio/kalio-catalog";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 /** Plain text of an HTML fragment. */
 function plain(html) {
@@ -99,13 +100,13 @@ export default {
       const out = [];
       let cur = { title: "", parts: [] };
       for (const el of Array.from(div.children)) {
-        const t = (el.textContent || "").replace(/\s+/g, " ").trim();
-        if (!t) continue;
-        const bold = el.tagName === "P" && el.children.length === 1 && /^(B|STRONG)$/.test(el.children[0].tagName) && el.children[0].textContent.trim() === t;
+        const words = (el.textContent || "").replace(/\s+/g, " ").trim();
+        if (!words) continue;
+        const bold = el.tagName === "P" && el.children.length === 1 && /^(B|STRONG)$/.test(el.children[0].tagName) && el.children[0].textContent.trim() === words;
         if (bold || /^H[2-4]$/.test(el.tagName)) {
           if (cur.parts.length) out.push(cur);
-          cur = { title: t, parts: [] };
-        } else cur.parts.push(t);
+          cur = { title: words, parts: [] };
+        } else cur.parts.push(words);
       }
       if (cur.parts.length) out.push(cur);
       return out.map((s) => ({ title: s.title, text: s.parts.join(" ") }));
@@ -113,10 +114,10 @@ export default {
     /** The section's title: the article's own after its colon ("…: Power and
         Precision for Every Project"), else the family's line. */
     lead() {
-      const t = String(this.product?.article_pack?.article?.title || "");
-      const after = t.includes(":") ? t.split(":").slice(1).join(":").trim() : "";
+      const title = String(this.product?.article_pack?.article?.title || "");
+      const after = title.includes(":") ? title.split(":").slice(1).join(":").trim() : "";
       if (after.length >= 10 && after.length <= 70) return after;
-      return this.family?.line || "Made for every day.";
+      return this.family?.line || t("senso.pdp.madeForEveryDay", "Made for every day.");
     },
     /** Four key specs, the first of each group. */
     glance() {
@@ -157,8 +158,8 @@ export default {
   methods: {
     /** A short heading for a section: the first spec value of the group of the same name, else the title. */
     headingFor(title) {
-      const t = String(title).toLowerCase();
-      const g = specGroups([this.product]).find((x) => t === x.title.toLowerCase()) || specGroups([this.product]).find((x) => t.includes(x.title.toLowerCase()));
+      const name = String(title).toLowerCase();
+      const g = specGroups([this.product]).find((x) => name === x.title.toLowerCase()) || specGroups([this.product]).find((x) => name.includes(x.title.toLowerCase()));
       if (g) {
         for (const k of g.keys) {
           const v = specValue(this.product, k);

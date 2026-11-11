@@ -24,17 +24,17 @@
       <span class="sn-show__txt">
         <b class="sn-show__h">{{ family.story.heading }}</b>
         <span class="sn-show__p">{{ family.story.text }}</span>
-        <span class="sn-btn -glass">Explore {{ family.title }}</span>
+        <span class="sn-btn -glass">{{ t("senso.home.exploreFamily", "Explore {family}", { family: family.title }) }}</span>
       </span>
     </router-link>
 
     <div v-if="tiles.length" :class="`-n${tiles.length}`" :style="{ '--n': tiles.length }" class="sn-show__tiles">
-      <router-link v-for="t in tiles" :key="t.category.id" :to="t.to" class="sn-tile sn-show__tile">
-        <span class="sn-tile__name">{{ t.category.title || t.category.name }}</span>
-        <span v-if="t.line" class="sn-tile__line">{{ t.line }}</span>
+      <router-link v-for="tile in tiles" :key="tile.category.id" :to="tile.to" class="sn-tile sn-show__tile">
+        <span class="sn-tile__name">{{ tile.category.title || tile.category.name }}</span>
+        <span v-if="tile.line" class="sn-tile__line">{{ tile.line }}</span>
         <span class="sn-tile__pack">
-          <img v-if="t.image" :alt="t.product.title" :src="t.image" :srcset="t.srcset" loading="lazy" sizes="(max-width: 760px) 44vw, 300px" />
-          <senso-category-icon v-else :category="t.category" size="72" />
+          <img v-if="tile.image" :alt="tile.product.title" :src="tile.image" :srcset="tile.srcset" loading="lazy" sizes="(max-width: 760px) 44vw, 300px" />
+          <senso-category-icon v-else :category="tile.category" size="72" />
         </span>
       </router-link>
     </div>

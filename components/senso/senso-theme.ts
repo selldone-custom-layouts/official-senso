@@ -23,6 +23,7 @@
  */
 import type { ThemeSwitcherConfig } from "../theme-switcher/theme-switcher";
 import { THEME_SETTINGS } from "./senso-theme.settings";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 /** #rrggbb mixed toward white (t = share of white). */
 function tint(hex: string, t: number): string {
@@ -60,31 +61,41 @@ export const SENSO_THEME: ThemeSwitcherConfig = {
   palettes: [
     {
       id: "teal",
-      name: "Senso teal",
+      get name() {
+        return t("senso.palette.teal", "Senso teal");
+      },
       light: { primary: "#00736f", deep: "#005a57", soft: "#e1f4f3", onPrimary: "#ffffff", text: "#00736f", deco: "#00a3a1", mint: "#eef8f8" },
       dark: { primary: "#008380", deep: "#006b68", soft: "#12322f", onPrimary: "#ffffff", text: "#5fd6d1", deco: "#3cc6c2", mint: "#eef8f8" },
     },
     {
       id: "ocean",
-      name: "Ocean blue",
+      get name() {
+        return t("senso.palette.ocean", "Ocean blue");
+      },
       light: { primary: "#1a5fb4", deep: "#134a8e", soft: "#e6effa", onPrimary: "#ffffff", text: "#1a5fb4", deco: "#3b8ee0", mint: "#eef4fb" },
       dark: { primary: "#2c6cba", deep: "#22599c", soft: "#14263f", onPrimary: "#ffffff", text: "#8cbcff", deco: "#6aa8ee", mint: "#eef4fb" },
     },
     {
       id: "violet",
-      name: "Violet",
+      get name() {
+        return t("senso.palette.violet", "Violet");
+      },
       light: { primary: "#6b3fd1", deep: "#5530ab", soft: "#efe9fc", onPrimary: "#ffffff", text: "#6b3fd1", deco: "#8f6cf0", mint: "#f3f0fd" },
       dark: { primary: "#7a52d6", deep: "#6540c0", soft: "#241c40", onPrimary: "#ffffff", text: "#c2b0ff", deco: "#a58cf5", mint: "#f3f0fd" },
     },
     {
       id: "forest",
-      name: "Forest",
+      get name() {
+        return t("senso.palette.forest", "Forest");
+      },
       light: { primary: "#2e6b34", deep: "#235229", soft: "#e5f2e6", onPrimary: "#ffffff", text: "#2e6b34", deco: "#4f9a57", mint: "#eff6ef" },
       dark: { primary: "#437a48", deep: "#36653a", soft: "#17301a", onPrimary: "#ffffff", text: "#8fdc98", deco: "#6dbb75", mint: "#eff6ef" },
     },
     {
       id: "ember",
-      name: "Ember",
+      get name() {
+        return t("senso.palette.ember", "Ember");
+      },
       light: { primary: "#ad4314", deep: "#8a3510", soft: "#fbeae2", onPrimary: "#ffffff", text: "#ad4314", deco: "#e0773f", mint: "#fcf1ec" },
       dark: { primary: "#b24e22", deep: "#94401b", soft: "#3a2015", onPrimary: "#ffffff", text: "#ffb48a", deco: "#f08f5a", mint: "#fcf1ec" },
     },
@@ -179,7 +190,36 @@ export const SENSO_THEME: ThemeSwitcherConfig = {
 
   metaThemeColor: "light.primary",
   ui: { ink: "var(--sn-ink)", muted: "var(--sn-muted)", line: "var(--sn-line)", surface: "var(--sn-card)", font: "var(--sn-font)" },
-  labels: { theme: "Theme", palettes: "Colour", mode: "Light or dark", modeTitle: "Mode", light: "Light", dark: "Dark", custom: "Custom colour", adjusted: "Adjusted for readability", brand: "Brand colour" },
+  /* Getters, so the words follow the visitor's language (the base's theme.* keys). */
+  labels: {
+    get theme() {
+      return t("theme.title", "Theme");
+    },
+    get palettes() {
+      return t("theme.palettes", "Colour");
+    },
+    get mode() {
+      return t("theme.mode", "Light or dark");
+    },
+    get modeTitle() {
+      return t("theme.modeTitle", "Mode");
+    },
+    get light() {
+      return t("theme.light", "Light");
+    },
+    get dark() {
+      return t("theme.dark", "Dark");
+    },
+    get custom() {
+      return t("theme.custom", "Custom colour");
+    },
+    get adjusted() {
+      return t("theme.adjusted", "Adjusted for readability");
+    },
+    get brand() {
+      return t("theme.brand", "Brand colour");
+    },
+  },
 
   /* "Custom colour" (the owner, 9 November 2026): any colour, made readable
      by paletteFromColor(). Senso's header is white, so white on the light

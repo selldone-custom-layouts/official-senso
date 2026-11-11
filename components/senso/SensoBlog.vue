@@ -9,11 +9,11 @@
   <section v-if="posts.length" aria-labelledby="sn-blog-h" class="sn-sec sn-stories">
     <header class="sn-head">
       <div>
-        <p class="sn-eyebrow">Stories</p>
-        <h2 id="sn-blog-h">From the {{ shopName }} journal</h2>
+        <p class="sn-eyebrow">{{ t("senso.home.stories", "Stories") }}</p>
+        <h2 id="sn-blog-h">{{ t("senso.home.storiesTitle", "From the {shop} journal", { shop: shopName }) }}</h2>
       </div>
       <div class="sn-head__end">
-        <router-link :to="allRoute" class="sn-more">All stories<senso-icon name="arrow_forward" size="18" /></router-link>
+        <router-link :to="allRoute" class="sn-more">{{ t("senso.home.allStories", "All stories") }}<senso-icon name="arrow_forward" size="18" /></router-link>
       </div>
     </header>
     <div class="sn-stories__grid">

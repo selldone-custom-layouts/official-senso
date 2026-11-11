@@ -16,6 +16,7 @@
 
 <script>
 import { BRAND } from "../kalio/kalio-brand";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 export default {
   name: "SensoWordmark",
@@ -23,7 +24,7 @@ export default {
   props: { light: Boolean },
   computed: {
     name() {
-      return BRAND.name || this.$shop?.title || "Shop";
+      return BRAND.name || this.$shop?.title || t("senso.brand.fallback", "Shop");
     },
     word() {
       return String(this.name).toLowerCase();

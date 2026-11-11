@@ -70,6 +70,19 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.10 (11 November 2026): Senso speaks the shop's languages (Arabic right to left, Hindi, Danish); the header is solid until the hero is on screen.**
+  - **The owner's rule:** after a language pick, every word Senso writes is in that language. Product data, brand names and Selldone's own strings stay as they are (Selldone's own "Warranty" heading has no Hindi or Danish yet).
+  - **The shared runtime** (`new-shop-kits/i18n/kalio-i18n.ts`) is copied to `components/kalio/i18n/`, with the Kalio base words for en, ar, hi and da (`base/`). Senso uses 722 of the 941 base keys, every one with the kit's exact English. Molino's wrapping of the shared Kalio files and pages was ported from its 0.2.52 commit; 68 hunks did not apply and were placed by hand.
+  - **Senso's own words** are in `senso.<lang>.ts`, 390 strings: the header, phone menu, footer, home sections, families (now getters), the listing, filters and sorts, the card, the product page, FAQ, Contact, About, 404, blog, cart and sign-in. They are translated into Arabic, Hindi and Danish with the base glossaries, and `i18n-lint` prints OK for all six files. Each language is one lazy chunk, fetched only when picked.
+  - **The region package's own words** ("Language & currency") translate too. The pill and the menu's row are drawn again once a language's words arrive, because the region package reads them only when it draws.
+  - **Arabic is right to left.**
+    - Senso's positions are now logical (`inset-inline-*`), along with Molino's logical conversions in the shared Kalio styles.
+    - The hero, FEATURED/LIFESTYLE, Highlights, About and support photos are mirrored in RTL, with their shades, so the calm area stays under the words, which now start on the right.
+    - The hero arrows swap sides, and arrows that point along the reading direction flip.
+    - The price range stays left to right.
+    - Noto Sans Arabic and Noto Sans Devanagari follow Poppins in the font stack and load only when needed.
+  - **The header stays solid until the home's hero is on screen** (the fix from 1.0.9's audit, commit 445e518).
+
 - **1.0.9 (10 November 2026, deploy 519, release `01M73KGVWAKNMVXJDV6ABE6MKK`, pinned on domain 1242; uploaded through `new-shop-kits/upload-guard.sh`, 370 files in 52.1 s): language and currency in the header; every amount in the shopper's currency.**
   - **The owner's choice B.** The shared region package (`components/region-switcher/`, copied unchanged from `new-shop-kits/region-switcher/`) runs on Selldone's own state: `window.$storefront.currency`, `onChangeUserSelectedCurrency()`, the shop's exchange rates, and `setCurrentLanguage`.
     - On desktop, a small pill before Support (a globe and "USD", or "EN · USD" with a second language) opens a panel of chips. It takes the header's colours: ink on the solid bar, white over the hero.

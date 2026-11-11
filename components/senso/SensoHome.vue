@@ -26,9 +26,9 @@
         :categories="featuredCats"
         :family="families[0] || null"
         :products="all"
-        eyebrow="Featured"
+        :eyebrow="t('senso.home.featured', 'Featured')"
+        :title="t('senso.home.featuredTitle', 'Built for every kind of setup')"
         photo="feature-wide"
-        title="Built for every kind of setup"
       />
 
       <senso-collections />
@@ -38,9 +38,9 @@
         :categories="lifestyleCats"
         :family="lifestyleFamily"
         :products="all"
-        eyebrow="Lifestyle"
+        :eyebrow="t('senso.home.lifestyle', 'Lifestyle')"
+        :title="t('senso.home.lifestyleTitle', 'Made for the way you work and play')"
         photo="lifestyle-wide"
-        title="Made for the way you work and play"
       />
     </div>
 
@@ -51,9 +51,9 @@
           :items="deals"
           :more-to="dealsRoute"
           :pending="!loaded"
-          eyebrow="Deals"
-          more-label="All offers"
-          title="Offers worth a closer look"
+          :eyebrow="t('senso.blog.dealsEyebrow', 'Deals')"
+          :more-label="t('senso.common.allOffers', 'All offers')"
+          :title="t('senso.blog.offers', 'Offers worth a closer look')"
         />
       </div>
     </div>
@@ -61,7 +61,14 @@
     <div class="sn-page sn-home__body">
       <senso-shelf />
 
-      <senso-rail v-if="newTagged.length" :items="newTagged" :more-to="newRoute" eyebrow="New" more-label="See what’s new" title="Just arrived" />
+      <senso-rail
+        v-if="newTagged.length"
+        :eyebrow="t('senso.home.new', 'New')"
+        :items="newTagged"
+        :more-label="t('senso.home.seeNew', 'See what’s new')"
+        :more-to="newRoute"
+        :title="t('senso.home.justArrived', 'Just arrived')"
+      />
 
       <senso-blog />
     </div>

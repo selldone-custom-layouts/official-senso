@@ -23,8 +23,8 @@
     <header v-if="mode !== 'search'" :class="`-${mode}`" class="sn-band">
       <div class="sn-band__in">
         <div class="sn-band__txt">
-          <nav aria-label="Breadcrumb" class="sn-crumbs">
-            <router-link :to="{ path: '/' }">Home</router-link>
+          <nav :aria-label="t('listing.breadcrumb', 'Breadcrumb')" class="sn-crumbs">
+            <router-link :to="{ path: '/' }">{{ t("pages.home", "Home") }}</router-link>
             <span aria-hidden="true">/</span>
             <template v-if="mode === 'aisle' && aisle">
               <span v-if="family">{{ family.title }}</span>
@@ -46,9 +46,9 @@
             <router-link v-if="hero" :to="productRoute(hero)" class="sn-pedestal">
               <span class="sn-pedestal__img"><img :alt="hero.title" :src="heroImage" loading="eager" /></span>
               <span class="sn-pedestal__txt">
-                <small>{{ heroSave > 0 ? "Biggest saving" : "Top pick" }}</small>
+                <small>{{ heroSave > 0 ? t("senso.listing.biggestSaving", "Biggest saving") : t("senso.listing.topPick", "Top pick") }}</small>
                 <b>{{ hero.title }}</b>
-                <span>{{ m(heroNow, false) }}<em v-if="heroSave > 0">Save {{ m(heroSave) }}</em></span>
+                <span>{{ m(heroNow, false) }}<em v-if="heroSave > 0">{{ t("senso.price.save", "Save {amount}", { amount: m(heroSave) }) }}</em></span>
               </span>
             </router-link>
           </sn-slot>
@@ -56,17 +56,17 @@
       </div>
     </header>
     <header v-else class="sn-shoptop__search">
-      <nav aria-label="Breadcrumb" class="sn-crumbs">
-        <router-link :to="{ path: '/' }">Home</router-link>
+      <nav :aria-label="t('listing.breadcrumb', 'Breadcrumb')" class="sn-crumbs">
+        <router-link :to="{ path: '/' }">{{ t("pages.home", "Home") }}</router-link>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">Search</span>
+        <span aria-current="page">{{ t("common.search", "Search") }}</span>
       </nav>
-      <p class="sn-eyebrow">Search</p>
-      <h1>Results for “{{ search }}”</h1>
+      <p class="sn-eyebrow">{{ t("common.search", "Search") }}</p>
+      <h1>{{ t("senso.listing.resultsFor", "Results for “{search}”", { search }) }}</h1>
     </header>
 
     <div v-if="chips.length" class="sn-kinds">
-      <button :disabled="at_start" aria-label="Scroll back" class="sn-arrowbtn" type="button" @click="scrollBy(-1)"><senso-icon name="chevron_left" size="22" /></button>
+      <button :aria-label="t('rail.scrollBack', 'Scroll back')" :disabled="at_start" class="sn-arrowbtn" type="button" @click="scrollBy(-1)"><senso-icon name="chevron_left" size="22" /></button>
       <div ref="track" class="sn-kinds__track" @scroll.passive="measure">
         <component
           :is="c.to ? 'router-link' : 'button'"
@@ -83,17 +83,17 @@
           <span class="sn-kind__name">{{ c.label }}</span>
         </component>
       </div>
-      <button :disabled="at_end" aria-label="Scroll forward" class="sn-arrowbtn" type="button" @click="scrollBy(1)"><senso-icon name="chevron_right" size="22" /></button>
+      <button :aria-label="t('rail.scrollForward', 'Scroll forward')" :disabled="at_end" class="sn-arrowbtn" type="button" @click="scrollBy(1)"><senso-icon name="chevron_right" size="22" /></button>
     </div>
 
     <div class="sn-toolbar">
-      <p class="sn-toolbar__count"><template v-if="total != null">{{ total }} {{ total === 1 ? "result" : "results" }}</template></p>
+      <p class="sn-toolbar__count"><template v-if="total != null">{{ t("senso.listing.results", { one: "{n} result", other: "{n} results" }, { n: total }) }}</template></p>
       <button class="sn-toolbar__filter" type="button" @click="sheet = true">
-        <senso-icon name="tune" size="18" />Filters<b v-if="onCount">{{ onCount }}</b>
+        <senso-icon name="tune" size="18" />{{ t("senso.listing.filters", "Filters") }}<b v-if="onCount">{{ onCount }}</b>
       </button>
       <label class="sn-sort">
-        <span>Sort:</span>
-        <select :value="sort || ''" aria-label="Sort by" @change="$emit('update:sort', $event.target.value || null)">
+        <span>{{ t("senso.sort.label", "Sort:") }}</span>
+        <select :aria-label="t('senso.sort.by', 'Sort by')" :value="sort || ''" @change="$emit('update:sort', $event.target.value || null)">
           <option value="">{{ fallbackSort }}</option>
           <option v-for="s in sorts" :key="s.val" :value="s.val">{{ s.name }}</option>
         </select>
@@ -106,16 +106,16 @@
         <div v-if="sheet" class="sn-sheet-scrim" @click="sheet = false"></div>
       </transition>
       <transition name="sn-slide">
-        <aside v-if="sheet" aria-label="Filters" aria-modal="true" class="sn-sheet -filter" role="dialog">
+        <aside v-if="sheet" :aria-label="t('senso.listing.filters', 'Filters')" aria-modal="true" class="sn-sheet -filter" role="dialog">
           <div class="sn-sheet__head">
-            <b>Filters</b>
-            <button aria-label="Close" class="sn-x" type="button" @click="sheet = false"><senso-icon name="close" size="22" /></button>
+            <b>{{ t("senso.listing.filters", "Filters") }}</b>
+            <button :aria-label="t('common.close', 'Close')" class="sn-x" type="button" @click="sheet = false"><senso-icon name="close" size="22" /></button>
           </div>
           <div class="sn-sheet__body">
             <slot name="panel" />
           </div>
           <div class="sn-sheet__foot">
-            <button class="sn-btn -block" type="button" @click="sheet = false">Show results</button>
+            <button class="sn-btn -block" type="button" @click="sheet = false">{{ t("senso.listing.showResults", "Show results") }}</button>
           </div>
         </aside>
       </transition>
@@ -133,6 +133,7 @@ import { allProducts, bestOf, dealsOf, finalOf, money, savingOf } from "./senso-
 import { baseCurrency } from "../region-switcher/region";
 import { familiesOf, familyOf } from "./senso-families";
 import { clock, dealEnd, leftText, releaseClock, soonestEnd, useClock } from "./senso-clock";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 /* The kinds a shopper picks first (a size, a form); any other spec key with a few values will do. */
 const KIND_KEYS = /screen|display|size|form factor|^type$|kind|style|resolution|capacity|technology/i;
@@ -165,7 +166,7 @@ export default {
       return SORTS;
     },
     fallbackSort() {
-      return this.mode === "search" ? "Best match" : "Recommended";
+      return this.mode === "search" ? t("senso.sort.bestMatch", "Best match") : t("senso.sort.recommended", "Recommended");
     },
     onCount() {
       return countOn(this.filter);
@@ -182,21 +183,21 @@ export default {
       return `listing-${fam ? fam.key : "tv-display"}`;
     },
     crumb() {
-      return { deals: "Offers" }[this.mode] || "All products";
+      return this.mode === "deals" ? t("senso.listing.offers", "Offers") : t("listing.allProducts", "All products");
     },
     eyebrow() {
-      if (this.mode === "aisle") return this.family ? this.family.title : "Category";
-      if (this.mode === "deals") return "Offers";
-      return "The range";
+      if (this.mode === "aisle") return this.family ? this.family.title : t("senso.listing.category", "Category");
+      if (this.mode === "deals") return t("senso.listing.offers", "Offers");
+      return t("senso.listing.theRange", "The range");
     },
     title() {
-      if (this.mode === "deals") return "Offers worth a closer look.";
-      return "Everything we make room for.";
+      if (this.mode === "deals") return t("senso.listing.dealsTitle", "Offers worth a closer look.");
+      return t("senso.listing.catalogueTitle", "Everything we make room for.");
     },
     line() {
       if (this.mode === "aisle") return this.aisle?.description || "";
-      if (this.mode === "deals") return "Real savings on the shop’s own prices, each with its end date.";
-      return "Every product, ready to filter and compare.";
+      if (this.mode === "deals") return t("senso.listing.dealsLine", "Real savings on the shop’s own prices, each with its end date.");
+      return t("senso.listing.catalogueLine", "Every product, ready to filter and compare.");
     },
     /** The product the banner shows until the family's photo arrives. */
     hero() {
@@ -220,7 +221,7 @@ export default {
     /** One end for every deal reads "Deals end in"; different ends, the next. */
     dealsLeftLabel() {
       const ends = new Set(this.all.filter((p) => savingOf(p) > 0).map((p) => dealEnd(p)).filter((e) => e != null));
-      return ends.size > 1 ? "Next deal ends in" : "Deals end in";
+      return ends.size > 1 ? t("senso.listing.nextDealEndsIn", "Next deal ends in") : t("senso.listing.dealsEndIn", "Deals end in");
     },
     dealsLeft() {
       return leftText(this.dealsEnd, clock.now);

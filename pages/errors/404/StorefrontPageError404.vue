@@ -9,19 +9,19 @@
     <kalio-header v-if="shop" @search="onSearch" />
     <main class="sn-page sn-404">
       <section class="sn-sec sn-404__top">
-        <p class="sn-eyebrow sn-404__code">Error 404</p>
-        <h1>This page took a different turn.</h1>
-        <p class="sn-404__lede">It may have moved, or the link has a typo. Search the range, or start from a category below.</p>
+        <p class="sn-eyebrow sn-404__code">{{ t("senso.notfound.code", "Error 404") }}</p>
+        <h1>{{ t("senso.notfound.title", "This page took a different turn.") }}</h1>
+        <p class="sn-404__lede">{{ t("senso.notfound.lede", "It may have moved, or the link has a typo. Search the range, or start from a category below.") }}</p>
         <form class="sn-404__search" role="search" @submit.prevent="search">
-          <input v-model.trim="q" :placeholder="`Search ${shop?.title || ''}`" aria-label="Search the shop" type="search" />
-          <button aria-label="Search" class="sn-btn" type="submit"><senso-icon name="search" size="20" /></button>
+          <input v-model.trim="q" :aria-label="t('senso.notfound.searchLabel', 'Search the shop')" :placeholder="t('senso.notfound.searchShop', 'Search {shop}', { shop: shop?.title || '' })" type="search" />
+          <button :aria-label="t('common.search', 'Search')" class="sn-btn" type="submit"><senso-icon name="search" size="20" /></button>
         </form>
         <div class="sn-404__acts">
-          <router-link :to="{ path: '/' }" class="sn-btn">Go to the home page</router-link>
-          <router-link :to="deals" class="sn-btn -line">See offers</router-link>
+          <router-link :to="{ path: '/' }" class="sn-btn">{{ t("senso.notfound.home", "Go to the home page") }}</router-link>
+          <router-link :to="deals" class="sn-btn -line">{{ t("senso.common.seeOffers", "See offers") }}</router-link>
         </div>
       </section>
-      <senso-shelf v-if="shop" eyebrow="Category" grid title="Find your way back" />
+      <senso-shelf v-if="shop" :eyebrow="t('senso.notfound.shelfEyebrow', 'Category')" :title="t('senso.notfound.shelfTitle', 'Find your way back')" grid />
     </main>
     <kalio-footer v-if="shop" />
   </div>

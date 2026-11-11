@@ -30,9 +30,9 @@
     class="k-header sn-header"
   >
     <div class="sn-header__bar">
-      <router-link :aria-label="`${shopTitle} home`" :to="homeRoute" class="sn-header__brand"><senso-wordmark :light="over" /></router-link>
+      <router-link :aria-label="t('header.home', '{shop} home', { shop: shopTitle })" :to="homeRoute" class="sn-header__brand"><senso-wordmark :light="over" /></router-link>
 
-      <nav v-if="!compact && families.length" aria-label="Products" class="sn-header__nav">
+      <nav v-if="!compact && families.length" :aria-label="t('senso.header.products', 'Products')" class="sn-header__nav">
         <button
           v-for="f in families"
           :key="f.key + f.title"
@@ -47,30 +47,30 @@
       </nav>
       <span class="sn-header__grow"></span>
 
-      <nav aria-label="Your account" class="sn-header__acts">
+      <nav :aria-label="t('header.yourAccount', 'Your account')" class="sn-header__acts">
         <!-- Language and currency (the owner's choice B, 10 November 2026):
              a small pill before Support; the phone gets a row in the menu. -->
-        <region-switcher-button v-if="!compact" button-class="sn-header__region" />
-        <router-link v-if="!compact" :to="helpRoute" class="sn-header__txt">{{ t("header.support") }}</router-link>
-        <button :aria-expanded="searchOpen" aria-label="Search" class="sn-header__ic -search" type="button" @click.stop="toggleSearch">
+        <region-switcher-button v-if="!compact" :key="regionKey" button-class="sn-header__region" />
+        <router-link v-if="!compact" :to="helpRoute" class="sn-header__txt">{{ t("senso.header.support", "Support") }}</router-link>
+        <button :aria-expanded="searchOpen" :aria-label="t('common.search', 'Search')" class="sn-header__ic -search" type="button" @click.stop="toggleSearch">
           <senso-icon :name="searchOpen ? 'close' : 'search'" size="22" />
         </button>
 
-        <router-link v-if="user" :aria-label="`Your account, ${firstName}`" :to="profileRoute" class="sn-header__ic -account">
+        <router-link v-if="user" :aria-label="t('senso.header.accountOf', 'Your account, {name}', { name: firstName })" :to="profileRoute" class="sn-header__ic -account">
           <img v-if="user.id && !avatar_failed" :src="getUserAvatar(user.id)" alt="" class="sn-header__avatar" height="26" width="26" @error="avatar_failed = true" />
           <senso-icon v-else name="person" size="22" />
         </router-link>
-        <button v-else :disabled="busyUser" aria-label="Sign in" class="sn-header__ic -account" type="button" @click="signIn">
+        <button v-else :disabled="busyUser" :aria-label="t('common.signIn', 'Sign in')" class="sn-header__ic -account" type="button" @click="signIn">
           <senso-icon name="person" size="22" />
         </button>
 
         <!-- The badge counts units, as the drawer's "3 items" does. -->
-        <button :aria-label="`Cart, ${basketUnits} ${basketUnits === 1 ? 'item' : 'items'}`" class="sn-header__ic -cart" type="button" @click="basket = true">
+        <button :aria-label="t('senso.header.cartCount', { one: 'Cart, {n} item', other: 'Cart, {n} items' }, { n: basketUnits })" class="sn-header__ic -cart" type="button" @click="basket = true">
           <senso-icon name="shopping_cart" size="22" />
           <i v-if="basketUnits" class="sn-header__count">{{ basketUnits }}</i>
         </button>
 
-        <button v-if="compact" :aria-expanded="menu" aria-label="Menu" class="sn-header__ic -menu" type="button" @click="menu = true">
+        <button v-if="compact" :aria-expanded="menu" :aria-label="t('header.menu', 'Menu')" class="sn-header__ic -menu" type="button" @click="menu = true">
           <senso-icon name="menu" size="22" />
         </button>
       </nav>
@@ -87,14 +87,14 @@
     <transition name="sn-drop">
       <div v-if="searchOpen" class="sn-header__panel sn-searchpanel" @click.stop @keydown.esc="searchOpen = false">
         <div class="sn-searchpanel__in">
-          <p class="sn-eyebrow">Search</p>
+          <p class="sn-eyebrow">{{ t("common.search", "Search") }}</p>
           <div class="sn-searchpanel__box">
             <s-storefront-search-box
               :dark="false"
               :expand-input="true"
               :negative-qr-margin="false"
-              :placeholder="`Search ${shopTitle}`"
-              :title="`Search ${shopTitle}`"
+              :placeholder="t('senso.header.searchShop', 'Search {shop}', { shop: shopTitle })"
+              :title="t('senso.header.searchShop', 'Search {shop}', { shop: shopTitle })"
               color="#0d1b1e"
               flat
               no-qr
@@ -106,8 +106,8 @@
             />
           </div>
           <div v-if="aisleList.length" class="sn-searchpanel__quick">
-            <p class="sn-searchpanel__label">Popular categories</p>
-            <nav aria-label="Popular categories" class="sn-searchpanel__chips">
+            <p class="sn-searchpanel__label">{{ t("senso.header.popular", "Popular categories") }}</p>
+            <nav :aria-label="t('senso.header.popular', 'Popular categories')" class="sn-searchpanel__chips">
               <router-link v-for="a in aisleList.slice(0, 10)" :key="a.id" :to="aisleRoute(a)" class="sn-pillchip" @click="searchOpen = false">
                 <senso-category-icon :category="a" size="22" />{{ a.title || a.name }}
               </router-link>
@@ -128,24 +128,24 @@
       >
         <div class="k-drawer__head">
           <p class="k-drawer__title">
-            Your cart<small v-if="basketUnits">{{ basketUnits }} {{ basketUnits === 1 ? "item" : "items" }}</small>
+            {{ t("senso.cart.yourCart", "Your cart") }}<small v-if="basketUnits">{{ t("senso.cart.itemsCount", { one: "{n} item", other: "{n} items" }, { n: basketUnits }) }}</small>
           </p>
-          <button aria-label="Close" class="k-header__icon" type="button" @click="basket = false">
+          <button :aria-label="t('common.close', 'Close')" class="k-header__icon" type="button" @click="basket = false">
             <senso-icon name="close" size="22" />
           </button>
         </div>
         <!-- Empty: a calm card that leads back to the range. -->
         <div v-if="!itemsCount" class="k-drawer__empty">
           <span aria-hidden="true" class="k-drawer__empty-mark"><senso-icon name="shopping_cart" size="28" /></span>
-          <p class="k-drawer__empty-title">Your cart is empty</p>
-          <p class="k-drawer__empty-text">Pick something you like and it will wait for you here.</p>
+          <p class="k-drawer__empty-title">{{ t("senso.cart.emptyTitle", "Your cart is empty") }}</p>
+          <p class="k-drawer__empty-text">{{ t("senso.cart.emptyWait", "Pick something you like and it will wait for you here.") }}</p>
           <div class="k-drawer__empty-ctas">
-            <router-link :to="catalogueRoute" class="sn-btn" @click="basket = false">Explore the range</router-link>
-            <router-link :to="dealsRoute" class="sn-btn -line" @click="basket = false">See offers</router-link>
+            <router-link :to="catalogueRoute" class="sn-btn" @click="basket = false">{{ t("senso.cart.exploreRange", "Explore the range") }}</router-link>
+            <router-link :to="dealsRoute" class="sn-btn -line" @click="basket = false">{{ t("senso.common.seeOffers", "See offers") }}</router-link>
           </div>
           <template v-if="aisleList.length">
-            <p class="k-eyebrow k-drawer__empty-label">Or start with a category</p>
-            <nav aria-label="Categories" class="k-drawer__empty-aisles">
+            <p class="k-eyebrow k-drawer__empty-label">{{ t("senso.cart.startCategory", "Or start with a category") }}</p>
+            <nav :aria-label="t('senso.header.categories', 'Categories')" class="k-drawer__empty-aisles">
               <router-link v-for="aisle in aisleList.slice(0, 8)" :key="aisle.id" :to="aisleRoute(aisle)" class="sn-pillchip" @click="basket = false">
                 <senso-category-icon :category="aisle" size="22" />{{ aisle.title || aisle.name }}
               </router-link>
@@ -164,13 +164,13 @@
         temporary
       >
         <div class="k-drawer__head">
-          <router-link :aria-label="shopTitle + ' home'" :to="homeRoute" class="sn-phonemenu__brand" @click="menu = false"><senso-wordmark /></router-link>
-          <button aria-label="Close" class="k-header__icon" type="button" @click="menu = false">
+          <router-link :aria-label="t('header.home', '{shop} home', { shop: shopTitle })" :to="homeRoute" class="sn-phonemenu__brand" @click="menu = false"><senso-wordmark /></router-link>
+          <button :aria-label="t('common.close', 'Close')" class="k-header__icon" type="button" @click="menu = false">
             <senso-icon name="close" size="24" />
           </button>
         </div>
 
-        <nav aria-label="Products" class="sn-phonemenu__fams">
+        <nav :aria-label="t('senso.header.products', 'Products')" class="sn-phonemenu__fams">
           <div v-for="f in families" :key="f.key + f.title" :class="{ '-open': openAcc === keyOf(f) }" class="sn-acc">
             <button :aria-expanded="openAcc === keyOf(f)" class="sn-acc__head" type="button" @click="openAcc = openAcc === keyOf(f) ? null : keyOf(f)">
               <span>{{ f.title }}</span><senso-icon :name="openAcc === keyOf(f) ? 'remove' : 'add'" size="20" />
@@ -201,27 +201,27 @@
                   @click="moreOpen = moreOpen === keyOf(f) ? null : keyOf(f)"
                 >
                   <span aria-hidden="true" class="sn-acc__morechip"><senso-icon :name="moreOpen === keyOf(f) ? 'expand_less' : 'expand_more'" size="20" /></span>
-                  <b>{{ moreOpen === keyOf(f) ? t("menu.showFewer") : t("menu.showMore", { n: restCats(f).length }) }}</b>
+                  <b>{{ moreOpen === keyOf(f) ? t("menu.showFewer", "Show fewer") : t("menu.showMore", "Show {n} more", { n: restCats(f).length }) }}</b>
                 </button>
               </template>
             </div>
           </div>
-          <router-link :to="dealsRoute" class="sn-acc__head -link" @click="menu = false"><span>Offers</span><senso-icon name="arrow_forward" size="20" /></router-link>
-          <router-link :to="newRoute" class="sn-acc__head -link" @click="menu = false"><span>New arrivals</span><senso-icon name="arrow_forward" size="20" /></router-link>
+          <router-link :to="dealsRoute" class="sn-acc__head -link" @click="menu = false"><span>{{ t("senso.menu.offers", "Offers") }}</span><senso-icon class="k-flip" name="arrow_forward" size="20" /></router-link>
+          <router-link :to="newRoute" class="sn-acc__head -link" @click="menu = false"><span>{{ t("senso.menu.newArrivals", "New arrivals") }}</span><senso-icon class="k-flip" name="arrow_forward" size="20" /></router-link>
         </nav>
 
         <div class="sn-phonemenu__more">
-          <p class="sn-eyebrow">Support</p>
-          <router-link :to="helpRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="help" size="20" />Help &amp; FAQ</router-link>
-          <router-link :to="contactRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="mail" size="20" />Contact us</router-link>
-          <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="local_shipping" size="20" />Track an order</router-link>
-          <router-link :to="blogRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="receipt_long" size="20" />Journal</router-link>
-          <region-sheet row-class="k-drawer__link sn-menu__region" />
+          <p class="sn-eyebrow">{{ t("senso.header.support", "Support") }}</p>
+          <router-link :to="helpRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="help" size="20" />{{ t("senso.menu.helpFaq", "Help & FAQ") }}</router-link>
+          <router-link :to="contactRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="mail" size="20" />{{ t("contact.pageTitle", "Contact us") }}</router-link>
+          <router-link :to="ordersRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="local_shipping" size="20" />{{ t("senso.menu.trackOrder", "Track an order") }}</router-link>
+          <router-link :to="blogRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="receipt_long" size="20" />{{ t("blog.journal", "Journal") }}</router-link>
+          <region-sheet :key="regionKey" row-class="k-drawer__link sn-menu__region" />
           <template v-if="user">
-            <router-link :to="profileRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="person" size="20" />My account</router-link>
-            <router-link :to="savedRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="favorite" size="20" />Saved</router-link>
+            <router-link :to="profileRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="person" size="20" />{{ t("header.myAccount", "My account") }}</router-link>
+            <router-link :to="savedRoute" class="k-drawer__link" @click="menu = false"><senso-icon name="favorite" size="20" />{{ t("account.section.saved", "Saved") }}</router-link>
           </template>
-          <button v-else class="sn-btn -block" type="button" @click="menu = false; signIn()">Sign in</button>
+          <button v-else class="sn-btn -block" type="button" @click="menu = false; signIn()">{{ t("common.signIn", "Sign in") }}</button>
         </div>
 
       </v-navigation-drawer>
@@ -234,7 +234,7 @@ import { BRAND } from "../kalio-brand";
 import SStorefrontSearchBox from "@selldone/components-vue/storefront/search/SStorefrontSearchBox.vue";
 import RegionSwitcherButton from "../../region-switcher/RegionSwitcherButton.vue";
 import RegionSheet from "../../region-switcher/RegionSheet.vue";
-import { t } from "../../region-switcher/region";
+import { t } from "../i18n/kalio-i18n";
 import KalioBasketDrawer from "./KalioBasketDrawer.vue";
 import SensoWordmark from "../../senso/SensoWordmark.vue";
 import SensoIcon from "../../senso/SensoIcon.vue";
@@ -279,6 +279,12 @@ export default {
   },
 
   computed: {
+    /* The region package reads its words when it draws; a language's words
+       arrive a moment after the pick (one lazy chunk), so the pill and the
+       menu's row are drawn again when they do. */
+    regionKey() {
+      return t("region.title", "Language & currency");
+    },
     shopTitle() {
       return this.$shop?.title || BRAND.name || "";
     },
@@ -413,7 +419,6 @@ export default {
     catLine(aisle) {
       return categoryLine(aisle, this.all, (n) => money(n, null, true));
     },
-    t,
     keyOf(f) {
       return f.key + ":" + f.title;
     },

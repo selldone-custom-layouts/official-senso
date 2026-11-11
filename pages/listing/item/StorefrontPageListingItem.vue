@@ -11,7 +11,7 @@
         class="mb-3 tnt"
         :to="backToCategory"
       >
-        Back
+        {{ t("common.back", "Back") }}
       </v-btn>
 
       <s-storefront-listing-item-profile

@@ -133,8 +133,8 @@ s:has(> .u--price) {
     content: "";
     position: absolute;
     top: 55%;
-    right: -1px;
-    left: -1px;
+    inset-inline-end: -1px;
+    inset-inline-start: -1px;
     height: 1.5px;
     border-radius: 1px;
     background: currentColor;

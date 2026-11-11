@@ -31,22 +31,22 @@
           @error="dropSrcset"
         />
       </router-link>
-      <span v-if="off > 0 && !noFlag" class="sn-flag">{{ off }}% off</span>
-      <button v-if="!noFoot" :aria-label="saved ? 'Saved' : 'Save'" :aria-pressed="saved" :class="{ '-on': saved }" class="sn-heart" type="button" @click.prevent.stop="toggleSave">
+      <span v-if="off > 0 && !noFlag" class="sn-flag">{{ t("senso.card.percentOff", "{n}% off", { n: off }) }}</span>
+      <button v-if="!noFoot" :aria-label="saved ? t('pdp.saved', 'Saved') : t('pdp.save', 'Save')" :aria-pressed="saved" :class="{ '-on': saved }" class="sn-heart" type="button" @click.prevent.stop="toggleSave">
         <senso-icon :fill="saved" name="favorite" size="18" />
       </button>
     </div>
 
-    <div v-if="capacities.length" aria-label="Capacities" class="sn-caps">
+    <div v-if="capacities.length" :aria-label="t('senso.card.capacities', 'Capacities')" class="sn-caps">
       <span v-for="c in capacities.slice(0, 4)" :key="c">{{ c }}</span>
       <em v-if="capacities.length > 4">+{{ capacities.length - 4 }}</em>
     </div>
-    <div v-else :aria-label="colours.length ? 'Colours' : null" :role="colours.length ? 'radiogroup' : null" class="sn-swrow">
+    <div v-else :aria-label="colours.length ? t('senso.card.colours', 'Colours') : null" :role="colours.length ? 'radiogroup' : null" class="sn-swrow">
       <button
         v-for="(c, i) in colours.slice(0, maxSwatches)"
         :key="c"
         :aria-checked="i === picked"
-        :aria-label="`Colour ${i + 1}`"
+        :aria-label="t('senso.card.colourN', 'Colour {n}', { n: i + 1 })"
         :class="{ '-on': i === picked }"
         :style="{ '--sw': swatchBg(c) }"
         class="sn-sw"
@@ -63,36 +63,38 @@
       <b class="sn-price__now">{{ fmt(now) }}</b>
     </div>
     <div :class="{ '-none': !was }" class="sn-was">
-      <template v-if="was"><span>Was <s>{{ fmt(was) }}</s></span><em class="sn-save">Save {{ fmt(save, true) }}</em></template>
+      <template v-if="was"
+        ><span>{{ wasParts[0] }}<s>{{ fmt(was) }}</s>{{ wasParts[1] }}</span><em class="sn-save">{{ t("senso.price.save", "Save {amount}", { amount: fmt(save, true) }) }}</em></template
+      >
     </div>
     <div v-if="!noTimer" :class="{ '-none': !endsAt }" class="sn-ends">
-      <template v-if="endsAt"><senso-icon name="schedule" size="14" />Ends in <b>{{ endsLeft }}</b></template>
+      <template v-if="endsAt"><senso-icon name="schedule" size="14" />{{ t("senso.card.endsIn", "Ends in") }} <b>{{ endsLeft }}</b></template>
     </div>
 
     <div :class="{ '-two': learn && shown <= 0 }" class="sn-card__buy" @click.prevent.stop>
-      <router-link v-if="learn && shown <= 0" :to="to" class="sn-btn -line -sm">Learn more</router-link>
-      <div v-if="shown > 0" :class="{ '-busy': busy }" aria-label="Quantity in cart" class="sn-step" role="group">
-        <button :aria-label="shown > 1 ? 'One fewer' : 'Remove from cart'" :disabled="!!line?.pending" type="button" @click="step(-1)">
+      <router-link v-if="learn && shown <= 0" :to="to" class="sn-btn -line -sm">{{ t("senso.card.learnMore", "Learn more") }}</router-link>
+      <div v-if="shown > 0" :aria-label="t('senso.card.qtyInCart', 'Quantity in cart')" :class="{ '-busy': busy }" class="sn-step" role="group">
+        <button :aria-label="shown > 1 ? t('pdp.basket.oneFewer', 'One fewer') : t('senso.cart.qty.remove', 'Remove from cart')" :disabled="!!line?.pending" type="button" @click="step(-1)">
           <senso-icon :name="shown > 1 ? 'remove' : 'delete'" size="18" />
         </button>
-        <output aria-live="polite"><b>{{ shown }}</b><span> in cart</span></output>
-        <button :disabled="!!line?.pending" aria-label="One more" type="button" @click="step(1)">
+        <output aria-live="polite"><b>{{ shown }}</b><span> {{ t("senso.card.inCart", "in cart") }}</span></output>
+        <button :aria-label="t('pdp.basket.oneMore', 'One more')" :disabled="!!line?.pending" type="button" @click="step(1)">
           <senso-icon name="add" size="18" />
         </button>
       </div>
-      <button v-else-if="soldOut" class="sn-btn -block -sm -off" disabled type="button">Out of stock</button>
+      <button v-else-if="soldOut" class="sn-btn -block -sm -off" disabled type="button">{{ t("card.outOfStock", "Out of stock") }}</button>
       <button v-else-if="capacities.length" class="sn-btn -block -sm" type="button" @click="choose">
-        <span class="-long">Choose options</span><span class="-short">Options</span>
+        <span class="-long">{{ t("senso.card.chooseOptions", "Choose options") }}</span><span class="-short">{{ t("card.options", "Options") }}</span>
       </button>
       <button v-else class="sn-btn -block -sm" type="button" @click="add">
-        <span class="-long">Add to cart</span><span class="-short">Add</span>
+        <span class="-long">{{ t("senso.card.addToCart", "Add to cart") }}</span><span class="-short">{{ t("card.add", "Add") }}</span>
       </button>
     </div>
 
     <div v-if="!noFoot" class="sn-card__foot">
       <label :class="{ '-on': comparing }" class="sn-cmp" @click.stop>
         <input :checked="comparing" type="checkbox" @change="toggleCompare" />
-        <i><senso-icon name="check" size="14" /></i>{{ comparing ? "Comparing" : "Compare" }}
+        <i><senso-icon name="check" size="14" /></i>{{ comparing ? t("card.compare.on", "Comparing") : t("senso.card.compare", "Compare") }}
       </label>
     </div>
   </article>
@@ -119,6 +121,7 @@ import { openQuickBuy, savedIds } from "./senso-quick";
 import { money, productIndex } from "./senso-home";
 import { currentCurrency } from "../region-switcher/region";
 import { clock, dealEnd, leftText, releaseClock, useClock } from "./senso-clock";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 let categories = null;
 
@@ -179,6 +182,10 @@ export default {
     },
     srcset() {
       return productSrcset(this.product);
+    },
+    /** "Was {price}", split around the struck price so it can sit inside <s>. */
+    wasParts() {
+      return t("senso.price.was", "Was {price}").split("{price}");
     },
     to() {
       return { name: window.$storefront.routes.PRODUCT_PAGE, params: { product_id: this.product.id } };

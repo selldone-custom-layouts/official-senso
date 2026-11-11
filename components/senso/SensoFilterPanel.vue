@@ -12,19 +12,19 @@
 <template>
   <div class="sn-filter">
     <div class="sn-filter__top">
-      <h2>Filters</h2>
-      <button v-if="on" class="sn-link" type="button" @click="clearAll">Clear all</button>
+      <h2>{{ t("senso.listing.filters", "Filters") }}</h2>
+      <button v-if="on" class="sn-link" type="button" @click="clearAll">{{ t("senso.filter.clearAll", "Clear all") }}</button>
     </div>
 
     <label class="sn-check sn-filter__sale">
       <input :checked="!!modelValue?.only_has_discount" type="checkbox" @change="toggleDeals($event.target.checked)" />
       <i><senso-icon name="check" size="15" /></i>
-      <span>On sale</span>
+      <span>{{ t("senso.filter.onSale", "On sale") }}</span>
     </label>
 
     <div v-if="range" class="sn-fgroup -open">
       <button class="sn-fgroup__h" type="button" @click="openPrice = !openPrice">
-        Price<senso-icon :name="openPrice ? 'expand_less' : 'expand_more'" size="20" />
+        {{ t("senso.filter.price", "Price") }}<senso-icon :name="openPrice ? 'expand_less' : 'expand_more'" size="20" />
       </button>
       <div v-show="openPrice" class="sn-price-range">
         <div class="sn-price-range__track" :style="trackStyle">
@@ -33,7 +33,7 @@
             :min="range.min"
             :step="step"
             :value="lo"
-            aria-label="Lowest price"
+            :aria-label="t('senso.filter.lowest', 'Lowest price')"
             type="range"
             @change="commitPrice"
             @input="setLo(+$event.target.value)"
@@ -43,16 +43,16 @@
             :min="range.min"
             :step="step"
             :value="hi"
-            aria-label="Highest price"
+            :aria-label="t('senso.filter.highest', 'Highest price')"
             type="range"
             @change="commitPrice"
             @input="setHi(+$event.target.value)"
           />
         </div>
         <div class="sn-price-range__boxes">
-          <label><span>{{ symbol }}</span><input :value="lo" aria-label="Min" inputmode="numeric" @change="setLo(+$event.target.value, true)" /></label>
-          <em>to</em>
-          <label><span>{{ symbol }}</span><input :value="hi" aria-label="Max" inputmode="numeric" @change="setHi(+$event.target.value, true)" /></label>
+          <label><span>{{ symbol }}</span><input :aria-label="t('senso.filter.min', 'Min')" :value="lo" inputmode="numeric" @change="setLo(+$event.target.value, true)" /></label>
+          <em>{{ t("senso.filter.to", "to") }}</em>
+          <label><span>{{ symbol }}</span><input :aria-label="t('senso.filter.max', 'Max')" :value="hi" inputmode="numeric" @change="setHi(+$event.target.value, true)" /></label>
         </div>
       </div>
     </div>
@@ -83,7 +83,7 @@
             <span>{{ label(v) }}</span>
           </label>
           <button v-if="g.values.length > 5" class="sn-link" type="button" @click="toggleMore(g)">
-            {{ more[g.key] ? "Show fewer" : `Show ${g.values.length - 5} more` }}
+            {{ more[g.key] ? t("menu.showFewer", "Show fewer") : t("listing.showMore", "Show {n} more", { n: g.values.length - 5 }) }}
           </button>
         </template>
       </div>
@@ -95,8 +95,15 @@
 import SensoIcon from "./SensoIcon.vue";
 import { currentCurrency, rateOf, signOf } from "../region-switcher/region";
 import { clone, countOn, groupsOf, picked, valueLabel, withGroup } from "../tario/shop/tario-filters";
+import { t } from "../kalio/i18n/kalio-i18n";
 
-const LABELS = { volumes: "Capacity", colors: "Colour", types: "Type", styles: "Style" };
+/* Senso's names for the variant groups, read when drawn (they follow a language change). */
+const LABELS = () => ({
+  volumes: t("senso.filter.capacity", "Capacity"),
+  colors: t("senso.filter.colour", "Colour"),
+  types: t("senso.filter.type", "Type"),
+  styles: t("senso.filter.style", "Style"),
+});
 
 export default {
   name: "SensoFilterPanel",
@@ -114,7 +121,8 @@ export default {
 
   computed: {
     groups() {
-      return groupsOf(this.filters).map((g) => ({ ...g, label: LABELS[g.key] || g.label }));
+      const labels = LABELS();
+      return groupsOf(this.filters).map((g) => ({ ...g, label: labels[g.key] || g.label }));
     },
     /* Selldone keeps a category's price range per product currency
        (filters.prices: [{ currency, min, max }], one row per currency) and

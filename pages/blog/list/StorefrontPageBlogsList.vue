@@ -18,11 +18,11 @@
     <slot name="header"></slot>
 
     <div class="k-wrap">
-      <nav aria-label="Breadcrumb" class="k-official__crumbs">
+      <nav :aria-label="t('pages.breadcrumb', 'Breadcrumb')" class="k-official__crumbs">
         <router-link :to="{ name: 'ShopPage' }">{{ shopTitle }}</router-link>
         <v-icon size="16">chevron_right</v-icon>
-        <router-link v-if="filtered" :to="homeRoute">Blog</router-link>
-        <span v-else>Blog</span>
+        <router-link v-if="filtered" :to="homeRoute">{{ t("senso.blog.name", "Blog") }}</router-link>
+        <span v-else>{{ t("senso.blog.name", "Blog") }}</span>
         <template v-if="filtered">
           <v-icon size="16">chevron_right</v-icon>
           <span>{{ heading }}</span>
@@ -33,11 +33,11 @@
            grid, and the season's deals under them. -->
       <header class="t-jhead">
         <div>
-          <p class="t-jhead__eyebrow">{{ filtered ? "Blog" : "Guides, tips and buying advice" }}</p>
-          <h1>{{ filtered ? heading : `The ${shopTitle} blog` }}</h1>
+          <p class="t-jhead__eyebrow">{{ filtered ? t("senso.blog.name", "Blog") : t("senso.blog.eyebrow", "Guides, tips and buying advice") }}</p>
+          <h1>{{ filtered ? heading : t("senso.blog.title", "The {shop} blog", { shop: shopTitle }) }}</h1>
         </div>
-        <nav aria-label="Topics" class="t-jhead__chips">
-          <router-link :class="{ '-on': !current_category }" :to="homeRoute" class="t-chip">All</router-link>
+        <nav :aria-label="t('blog.topics', 'Topics')" class="t-jhead__chips">
+          <router-link :class="{ '-on': !current_category }" :to="homeRoute" class="t-chip">{{ t("faq.all", "All") }}</router-link>
           <router-link
             v-for="category in categories"
             :key="category.id"
@@ -50,7 +50,7 @@
         </nav>
       </header>
       <kalio-sample-note v-if="demo" class="k-journal__note">
-        These notes came with the shop's demo content to show the page. They are not real {{ shopTitle }} articles.
+        {{ t("blog.demoNote", "These notes came with the shop's demo content to show the page. They are not real {shop} articles.", { shop: shopTitle }) }}
       </kalio-sample-note>
 
       <template v-if="articles.length">
@@ -60,16 +60,16 @@
             <v-icon v-else size="40">article</v-icon>
           </router-link>
           <div>
-            <span class="t-jmeta">Featured · {{ dateParts(articles[0].created_at).full }}</span>
+            <span class="t-jmeta">{{ t("senso.blog.featured", "Featured · {date}", { date: dateParts(articles[0].created_at).full }) }}</span>
             <h2><router-link :to="postRoute(articles[0])">{{ articles[0].title }}</router-link></h2>
             <p v-if="articles[0].description">{{ articles[0].description }}</p>
             <router-link :to="postRoute(articles[0])" class="t-btn -red">
-              Read the article<v-icon size="18">arrow_forward</v-icon>
+              {{ t("senso.blog.read", "Read the article") }}<v-icon class="k-flip" size="18">arrow_forward</v-icon>
             </router-link>
           </div>
         </section>
         <section v-if="grid_articles.length" class="t-sec">
-          <header class="t-sec__head"><h2 class="t-sec__title">{{ page === 1 ? "Latest" : `Page ${page}` }}</h2></header>
+          <header class="t-sec__head"><h2 class="t-sec__title">{{ page === 1 ? t("blog.latest", "Latest") : t("senso.blog.page", "Page {page}", { page }) }}</h2></header>
           <div :class="{ '-busy': busy }" class="t-posts">
             <router-link v-for="article in grid_articles" :key="article.id" :to="postRoute(article)" class="t-post">
               <span class="t-post__im">
@@ -89,21 +89,21 @@
       </div>
       <div v-else class="k-board__empty k-journal__empty">
         <v-icon size="30">menu_book</v-icon>
-        <h2>{{ filtered ? "No articles here yet" : "The blog is empty for now" }}</h2>
-        <p>{{ filtered ? "Nothing matches this yet. The latest notes are one tap away." : `${shopTitle} has not written any notes yet.` }}</p>
-        <router-link v-if="filtered" :to="homeRoute" class="k-btn k-btn--line">All notes</router-link>
+        <h2>{{ filtered ? t("senso.blog.emptyFiltered", "No articles here yet") : t("senso.blog.empty", "The blog is empty for now") }}</h2>
+        <p>{{ filtered ? t("blog.empty.filteredText", "Nothing matches this yet. The latest notes are one tap away.") : t("blog.empty.text", "{shop} has not written any notes yet.", { shop: shopTitle }) }}</p>
+        <router-link v-if="filtered" :to="homeRoute" class="k-btn k-btn--line">{{ t("blog.allNotes", "All notes") }}</router-link>
       </div>
-      <nav v-if="pageCount > 1" aria-label="Pages" class="k-journal__pages">
+      <nav v-if="pageCount > 1" :aria-label="t('blog.pages', 'Pages')" class="k-journal__pages">
         <router-link v-if="page > 1" :to="pageRoute(page - 1)" class="k-btn k-btn--line">
-          <v-icon class="k-flip" size="20">chevron_left</v-icon>Newer
+          <v-icon class="k-flip" size="20">chevron_left</v-icon>{{ t("blog.newer", "Newer") }}
         </router-link>
-        <span>Page {{ page }} of {{ pageCount }}</span>
+        <span>{{ t("blog.pageOf", "Page {page} of {count}", { page, count: pageCount }) }}</span>
         <router-link v-if="page < pageCount" :to="pageRoute(page + 1)" class="k-btn k-btn--line">
-          Older<v-icon class="k-flip" size="20">chevron_right</v-icon>
+          {{ t("blog.older", "Older") }}<v-icon class="k-flip" size="20">chevron_right</v-icon>
         </router-link>
       </nav>
     </div>
-    <senso-rail :filter="{ only_has_discount: true }" :limit="12" :more-to="dealsRoute" eyebrow="Deals" lazy more-label="All offers" title="Shop the offers" />
+    <senso-rail :eyebrow="t('senso.blog.dealsEyebrow', 'Deals')" :filter="{ only_has_discount: true }" :limit="12" :more-label="t('senso.common.allOffers', 'All offers')" :more-to="dealsRoute" :title="t('senso.blog.dealsTitle', 'Shop the offers')" lazy />
 
     <kalio-quick-buy v-model="sheet" :product="picked" />
   </div>
@@ -125,6 +125,7 @@ import {
   journalRoute,
   postRoute,
 } from "@app-storefront/components/kalio/pages/kalio-journal";
+import { formatNumber, t } from "@app-storefront/components/kalio/i18n/kalio-i18n";
 
 const PER_PAGE = 8;
 
@@ -146,7 +147,7 @@ export default {
 
   computed: {
     shopTitle() {
-      return this.$shop?.title || "The shop";
+      return this.$shop?.title || t("pages.theShop", "The shop");
     },
     page() {
       return Math.max(1, parseInt(this.$route.query.page) || 1);
@@ -176,17 +177,17 @@ export default {
       return this.categories.find((it) => String(it.id) === String(this.current_category)) || null;
     },
     heading() {
-      if (this.current_category) return this.category?.title || this.category?.name || "Topic";
-      if (this.current_author_id) return this.articles[0]?.user?.name || this.current_author || "Author";
+      if (this.current_category) return this.category?.title || this.category?.name || t("blog.heading.topic", "Topic");
+      if (this.current_author_id) return this.articles[0]?.user?.name || this.current_author || t("blog.heading.author", "Author");
       if (this.current_tag) return `#${this.current_tag}`;
-      if (this.current_search) return `“${this.current_search}”`;
-      return "From the blog";
+      if (this.current_search) return t("blog.heading.search", "“{query}”", { query: String(this.current_search) });
+      return t("senso.blog.heading", "From the blog");
     },
     lede() {
-      if (this.current_category) return this.category?.description || "Every article on this topic, newest first.";
-      if (this.current_author_id) return "Every article by this author, newest first.";
-      if (this.current_tag || this.current_search) return "The articles that match, newest first.";
-      return "Buying guides and tips: how to choose, set up and get the most from your tech.";
+      if (this.current_category) return this.category?.description || t("senso.blog.lede.topic", "Every article on this topic, newest first.");
+      if (this.current_author_id) return t("senso.blog.lede.author", "Every article by this author, newest first.");
+      if (this.current_tag || this.current_search) return t("senso.blog.lede.match", "The articles that match, newest first.");
+      return t("senso.blog.lede.default", "Buying guides and tips: how to choose, set up and get the most from your tech.");
     },
     homeRoute() {
       return journalRoute();
@@ -211,7 +212,7 @@ export default {
   },
 
   created() {
-    this.setPageTitle?.("Blog");
+    this.setPageTitle?.(t("senso.blog.name", "Blog"));
     this.load();
     journalExtra().then(({ popular, categories }) => {
       this.popular = popular;

@@ -21,7 +21,7 @@
   <div class="sn-pdp">
     <div class="sn-pdp__grid">
       <!-- ▆▆▆▆ Gallery ▆▆▆▆ -->
-      <section v-if="showCover" aria-label="Product images" class="sn-pdp__gallery">
+      <section v-if="showCover" :aria-label="t('pdp.images', 'Product images')" class="sn-pdp__gallery">
         <s-shop-product-slide-show :current-variant="current_variant" :vertical="false" />
       </section>
 
@@ -31,7 +31,7 @@
         <h1 class="sn-pdp__title">{{ $product.title }}</h1>
         <p class="sn-pdp__meta">
           <router-link v-if="$product.brand" :to="brandRoute">{{ $product.brand }}</router-link>
-          <template v-if="model"><i aria-hidden="true">·</i><span>Model {{ model }}</span></template>
+          <template v-if="model"><i aria-hidden="true">·</i><span>{{ t("senso.pdp.model", "Model {model}", { model }) }}</span></template>
           <template v-if="$product.rate_count && $product.rate">
             <i aria-hidden="true">·</i>
             <a class="sn-pdp__rate" href="#k-reviews" @click.prevent="toReviews"><span :style="{ '--k-rate': $product.rate }" class="k-stars"></span>{{ numeralFormat($product.rate, "0.0") }} ({{ numeralFormat($product.rate_count, "0,0") }})</a>
@@ -70,10 +70,10 @@
           <template v-else>
             <div class="sn-pdp__now">
               <b>{{ fmt(price.now) }}</b>
-              <span v-if="price.save > 0" class="sn-save">Save {{ fmt(price.save, true) }}</span>
+              <span v-if="price.save > 0" class="sn-save">{{ t("senso.price.save", "Save {amount}", { amount: fmt(price.save, true) }) }}</span>
             </div>
-            <p v-if="price.was" class="sn-pdp__was">Was <s>{{ fmt(price.was) }}</s></p>
-            <p v-if="endsAt" class="sn-pdp__ends"><senso-icon name="schedule" size="18" /><span>Deal ends in <b>{{ endsLeft }}</b></span></p>
+            <p v-if="price.was" class="sn-pdp__was">{{ wasParts[0] }}<s>{{ fmt(price.was) }}</s>{{ wasParts[1] }}</p>
+            <p v-if="endsAt" class="sn-pdp__ends"><senso-icon name="schedule" size="18" /><span>{{ t("senso.pdp.dealEndsIn", "Deal ends in") }} <b>{{ endsLeft }}</b></span></p>
           </template>
           <s-product-section-tax></s-product-section-tax>
           <s-product-section-cashback :amount="0" :currency="GetUserSelectedCurrency()?.code"></s-product-section-cashback>
@@ -81,8 +81,10 @@
 
         <p :class="{ '-out': !stock }" class="sn-pdp__stock">
           <senso-icon :name="stock ? 'check_circle' : 'close'" size="18" />
-          <b>{{ stock ? "In stock" : "Out of stock" }}</b>
-          <small v-if="stock && stock <= 5">Only {{ stock }} left</small><small v-else-if="stock">Ready to ship</small><small v-else>Check back soon</small>
+          <b>{{ stock ? t("senso.pdp.inStock", "In stock") : t("card.outOfStock", "Out of stock") }}</b>
+          <small v-if="stock && stock <= 5">{{ t("checkout.lines.onlyLeft", { one: "Only {n} left", other: "Only {n} left" }, { n: stock }) }}</small
+          ><small v-else-if="stock">{{ t("senso.pdp.readyToShip", "Ready to ship") }}</small
+          ><small v-else>{{ t("senso.pdp.checkBackSoon", "Check back soon") }}</small>
         </p>
 
         <s-product-section-extra-pricings
@@ -131,11 +133,11 @@
           <v-menu :close-on-content-click="false" location="bottom end" max-width="360">
             <template v-slot:activator="{ props }">
               <button class="sn-pdp__share" type="button" v-bind="props">
-                <senso-icon name="share" size="18" />Share
+                <senso-icon name="share" size="18" />{{ t("senso.pdp.share", "Share") }}
               </button>
             </template>
             <div class="k-pdp__share-sheet">
-              <p class="k-eyebrow">Share</p>
+              <p class="k-eyebrow">{{ t("senso.pdp.share", "Share") }}</p>
               <u-button-share-group
                 :description="$product.title_en"
                 :media="getShopImagePath($product.icon)"
@@ -151,16 +153,26 @@
           <li v-for="w in ways" :key="w.key">
             <senso-icon :name="w.key === 'Pickup' ? 'storefront' : 'local_shipping'" size="20" />
             <span
-              ><b>{{ w.key === "Pickup" ? "Pickup" : w.word }}</b
-              ><small>{{ w.free ? "Free" : w.freeOver ? "Free over " + freeOver(w) : "Cost and day shown at checkout" }}</small></span
+              ><b>{{ w.key === "Pickup" ? t("senso.pdp.pickup", "Pickup") : w.word }}</b
+              ><small>{{
+                w.free
+                  ? t("shipping.free", "Free")
+                  : w.freeOver
+                    ? t("senso.pdp.freeOver", "Free over {amount}", { amount: freeOver(w) })
+                    : t("senso.pdp.costAtCheckout", "Cost and day shown at checkout")
+              }}</small></span
             >
           </li>
           <li>
             <senso-icon name="assignment_return" size="20" />
-            <span><b>Returns</b><small>Ask from your order page</small></span>
+            <span><b>{{ t("senso.pdp.returns", "Returns") }}</b><small>{{ t("senso.pdp.returnsHow", "Ask from your order page") }}</small></span>
           </li>
         </ul>
-        <p class="sn-pdp__help"><senso-icon name="help" size="18" /><span>Questions about this product? <router-link :to="{ name: 'ShopFAQ' }">Visit Support</router-link></span></p>
+        <p class="sn-pdp__help">
+          <senso-icon name="help" size="18" /><span
+            >{{ t("senso.pdp.questions", "Questions about this product?") }} <router-link :to="{ name: 'ShopFAQ' }">{{ t("senso.pdp.visitSupport", "Visit Support") }}</router-link></span
+          >
+        </p>
       </aside>
     </div>
 
@@ -188,6 +200,7 @@ import { money, waysOf } from "./senso-home";
 import { currentCurrency } from "../region-switcher/region";
 import { clock, dealEnd, leftText, releaseClock, useClock } from "./senso-clock";
 import "../kalio/kalio-offer-price";
+import { t } from "../kalio/i18n/kalio-i18n";
 
 export default {
   name: "SensoProductOverview",
@@ -223,6 +236,10 @@ export default {
     },
     endsLeft() {
       return leftText(this.endsAt, clock.now);
+    },
+    /** "Was {price}", split around the struck price so it can sit inside <s>. */
+    wasParts() {
+      return t("senso.price.was", "Was {price}").split("{price}");
     },
     stock() {
       const q = this.current_variant ? this.current_variant.quantity : this.$product.quantity;

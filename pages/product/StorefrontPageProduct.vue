@@ -31,8 +31,8 @@
         <slot name="header" :center="true"></slot>
 
         <!-- ⬬⬬⬬⬬ Breadcrumb: the category's path, then the product ⬬⬬⬬⬬ -->
-        <nav aria-label="Breadcrumb" class="sn-crumbs sn-page">
-          <router-link :to="{ path: '/' }">Home</router-link>
+        <nav :aria-label="t('pdp.breadcrumb', 'Breadcrumb')" class="sn-crumbs sn-page">
+          <router-link :to="{ path: '/' }">{{ t("pages.home", "Home") }}</router-link>
           <template v-if="product && product.category">
             <span aria-hidden="true">/</span>
             <router-link
@@ -61,13 +61,13 @@
     </div>
 
     <template v-if="product">
-      <nav aria-label="On this page" class="sn-pdp-tabs">
+      <nav :aria-label="t('senso.pdp.onThisPage', 'On this page')" class="sn-pdp-tabs">
         <div class="sn-page">
-          <a href="#sn-highlights" @click.prevent="jump('sn-highlights')">Highlights</a>
-          <a v-if="has_spec" href="#sn-specs" @click.prevent="jump('sn-specs')">Specifications</a>
-          <a href="#sn-similar" @click.prevent="jump('sn-similar')">Compare</a>
-          <a href="#k-reviews" @click.prevent="jump('k-reviews')">Reviews</a>
-          <a href="#sn-also" @click.prevent="jump('sn-also')">You may also like</a>
+          <a href="#sn-highlights" @click.prevent="jump('sn-highlights')">{{ t("pdp.highlights", "Highlights") }}</a>
+          <a v-if="has_spec" href="#sn-specs" @click.prevent="jump('sn-specs')">{{ t("senso.pdp.specs", "Specifications") }}</a>
+          <a href="#sn-similar" @click.prevent="jump('sn-similar')">{{ t("senso.pdp.compareTab", "Compare") }}</a>
+          <a href="#k-reviews" @click.prevent="jump('k-reviews')">{{ t("reviews.title", "Reviews") }}</a>
+          <a href="#sn-also" @click.prevent="jump('sn-also')">{{ t("senso.pdp.alsoLike", "You may also like") }}</a>
         </div>
       </nav>
 
@@ -81,8 +81,8 @@
         <section v-if="has_spec" id="sn-specs" aria-labelledby="sn-spec-h" class="sn-sec sn-specs">
           <header class="sn-head">
             <div>
-              <p class="sn-eyebrow">Specifications</p>
-              <h2 id="sn-spec-h">The details</h2>
+              <p class="sn-eyebrow">{{ t("senso.pdp.specs", "Specifications") }}</p>
+              <h2 id="sn-spec-h">{{ t("senso.pdp.details", "The details") }}</h2>
             </div>
           </header>
           <div class="sn-specs__groups">
@@ -103,8 +103,8 @@
         <section v-if="article" aria-labelledby="sn-story-h" class="sn-sec sn-about">
           <header class="sn-head">
             <div>
-              <p class="sn-eyebrow">Overview</p>
-              <h2 id="sn-story-h">About this product</h2>
+              <p class="sn-eyebrow">{{ t("senso.pdp.overview", "Overview") }}</p>
+              <h2 id="sn-story-h">{{ t("pdp.about", "About this product") }}</h2>
             </div>
           </header>
           <s-product-article hide-title></s-product-article>
@@ -113,8 +113,8 @@
         <section id="k-reviews" aria-labelledby="sn-rev-h" class="sn-sec sn-reviews">
           <header class="sn-head">
             <div>
-              <p class="sn-eyebrow">Reviews</p>
-              <h2 id="sn-rev-h">What owners say</h2>
+              <p class="sn-eyebrow">{{ t("reviews.title", "Reviews") }}</p>
+              <h2 id="sn-rev-h">{{ t("senso.pdp.ownersSay", "What owners say") }}</h2>
             </div>
           </header>
           <kalio-reviews></kalio-reviews>
@@ -122,7 +122,7 @@
 
         <senso-fbt :product="product" />
 
-        <section v-if="has_extra" aria-label="Delivery and care" class="sn-sec sn-care">
+        <section v-if="has_extra" :aria-label="t('senso.pdp.care', 'Delivery and care')" class="sn-sec sn-care">
           <s-product-includes class="k-pdp-block"></s-product-includes>
           <s-product-shipping class="k-pdp-block"></s-product-shipping>
           <s-product-warranty class="k-pdp-block"></s-product-warranty>
@@ -141,15 +141,15 @@
             :key="'more-' + product.category.id"
             :dir="product.category.name"
             :exclude="[product.id]"
-            :eyebrow="'More ' + (product.category.title || product.category.name)"
+            :eyebrow="t('senso.pdp.moreAisle', 'More {aisle}', { aisle: product.category.title || product.category.name })"
             :more-to="{
               name: window.$storefront.routes.SHOP_CATEGORY_PAGE,
               params: { category_name: product.category.name },
             }"
             lazy
-            more-label="See all"
+            :more-label="t('common.seeAll', 'See all')"
             sort="bestselling"
-            title="You may also like"
+            :title="t('senso.pdp.alsoLike', 'You may also like')"
           />
         </div>
       </div>

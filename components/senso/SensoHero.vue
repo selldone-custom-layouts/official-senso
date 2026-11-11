@@ -20,8 +20,8 @@
     v-if="busy || slides.length"
     ref="root"
     :class="{ '-busy': busy }"
-    aria-label="Featured"
-    aria-roledescription="carousel"
+    :aria-label="t('senso.hero.label', 'Featured')"
+    :aria-roledescription="t('senso.hero.carousel', 'carousel')"
     class="sn-hero"
     @focusin="hover = true"
     @focusout="hover = false"
@@ -34,9 +34,9 @@
       v-for="(s, i) in slides"
       :key="s.key"
       :aria-hidden="i !== at"
-      :aria-label="`${i + 1} of ${slides.length}`"
+      :aria-label="t('senso.hero.slideOf', '{n} of {total}', { n: i + 1, total: slides.length })"
       :class="{ '-on': i === at }"
-      aria-roledescription="slide"
+      :aria-roledescription="t('senso.hero.slide', 'slide')"
       class="sn-hero__slide"
     >
       <sn-slot :alt="s.title" :eager="i === 0 || i === next" :name="s.slot" :src="s.photo" class="sn-hero__photo" fill>
@@ -44,24 +44,24 @@
       </sn-slot>
       <div class="sn-hero__shade"></div>
       <div class="sn-hero__txt">
-        <p class="sn-hero__fam">{{ s.family }}</p>
+        <p class="sn-hero__fam">{{ famTitle(s) }}</p>
         <h2 class="sn-hero__h">
-          {{ s.title }}.<br />{{ s.line }}
+          {{ s.title }}.<br />{{ famLine(s) }}
         </h2>
         <p v-if="s.sub" class="sn-hero__sub">{{ s.sub }}</p>
-        <router-link :tabindex="i === at ? null : -1" :to="s.to" class="sn-btn -glass -lg">Shop now</router-link>
+        <router-link :tabindex="i === at ? null : -1" :to="s.to" class="sn-btn -glass -lg">{{ t("senso.hero.shopNow", "Shop now") }}</router-link>
       </div>
     </article>
 
     <template v-if="slides.length > 1">
-      <button aria-label="Previous slide" class="sn-hero__nav -l" type="button" @click="go(at - 1, true)"><senso-icon name="chevron_left" size="24" /></button>
-      <button aria-label="Next slide" class="sn-hero__nav -r" type="button" @click="go(at + 1, true)"><senso-icon name="chevron_right" size="24" /></button>
+      <button :aria-label="t('senso.hero.previous', 'Previous slide')" class="sn-hero__nav -l" type="button" @click="go(at - 1, true)"><senso-icon name="chevron_left" size="24" /></button>
+      <button :aria-label="t('senso.hero.next', 'Next slide')" class="sn-hero__nav -r" type="button" @click="go(at + 1, true)"><senso-icon name="chevron_right" size="24" /></button>
       <div class="sn-hero__bar">
         <button
           v-for="(s, i) in slides"
           :key="s.key"
           :aria-current="i === at"
-          :aria-label="`Slide ${i + 1}: ${s.title}`"
+          :aria-label="t('senso.hero.slideNamed', 'Slide {n}: {title}', { n: i + 1, title: s.title })"
           :class="{ '-on': i === at, '-done': i < at, '-run': i === at && running }"
           class="sn-hero__seg"
           type="button"
@@ -79,7 +79,7 @@ import SensoIcon from "./SensoIcon.vue";
 import SnSlot from "./SensoSlot.vue";
 import { aisleRoute, aisles, productImage } from "../kalio/kalio-catalog";
 import { allProducts, bestOf, heroState, photoOf, savingOf } from "./senso-home";
-import { familiesOf } from "./senso-families";
+import { familiesOf, familyRule } from "./senso-families";
 import { slotPhoto } from "./senso-photos";
 
 const TURN = 7000;
@@ -154,9 +154,10 @@ export default {
           key: `${f.key}-${lead.id}`,
           slot: `hero-${f.key}`,
           photo,
-          family: f.title,
+          fam: f.key,
+          /* A shop whose categories fit no family names its "More" families after a category: that title is data. */
+          famOwn: f.named ? f.title : null,
           title: lead.title || lead.name,
-          line: f.line,
           sub: desc && !/[.!?]$/.test(desc) ? desc + "." : desc,
           to: aisleRoute(lead),
           product,
@@ -166,6 +167,13 @@ export default {
       let slides = families.map((f) => make(f, true)).filter(Boolean);
       if (!slides.length) slides = families.map((f) => make(f, false)).filter(Boolean).slice(0, 4);
       this.slides = slides;
+    },
+    /* The family's words when drawn, so they follow a language change. */
+    famTitle(s) {
+      return s.famOwn || familyRule(s.fam)?.title || "";
+    },
+    famLine(s) {
+      return familyRule(s.fam)?.line || "";
     },
     schedule() {
       clearTimeout(this.timer);

@@ -20,15 +20,15 @@
       <p v-if="groups.length > 1" class="sn-cdrawer__type">{{ typeName(group.type) }}</p>
 
       <div :class="{ '-settling': group.settling }" class="sn-receipt">
-        <p class="sn-receipt__row"><span>Subtotal ({{ group.units }} {{ group.units === 1 ? "item" : "items" }})</span><span class="u--price">{{ money(group.total + group.saved, group.currency) }}</span></p>
-        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>You save</span><span>−<span class="u--price">{{ money(group.saved, group.currency) }}</span></span></p>
-        <p class="sn-receipt__row -muted"><span>Delivery</span><span>Calculated at checkout</span></p>
-        <p class="sn-receipt__row -tot"><span>Total</span><span class="u--price">{{ money(group.total, group.currency) }}</span></p>
+        <p class="sn-receipt__row"><span>{{ t("senso.cart.subtotalCount", { one: "Subtotal ({n} item)", other: "Subtotal ({n} items)" }, { n: group.units }) }}</span><span class="u--price">{{ money(group.total + group.saved, group.currency) }}</span></p>
+        <p v-if="group.saved >= 0.01" class="sn-receipt__row -save"><span>{{ t("senso.cart.youSave", "You save") }}</span><span>−<span class="u--price">{{ money(group.saved, group.currency) }}</span></span></p>
+        <p class="sn-receipt__row -muted"><span>{{ t("senso.cart.delivery", "Delivery") }}</span><span>{{ t("senso.cart.deliveryLater", "Calculated at checkout") }}</span></p>
+        <p class="sn-receipt__row -tot"><span>{{ t("senso.cart.total", "Total") }}</span><span class="u--price">{{ money(group.total, group.currency) }}</span></p>
         <div class="sn-receipt__btns">
           <router-link :to="checkoutRoute(group.type)" class="sn-btn" @click="$emit('close')">
-            <v-icon size="18">lock_outline</v-icon>Checkout
+            <v-icon size="18">lock_outline</v-icon>{{ t("cart.checkout", "Checkout") }}
           </router-link>
-          <router-link :to="checkoutRoute(group.type)" class="sn-btn -line" @click="$emit('close')">View cart</router-link>
+          <router-link :to="checkoutRoute(group.type)" class="sn-btn -line" @click="$emit('close')">{{ t("senso.cart.viewCart", "View cart") }}</router-link>
         </div>
       </div>
 
@@ -49,16 +49,16 @@
             </span>
           </div>
           <div class="sn-crow__side">
-            <div :aria-label="`Quantity of ${item.product?.title || 'this item'}`" :class="{ '-busy': settling(item.product, item) }" class="sn-qty" role="group">
-              <button :disabled="shown(item) <= 1" aria-label="One fewer" type="button" @click="step(item, -1)">
+            <div :aria-label="item.product?.title ? t('cart.qty.of', 'Quantity of {name}', { name: item.product.title }) : t('cart.qty.ofThis', 'Quantity of this item')" :class="{ '-busy': settling(item.product, item) }" class="sn-qty" role="group">
+              <button :disabled="shown(item) <= 1" :aria-label="t('cart.qty.fewer', 'One fewer')" type="button" @click="step(item, -1)">
                 <v-icon size="16">remove</v-icon>
               </button>
               <output aria-live="polite">{{ shown(item) }}</output>
-              <button :disabled="shown(item) >= max(item)" aria-label="One more" type="button" @click="step(item, 1)">
+              <button :disabled="shown(item) >= max(item)" :aria-label="t('cart.qty.more', 'One more')" type="button" @click="step(item, 1)">
                 <v-icon size="16">add</v-icon>
               </button>
             </div>
-            <button :aria-label="`Remove ${item.product?.title || 'this item'}`" class="sn-crow__rm" type="button" @click="remove(item)">
+            <button :aria-label="item.product?.title ? t('senso.cart.removeNamed', 'Remove {name}', { name: item.product.title }) : t('senso.cart.removeThis', 'Remove this item')" class="sn-crow__rm" type="button" @click="remove(item)">
               <v-icon size="18">delete_outline</v-icon>
             </button>
           </div>

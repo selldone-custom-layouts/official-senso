@@ -22,44 +22,44 @@
     <section class="sn-support__band">
       <sn-slot class="sn-support__photo" fill name="support-hero" />
       <div class="sn-support__in">
-        <nav aria-label="Breadcrumb" class="sn-crumbs">
-          <router-link :to="{ path: '/' }">Home</router-link>
+        <nav :aria-label="t('pages.breadcrumb', 'Breadcrumb')" class="sn-crumbs">
+          <router-link :to="{ path: '/' }">{{ t("pages.home", "Home") }}</router-link>
           <span aria-hidden="true">/</span>
-          <router-link v-if="current_tag" :to="{ name: 'ShopFAQ' }">Support</router-link>
-          <span v-else aria-current="page">Support</span>
+          <router-link v-if="current_tag" :to="{ name: 'ShopFAQ' }">{{ t("senso.support.crumb", "Support") }}</router-link>
+          <span v-else aria-current="page">{{ t("senso.support.crumb", "Support") }}</span>
           <template v-if="current_tag">
             <span aria-hidden="true">/</span>
             <span aria-current="page">{{ current_tag }}</span>
           </template>
         </nav>
-        <p class="sn-eyebrow -light">Support</p>
-        <h1 class="sn-support__h">How can we help?</h1>
+        <p class="sn-eyebrow -light">{{ t("senso.support.crumb", "Support") }}</p>
+        <h1 class="sn-support__h">{{ t("senso.support.title", "How can we help?") }}</h1>
         <form class="sn-support__search" role="search" @submit.prevent>
           <senso-icon name="search" size="22" />
-          <input v-model="search" aria-label="Search the questions" placeholder="Search questions, like returns or delivery" type="search" />
+          <input v-model="search" :aria-label="t('senso.support.searchLabel', 'Search the questions')" :placeholder="t('senso.support.searchPlaceholder', 'Search questions, like returns or delivery')" type="search" />
         </form>
       </div>
     </section>
 
     <div class="sn-page sn-support__body">
-      <nav aria-label="Support" class="sn-support__tiles">
-        <router-link :to="{ name: window.$storefront.routes.HISTORY_ORDERS_PHYSICAL }" class="sn-support__tile"><senso-icon name="local_shipping" size="30" /><b>Track an order</b><small>Status, delivery and messages</small></router-link>
-        <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-support__tile"><senso-icon name="mail" size="30" /><b>Contact us</b><small>Write to the shop</small></router-link>
-        <router-link :to="{ name: window.$storefront.routes.SHOP_PROFILE_PAGE_TERMS }" class="sn-support__tile"><senso-icon name="assignment_return" size="30" /><b>Delivery &amp; returns</b><small>The shop’s terms</small></router-link>
-        <router-link v-if="USER()" :to="{ name: 'KalioAccountHome' }" class="sn-support__tile"><senso-icon name="person" size="30" /><b>Your account</b><small>Orders, addresses, saved</small></router-link>
-        <button v-else class="sn-support__tile" type="button" @click="signIn"><senso-icon name="person" size="30" /><b>Your account</b><small>Sign in to see your orders</small></button>
+      <nav :aria-label="t('senso.support.crumb', 'Support')" class="sn-support__tiles">
+        <router-link :to="{ name: window.$storefront.routes.HISTORY_ORDERS_PHYSICAL }" class="sn-support__tile"><senso-icon name="local_shipping" size="30" /><b>{{ t("senso.support.track", "Track an order") }}</b><small>{{ t("senso.support.trackText", "Status, delivery and messages") }}</small></router-link>
+        <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-support__tile"><senso-icon name="mail" size="30" /><b>{{ t("contact.pageTitle", "Contact us") }}</b><small>{{ t("senso.support.contactText", "Write to the shop") }}</small></router-link>
+        <router-link :to="{ name: window.$storefront.routes.SHOP_PROFILE_PAGE_TERMS }" class="sn-support__tile"><senso-icon name="assignment_return" size="30" /><b>{{ t("senso.support.returns", "Delivery & returns") }}</b><small>{{ t("senso.support.returnsText", "The shop’s terms") }}</small></router-link>
+        <router-link v-if="USER()" :to="{ name: 'KalioAccountHome' }" class="sn-support__tile"><senso-icon name="person" size="30" /><b>{{ t("senso.support.account", "Your account") }}</b><small>{{ t("senso.support.accountText", "Orders, addresses, saved") }}</small></router-link>
+        <button v-else class="sn-support__tile" type="button" @click="signIn"><senso-icon name="person" size="30" /><b>{{ t("senso.support.account", "Your account") }}</b><small>{{ t("senso.support.accountGuest", "Sign in to see your orders") }}</small></button>
       </nav>
 
       <div class="sn-support__qhead">
         <div>
-          <p class="sn-eyebrow">FAQ</p>
-          <h2>Questions and answers</h2>
+          <p class="sn-eyebrow">{{ t("faq.pageTitle", "FAQ") }}</p>
+          <h2>{{ t("faq.title", "Questions and answers") }}</h2>
         </div>
-        <button v-if="USER()" class="sn-btn" type="button" @click="dialog_faq = true">Ask a question</button>
-        <button v-else class="sn-btn -line" type="button" @click="signIn">Sign in to ask</button>
+        <button v-if="USER()" class="sn-btn" type="button" @click="dialog_faq = true">{{ t("faq.ask", "Ask a question") }}</button>
+        <button v-else class="sn-btn -line" type="button" @click="signIn">{{ t("faq.signInToAsk", "Sign in to ask") }}</button>
       </div>
-      <nav v-if="tags?.length" aria-label="Topics" class="k-faq__tags sn-support__tags">
-        <router-link :class="{ '-on': !current_tag }" :to="{ name: 'ShopFAQ' }" class="sn-pillchip" exact>All topics</router-link>
+      <nav v-if="tags?.length" :aria-label="t('faq.topics', 'Topics')" class="k-faq__tags sn-support__tags">
+        <router-link :class="{ '-on': !current_tag }" :to="{ name: 'ShopFAQ' }" class="sn-pillchip" exact>{{ t("senso.support.allTopics", "All topics") }}</router-link>
         <router-link v-for="tag in tags" :key="tag" :class="{ '-on': current_tag === tag }" :to="{ name: 'ShopFAQ', params: { tag: tag } }" class="sn-pillchip">{{ tag }}</router-link>
       </nav>
 
@@ -78,10 +78,10 @@
       </div>
       <div v-else-if="!busy_fetch" class="k-official__missing sn-empty">
         <span class="sn-empty__mark"><senso-icon name="help" size="28" /></span>
-        <h2>{{ search ? "No question matches that" : "No questions here yet" }}</h2>
-        <p>{{ search ? "Try another word, or write to the shop." : `${shop?.title || "The shop"} has not answered any questions here so far. Ask yours, or write to the shop directly.` }}</p>
+        <h2>{{ search ? t("senso.support.noMatch", "No question matches that") : t("faq.empty.title", "No questions here yet") }}</h2>
+        <p>{{ search ? t("senso.support.noMatchText", "Try another word, or write to the shop.") : t("faq.empty.text", "{shop} has not answered any questions here so far. Ask yours, or write to the shop directly.", { shop: shop?.title || t("pages.theShop", "The shop") }) }}</p>
         <div class="k-official__missingacts">
-          <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-btn">Contact the shop</router-link>
+          <router-link :to="{ name: window.$storefront.routes.SHOP_CONTACT_US }" class="sn-btn">{{ t("contact.shop", "Contact the shop") }}</router-link>
         </div>
       </div>
 
@@ -144,6 +144,7 @@ import { EventBus } from "@selldone/components-vue/utils/events/EventBus.ts";
 import ULoadingProgress from "@selldone/components-vue/ui/loading/progress/ULoadingProgress.vue";
 import SensoIcon from "@app-storefront/components/senso/SensoIcon.vue";
 import SnSlot from "@app-storefront/components/senso/SensoSlot.vue";
+import { t } from "@app-storefront/components/kalio/i18n/kalio-i18n";
 
 export default {
   name: "StorefrontPageFaq",
@@ -197,7 +198,7 @@ export default {
     }, window.SERACH_THROTTLE),
   },
   created() {
-    this.setPageTitle("FAQ"); // Set Page Title!
+    this.setPageTitle(t("faq.pageTitle", "FAQ")); // Set Page Title!
     this.fetchFAQData();
     this.fetchFAQTags();
   },

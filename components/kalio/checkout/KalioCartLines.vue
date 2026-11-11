@@ -26,12 +26,12 @@
           <router-link :to="productRoute(item.product_id)" class="k-lines__title">{{ item.product?.title }}</router-link>
           <small class="k-lines__each">
             <template v-if="item.variant?.color"><i :style="{ background: swatch(item.variant.color) }" class="sn-sw -xs"></i> </template
-            ><template v-if="size(item)">{{ item.variant?.volume ? "Capacity" : "Option" }}: {{ size(item) }} · </template
-            ><template v-if="item.product?.unit && !/^(each|ea|piece|pc)$/i.test(item.product.unit)">per {{ item.product.unit }} · </template
-            ><u-price :amount="item.price" :currency="item.currency" /> each
+            ><template v-if="size(item)">{{ item.variant?.volume ? t("senso.lines.capacityIs", "Capacity: {value}", { value: size(item) }) : t("senso.lines.optionIs", "Option: {value}", { value: size(item) }) }} · </template
+            ><template v-if="item.product?.unit && !/^(each|ea|piece|pc)$/i.test(item.product.unit)">{{ t("senso.lines.perUnit", "per {unit}", { unit: item.product.unit }) }} · </template
+            >{{ t("senso.lines.each", "{price} each").split("{price}")[0] }}<u-price :amount="item.price" :currency="item.currency" />{{ t("senso.lines.each", "{price} each").split("{price}")[1] }}
           </small>
           <button class="k-lines__remove" type="button" @click="step(item, -shown(item))">
-            <v-icon size="16">delete_outline</v-icon>Remove
+            <v-icon size="16">delete_outline</v-icon>{{ t("senso.lines.remove", "Remove") }}
           </button>
           <small v-if="item.offer && item.offer_count" class="k-lines__offer">
             <v-icon size="14">redeem</v-icon>
@@ -42,20 +42,20 @@
             }}
           </small>
           <small v-if="shown(item) > available(item)" class="k-lines__short">
-            <v-icon size="14">error_outline</v-icon>Only {{ available(item) }} left
+            <v-icon size="14">error_outline</v-icon>{{ t("checkout.lines.onlyLeft", { one: "Only {n} left", other: "Only {n} left" }, { n: available(item) }) }}
           </small>
         </div>
         <div
-          :aria-label="`Quantity of ${item.product?.title || 'this item'}`"
+          :aria-label="item.product?.title ? t('checkout.lines.quantityOf', 'Quantity of {name}', { name: item.product.title }) : t('checkout.lines.quantityOfThis', 'Quantity of this item')"
           :class="{ '-busy': settling(lineProduct(item), item) }"
           class="k-lines__qty"
           role="group"
         >
-          <button :aria-label="shown(item) > 1 ? 'One fewer' : 'Remove from cart'" type="button" @click="step(item, -1)">
+          <button :aria-label="shown(item) > 1 ? t('checkout.lines.oneFewer', 'One fewer') : t('senso.lines.removeFromCart', 'Remove from cart')" type="button" @click="step(item, -1)">
             <v-icon size="18">{{ shown(item) > 1 ? "remove" : "delete_outline" }}</v-icon>
           </button>
           <output aria-live="polite">{{ shown(item) }}</output>
-          <button :disabled="shown(item) >= available(item)" aria-label="One more" type="button" @click="step(item, 1)">
+          <button :disabled="shown(item) >= available(item)" :aria-label="t('checkout.lines.oneMore', 'One more')" type="button" @click="step(item, 1)">
             <v-icon size="18">add</v-icon>
           </button>
         </div>

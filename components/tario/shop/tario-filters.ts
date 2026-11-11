@@ -11,6 +11,7 @@
      { only_is_original, only_has_discount, prices: { USD: [lo, hi] } | null,
        brands: [], selected_spec: { Key: [v] }, selected_variants: { volumes: [v] } }
    Pills in one group are OR, groups are AND (Selldone's own rule). */
+import { t } from "../../kalio/i18n/kalio-i18n";
 
 export interface TarioGroup {
   /** "spec" groups live in selected_spec, "variant" ones in selected_variants. */
@@ -29,13 +30,26 @@ export interface TarioFilter {
   selected_variants?: Record<string, string[]>;
 }
 
+/* Getters, so the words follow a language change (they are read when drawn). */
 const VARIANT_LABEL: Record<string, string> = {
-  volumes: "Size",
-  weights: "Weight",
-  packs: "Pack",
-  colors: "Color",
-  styles: "Style",
-  types: "Kind",
+  get volumes() {
+    return t("senso.filter.size", "Size");
+  },
+  get weights() {
+    return t("senso.filter.weight", "Weight");
+  },
+  get packs() {
+    return t("senso.filter.pack", "Pack");
+  },
+  get colors() {
+    return t("senso.filter.color", "Color");
+  },
+  get styles() {
+    return t("senso.filter.style", "Style");
+  },
+  get types() {
+    return t("senso.filter.kind", "Kind");
+  },
 };
 const RESERVED = ["prices", "brands", "ignore"];
 
@@ -61,7 +75,7 @@ export function groupsOf(filters: any): TarioGroup[] {
     if (values.length) out.push({ kind: "spec", key, label: key, values });
   }
   const brands = list(filters.brands);
-  if (brands.length > 1) out.push({ kind: "brand", key: "brands", label: "Brand", values: brands });
+  if (brands.length > 1) out.push({ kind: "brand", key: "brands", label: t("senso.filter.brand", "Brand"), values: brands });
   return out;
 }
 
@@ -121,15 +135,46 @@ export function valueLabel(value: string): string {
   return String(value).split("|")[0].trim();
 }
 
+/* The sort names are getters, so they follow a language change. */
 export const SORTS = [
-  { val: "bestselling", name: "Best selling" },
-  { val: "newest", name: "Newest" },
-  { val: "cheapest", name: "Price: low to high" },
-  { val: "most_expensive", name: "Price: high to low" },
-  { val: "most_popular", name: "Most liked" },
-  { val: "most_visited", name: "Most viewed" },
+  {
+    val: "bestselling",
+    get name() {
+      return t("senso.sort.bestselling", "Best selling");
+    },
+  },
+  {
+    val: "newest",
+    get name() {
+      return t("senso.sort.newest", "Newest");
+    },
+  },
+  {
+    val: "cheapest",
+    get name() {
+      return t("senso.sort.cheapest", "Price: low to high");
+    },
+  },
+  {
+    val: "most_expensive",
+    get name() {
+      return t("senso.sort.mostExpensive", "Price: high to low");
+    },
+  },
+  {
+    val: "most_popular",
+    get name() {
+      return t("senso.sort.mostLiked", "Most liked");
+    },
+  },
+  {
+    val: "most_visited",
+    get name() {
+      return t("senso.sort.mostViewed", "Most viewed");
+    },
+  },
 ];
 
-export function sortName(val: string | null | undefined, fallback = "Featured"): string {
-  return SORTS.find((s) => s.val === val)?.name || fallback;
+export function sortName(val: string | null | undefined, fallback?: string): string {
+  return SORTS.find((s) => s.val === val)?.name || fallback || t("senso.sort.featured", "Featured");
 }

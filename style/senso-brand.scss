@@ -803,7 +803,7 @@ body {
 
   &__tag {
     position: absolute;
-    right: 14px;
+    inset-inline-end: 14px;
     bottom: 12px;
     display: inline-flex;
     align-items: center;
@@ -866,7 +866,7 @@ body {
 
   &__pack {
     position: absolute;
-    right: 8%;
+    inset-inline-end: 8%;
     top: 50%;
     width: min(38vw, 520px);
     aspect-ratio: 1;
@@ -890,7 +890,7 @@ body {
     position: absolute;
     z-index: 2;
     text-align: start;
-    left: max(var(--sn-pad), calc((100vw - var(--sn-max)) / 2 + var(--sn-pad)));
+    inset-inline-start: max(var(--sn-pad), calc((100vw - var(--sn-max)) / 2 + var(--sn-pad)));
     top: 50%;
     transform: translateY(-42%);
     width: min(560px, 46vw);
@@ -952,11 +952,11 @@ body {
     }
 
     &.-l {
-      left: clamp(12px, 2vw, 28px);
+      inset-inline-start: clamp(12px, 2vw, 28px);
     }
 
     &.-r {
-      right: clamp(12px, 2vw, 28px);
+      inset-inline-end: clamp(12px, 2vw, 28px);
     }
   }
 
@@ -1053,7 +1053,7 @@ body {
   &__txt {
     position: absolute;
     z-index: 2;
-    left: clamp(24px, 4vw, 56px);
+    inset-inline-start: clamp(24px, 4vw, 56px);
     top: 50%;
     transform: translateY(-50%);
     max-width: 440px;
@@ -3976,5 +3976,39 @@ body {
   .rs-row__ic svg {
     width: 20px;
     height: 20px;
+  }
+}
+
+/* ━━━━━━━━━━━━ Right to left (Arabic) ━━━━━━━━━━━━
+   The words of the hero, the FEATURED/LIFESTYLE cards, the Highlights, About
+   and the support centre start on the right; their photos (no text in them)
+   are mirrored so the calm, darker area stays under the words, and the shades
+   that darken it follow. Arrows that point along the reading direction flip.
+   Positions are logical (inset-inline-*), so the rest follows the page. */
+html[dir="rtl"] {
+  .sn-hero__photo > .sn-slot__img,
+  .sn-show__photo .sn-slot__img,
+  .sn-hl__photo .sn-slot__img,
+  .sn-about__photo .sn-slot__img,
+  .sn-support__photo .sn-slot__img,
+  .sn-hero__shade,
+  .sn-show__shade,
+  .sn-support__photo::after {
+    transform: scaleX(-1);
+  }
+
+  .k-flip,
+  .sn-arrowbtn .sn-i,
+  .sn-hero__nav .sn-i,
+  .sn-more .sn-i,
+  .sn-mega__go,
+  .sn-mega__more .sn-i,
+  .sn-acc__head.-link .sn-i {
+    transform: scaleX(-1);
+  }
+
+  /* The price range reads low to high, left to right, as numbers do. */
+  .sn-price-range {
+    direction: ltr;
   }
 }

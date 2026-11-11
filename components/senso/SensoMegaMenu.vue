@@ -26,15 +26,15 @@
             <senso-icon class="sn-mega__go" name="chevron_right" size="18" />
           </router-link>
         </nav>
-        <router-link :to="dealsTo" class="sn-mega__all" @click="$emit('close')">{{ family.categories.length === 1 ? `Offers in ${family.title}` : "See every offer" }}<senso-icon name="arrow_forward" size="18" /></router-link>
+        <router-link :to="dealsTo" class="sn-mega__all" @click="$emit('close')">{{ family.categories.length === 1 ? t("senso.mega.offersIn", "Offers in {family}", { family: family.title }) : t("senso.mega.everyOffer", "See every offer") }}<senso-icon name="arrow_forward" size="18" /></router-link>
       </div>
       <router-link v-if="pick" :to="productRoute(pick)" class="sn-mega__feature" @click="$emit('close')">
         <span class="sn-mega__well sn-tile"><img :alt="pick.title" :src="pimage(pick)" loading="lazy" /></span>
         <span class="sn-mega__ftxt">
           <small>{{ active ? active.title || active.name : "" }}</small>
           <b>{{ pick.title }}</b>
-          <span class="sn-mega__price">{{ m(finalOf(pick), false) }}<em v-if="savingOf(pick) > 0">Save {{ m(savingOf(pick)) }}</em></span>
-          <span class="sn-mega__more">Learn more<senso-icon name="arrow_forward" size="16" /></span>
+          <span class="sn-mega__price">{{ m(finalOf(pick), false) }}<em v-if="savingOf(pick) > 0">{{ t("senso.price.save", "Save {amount}", { amount: m(savingOf(pick)) }) }}</em></span>
+          <span class="sn-mega__more">{{ t("senso.card.learnMore", "Learn more") }}<senso-icon name="arrow_forward" size="16" /></span>
         </span>
       </router-link>
     </div>
