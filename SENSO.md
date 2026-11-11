@@ -70,7 +70,23 @@ Checks, all at 0:
 
 ## Releases
 
-- **1.0.10 (11 November 2026): Senso speaks the shop's languages (Arabic right to left, Hindi, Danish); the header is solid until the hero is on screen.**
+- **1.0.11 (11 November 2026, deploy 546, release `01M743ADFXZ1V5G33GSGN2VN6M`, pinned on domain 1242): the support band's photo is drawn as its background.** In the FAQ/Contact band, the photo now has `z-index: -1` inside its slot, which isolates it. It looks the same; box-check had counted the photo as covering the words over it.
+  - **Live checks on 1.0.10/1.0.11:**
+    - **`i18n-check`** (the kit's, picking each language through the pill or the sheet): TOTAL 0 for ar, hi and da at 1440 and 390. It covers home, footer, a category, a product, the cart drawer empty and filled, the phone menu, sign-in, FAQ and 404. Selldone's own "Warranty" heading is ignored.
+    - **In Arabic** (`STORAGE` `local-shop-digini-hZGabLru`=ar; the key is case-sensitive):
+      - contrast-audit printed 0 in dark. In light, one run caught the clear header's white wordmark while the page was scrolling, the same moment as 1.0.9's.
+      - ring-sweep printed 0 in light and dark, and card-edge-check printed 0 in light and dark.
+      - Senso's layout checks (pictures in boxes, icon lists, card padding, the cart drawer and the cart page) printed 0.
+      - currency-check with DKK printed 0.
+      - box-check printed 0 except one line on a phone: the merchant's own product description (an HTML list in Selldone's article view), whose rows start 30px apart.
+    - **An RTL walk** at 1440 and 390, picking Arabic through the pill and the sheet, passed:
+      - the home page is in Arabic, right to left, with no sideways scroll;
+      - the mega panel opens, and the phone menu opens from the right;
+      - filters, the product page, and Add to cart as a guest, which opens the sign-in sheet;
+      - the cart page is right to left, with no page errors.
+      The walk's search step typed before the box was ready; done by hand, the Arabic search shows 15 cards.
+    - **A reload keeps Arabic** (Selldone's stored choice), as long as Selldone's shop answer arrives (not a 429).
+- **1.0.10 (11 November 2026, deploy 537, release `01M7416PHR3F7ANJZZABNEZVKY`, pinned on domain 1242; 373 files, 39.4 s): Senso speaks the shop's languages (Arabic right to left, Hindi, Danish); the header is solid until the hero is on screen.**
   - **The owner's rule:** after a language pick, every word Senso writes is in that language. Product data, brand names and Selldone's own strings stay as they are (Selldone's own "Warranty" heading has no Hindi or Danish yet).
   - **The shared runtime** (`new-shop-kits/i18n/kalio-i18n.ts`) is copied to `components/kalio/i18n/`, with the Kalio base words for en, ar, hi and da (`base/`). Senso uses 722 of the 941 base keys, every one with the kit's exact English. Molino's wrapping of the shared Kalio files and pages was ported from its 0.2.52 commit; 68 hunks did not apply and were placed by hand.
   - **Senso's own words** are in `senso.<lang>.ts`, 390 strings: the header, phone menu, footer, home sections, families (now getters), the listing, filters and sorts, the card, the product page, FAQ, Contact, About, 404, blog, cart and sign-in. They are translated into Arabic, Hindi and Danish with the base glossaries, and `i18n-lint` prints OK for all six files. Each language is one lazy chunk, fetched only when picked.
