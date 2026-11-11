@@ -4079,3 +4079,16 @@ html[dir="rtl"] {
   direction: ltr;
   unicode-bidi: isolate;
 }
+
+/* Joined scripts are never tracked: letter-spacing pulls Arabic letters apart
+   and breaks Devanagari's headline. The eyebrows ("FEATURED"), buttons,
+   labels and headings keep their size and weight; only the tracking goes. */
+html:lang(ar),
+html:lang(hi) {
+  *,
+  *::before,
+  *::after {
+    letter-spacing: 0 !important;
+    word-spacing: normal !important;
+  }
+}

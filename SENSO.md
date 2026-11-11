@@ -70,6 +70,7 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.14 (11 November 2026): no tracking on joined scripts.** In Arabic and Hindi (`html:lang(ar)`, `html:lang(hi)`), `letter-spacing` is 0 and `word-spacing` is normal everywhere. The tracked eyebrows ("FEATURED", "LIFESTYLE"), buttons, labels and headings would otherwise pull Arabic letters apart and break Devanagari's headline.
 - **1.0.13 (11 November 2026): signed numbers read left to right; prices are one left-to-right piece on RTL pages.**
   - **Signed numbers:** "−$280.00" (the savings rows of the receipts) and "+3" (the card's more colours or capacities, the orders board) put the sign after the number on an Arabic page. These spans are `.k-signed` now (`direction: ltr; unicode-bidi: isolate`).
   - **The region package** is copied from the kit again. Its `formatMoney` wraps an amount in LRI…PDI in a right-to-left language, so Arabic prices no longer read "$US 200". Its `t()` redraws when a language's words arrive.
