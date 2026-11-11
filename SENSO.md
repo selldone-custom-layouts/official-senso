@@ -70,6 +70,10 @@ Checks, all at 0:
 
 ## Releases
 
+- **1.0.15 (11 November 2026, deploy 588, release `01M74E56HY6246QV9R98PBEMD6`, pinned on domain 1242): the Arabic filter, and no bar under an active tab.**
+  - **Filter values are merchant text.** The filter's option labels (spec values, brands, colour names) and group headings take their direction from their own text (`unicode-bidi: plaintext`), so "Intel Core i7 11th Gen." keeps its full stop at the end on an Arabic page.
+  - **The price range follows the page.** In Arabic the min box is on the start (right) side and the max on the left, so it reads "764 إلى 1738". The native sliders mirror with the page, so the min handle sits on the right under the min box, and the track's fill uses logical insets. Inside each box "$ 764" stays left to right.
+  - **Active tabs are pills** (the owner's no-underline rule covers tab indicators). The active tab is a tinted or filled pill with the link colour and weight 700, never a bar under the word. This covers the account rail (its side stripe is gone), the account tabs, the journal tabs, the strip and shelf-head tabs, Tario's search tabs and the merchant's top menu. Vuetify's `v-tab` slider is hidden everywhere.
 - **1.0.14 (11 November 2026, deploy 578, release `01M74C3YHPXBQX5NV128QS13K8`, pinned on domain 1242): no tracking on joined scripts.** In Arabic and Hindi (`html:lang(ar)`, `html:lang(hi)`), `letter-spacing` is 0 and `word-spacing` is normal everywhere. The tracked eyebrows ("FEATURED", "LIFESTYLE"), buttons, labels and headings would otherwise pull Arabic letters apart and break Devanagari's headline.
 - **Live checks on 1.0.13/1.0.14, in Arabic** (picked through the pill or the sheet):
   - `i18n-check` printed TOTAL 0.
