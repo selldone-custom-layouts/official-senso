@@ -3,7 +3,7 @@
   "deploy_path": "",
   "package": "senso-electronics",
   "name": "Senso Electronics",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "storefront": true,
   "backoffice": false,
   "description": "A calm, cinematic brand-site storefront for an electronics shop: a clear header over a full-bleed hero carousel, product families with clean mega panels, featured and lifestyle image cards with pale category tiles, offers and new-arrival rails, line-icon category tiles, stories and a newsletter; dark category banners with kinds, a filter card and three-a-row cards with Learn more; a product page with a sticky info column, Highlights bands, a two-column spec table and Compare with similar; and a support centre, cart, checkout and account in the same dress."

@@ -359,23 +359,36 @@
     }
   }
 
-  /* A pick: photo, name, price, price per unit, the Layout's Add button. */
+  /* A pick: photo, name, price, price per unit, the Layout's Add button.
+     The card picks its own shape from its own width (a container query),
+     so no column width can squeeze it (11 November 2026, found on Molino:
+     at 3–4 picks the columns are 240px, the name got 60px, was cut
+     mid-word and ran up to the ✕; at 768–1024px it got none at all):
+     - wide (316px and up, the name keeps 130px or more): photo beside the
+       words, and the words stop 8px short of the ✕;
+     - narrow: the photo on top, centred and narrower than the card so the
+       ✕ sits in the empty corner beside it, the words underneath at full
+       width. The ✕ never shares a line with words. */
   &__cp {
+    container: k-cmp-cp / inline-size;
     position: relative;
-    display: grid;
-    grid-template-columns: 112px minmax(0, 1fr);
-    gap: 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
     align-items: center;
+    gap: 8px 14px;
     padding: 12px;
     border-radius: var(--c-r-lg);
     background: var(--c-card);
     box-shadow: 0 0 0 1px var(--c-line);
   }
 
+  /* The ✕ sits inside the card's corner (11 November 2026; it hung 8px
+     outside, where the phone's sideways strip cuts it). */
   &__rm {
     position: absolute;
-    top: -8px;
-    inset-inline-end: -8px;
+    top: 8px;
+    inset-inline-end: 8px;
     z-index: 3;
     display: grid;
     place-items: center;
@@ -396,6 +409,10 @@
   &__well {
     position: relative;
     display: block;
+    flex: none;
+    /* Narrow card: leaves 28px each side, so the ✕ (32px at 8px) is clear. */
+    width: min(104px, 100% - 56px);
+    margin-inline: auto;
     aspect-ratio: 1;
     border-radius: var(--c-r);
     background: var(--c-well);
@@ -427,12 +444,28 @@
   }
 
   &__cp-tx {
+    flex: 1 1 100%;
     min-width: 0;
+  }
+
+  @container k-cmp-cp (min-width: 316px) {
+    .k-cmp__well {
+      width: 112px;
+      margin-inline: 0;
+    }
+
+    .k-cmp__cp-tx {
+      flex: 1 1 0;
+      /* The ✕ ends 40px in; the card's padding is 12px: 36px keeps the
+         words 8px short of it. */
+      padding-inline-end: 36px;
+    }
   }
 
   &__nm {
     display: -webkit-box;
     overflow: hidden;
+    overflow-wrap: anywhere; /* a long word breaks, never cut off sideways */
     color: var(--c-ink) !important;
     font-size: 14.5px;
     font-weight: 700;
@@ -708,8 +741,10 @@
     display: none !important;
   }
 
-  /* ── A phone ── */
-  @media (max-width: 760px) {
+  /* ── A phone, and any window up to 960px ──
+     Up to 960px (not 760) since 11 November 2026: between 761 and 960 the
+     label column and the add column left each pick 114–146px. */
+  @media (max-width: 960px) {
     --c-h1: 30px;
 
     padding-bottom: 96px;
@@ -774,21 +809,21 @@
     }
 
     &__cp {
-      grid-template-columns: minmax(0, 1fr);
       gap: 6px;
       padding: 10px;
     }
 
     &__rm {
-      top: -6px;
-      inset-inline-end: -6px;
+      top: 6px;
+      inset-inline-end: 6px;
       width: 30px;
       height: 30px;
     }
 
+    /* The strip stays short: the photo at most 72px (the ✕, 30px at 6px,
+       keeps 28px clear beside it in a 148px card). */
     &__well {
-      width: 72px;
-      margin: 0 auto;
+      max-width: 72px;
     }
 
     &__nm {
